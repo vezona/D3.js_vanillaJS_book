@@ -1,0 +1,64 @@
+.bg-orange{
+    background-color: #ec9c39;
+}
+
+.bg-darkOrange{
+    background-color: #f68b47;
+}
+
+.text-darkOrange{
+    color: #f68b47;
+}
+
+.bg-white{
+    background-color: white;
+}
+
+.h-100vh{
+    height: 100vh;
+}
+.h-75vh{
+    height: 75vh;
+}
+.h-50vh{
+    height: 50vh;
+}
+.-top-200px{
+    top: -200px;
+}
+.-top-90{
+    top: -90%;
+}
+.top-5{
+    top:5%
+}
+.top-15{
+    top:15%
+}
+
+.top-25{
+    top:25%
+}
+
+.left-8{
+    left: 8%;
+}
+
+.left-25{
+    left: 25%;
+}
+
+.left-40{
+    left: 40%;
+}
+
+.left-60{
+    left: 60%;
+}
+.z-0{
+    z-index: 0;
+}
+
+.z-5{
+    z-index: 5;
+}
