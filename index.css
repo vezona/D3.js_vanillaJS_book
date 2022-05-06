@@ -1,3 +1,25 @@
+.keyFrame{
+    width: 100vw;
+    background-image:linear-gradient(rgba(93, 93, 93, 0.1),rgba(93, 93, 93, 0.1)), url('./img/cover4.jpg') ;
+    background-position: bottom center;
+    background-size: cover;
+}
+
+.keyTitle{
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    animation-name: leftin;
+    animation-duration: 4s;
+    animation-delay: 0.5s;
+    animation-fill-mode: forwards
+}
+
+@keyframes leftin {
+    from {width: 0; opacity:0}
+    to {width: 50%; opacity:1}
+  }
+
+
 .bubble-lg{
     width: 600px;
     height: 600px;
@@ -17,8 +39,8 @@
     width: 400px;
     height: 400px;
     border-radius: 50%;
-    top: 10%;
-    left: 35%;
+    bottom: 40%;
+    right: -3%;
 }
 
 .bubble-pie{
@@ -73,4 +95,6 @@
 .main-title{
     font-size: 60px;
     font-weight: 900;
+    text-align: center;
+    
 }
