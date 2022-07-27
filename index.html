@@ -12,113 +12,136 @@
 <body>
     <div class="wrap overflow-hidden">
         <section class="h-75vh keyFrame d-flex position-relative justify-content-end">
-            <div class="flex-column my-auto h-100 text-white py-2 px-5 keyTitle d-flex justify-content-center">
+            <div class="flex-column my-auto h-100 text-white py-2 px-2 px-sm-3 px-md-5 keyTitle justify-content-center">
                 <p class="main-title">D3.js <span class="fs-4">version 7</span></p>
                 <div class="">
-                    <p>此為 D3.js 畫圖表範例與教學網站。本系列使用目前 D3.js 最新版 v7，並從最基礎的 D3 核心概念開始講解。</p>
+                    <p>此為 D3.js 畫圖表範例與教學網站。本系列使用目前 (2022年) D3.js 最新版 v7，並從基礎的 D3 背景知識與核心概念開始講解。</p>
                     <p>本系列包含</p>
                     <ul class="lh-lg">
                         <li>基礎背景知識：DOM、JS Event、CSS selection、SVG的原理</li>
                         <li>D3.js 繁多如麻的 API 講解</li>
                         <li>看懂官方文件，找到 API 的使用方法</li>
-                        <li>常見的基礎/進階圖表範例繪製與講解</li>
+                        <li>常見的基礎圖表與進階圖表範例</li>
                         <li>圖表常用的動畫與互動事件</li>
                     </ul>
                 </div>
             </div>
-            <!-- bubble -->
-            <!-- <div class=" bg-white -top-200px left-25 bubble-lg position-absolute d-none d-sm-none d-md-block d-lg-block"></div> -->
-            <!-- <div class="bg-orange -top-200px left-60 bubble-md position-absolute"></div>
-            <div class="border bubble-middle d-none d-sm-none d-md-block d-lg-block"></div>
-            <div class="bubble-sm1"></div>
-            <div class="bg-orange bubble-sm2"></div>
-            <div class="bubble-sm3"></div>
-            <div class="bubble-pie"></div> -->
         </section>
 
-        <!-- D3.js 能做什麼? -->
+        <!-- 基礎觀念：SVG -->
         <section class="container py-5">
-            <div class="flex-wrap h-100 py-5 w-100 d-flex justify-content-around align-items-center">
-                <div>
-                    <h2 class="text-darkOrange fw-bold">D3.js 能做什麼?</hㄉ>
+            <div class="flex-wrap h-100 text-center py-3 w-100 d-md-flex justify-content-around align-items-center">
+                <div class="mb-3 col-lg-3 col-md-12">
+                    <h2 class="text-darkOrange fw-bold">瞭解 SVG</h2>
                 </div>
-                <div class="mb-5">
-                    <img src="https://fakeimg.pl/350x400/?text=Hello">
+                <div class="p-3 col-lg-3 col-md-4 col-sm-12">
+                    <p>形狀元素</p>
+                    <img class="w-100" src="./img/geometry_shapes_black_and_white.jpg">
                 </div>
-                <div>
-                    <img src="https://fakeimg.pl/350x400/?text=Hello">
+                <div class="p-3 col-lg-3 col-md-4 col-sm-12">
+                    <p>路徑與文字</p>
+                    <img class="w-100" src="./img/path.png">
                 </div>
+                <a href="#" class="p-3 col-lg-3 col-md-4 col-sm-12">
+                    <p>樣式與轉換屬性</p>
+                    <img class="w-100" src="./img/color.jpg">
+                </a>
             </div>
         </section>
 
-        <!-- D3.js 的優缺點 -->
-        <section class="container py-5">
-            <div class="flex-wrap h-100 py-5 w-100 d-flex justify-content-around">
-                <div class="mb-3">
-                    <img src="https://fakeimg.pl/400x400/?text=Hello">
-                </div>
-                <div class="flex-grow-1">
-                    <h2 class="text-darkOrange text-center mb-5 fw-bold">D3.js 的優缺點</h2>
-                    <div class="flex-wrap d-flex justify-content-around">
-                        <p class="col-12 col-md-4 col-lg-4">第一點</p>
-                        <p class="col-12 col-md-4 col-lg-4">第一點</p>
-                        <p class="col-12 col-md-4 col-lg-4">第一點</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 誰適合使用 D3.js -->
-        <section class="container-fluid bg-darkOrange h-50vh">
-            <h2 class="text-white text-center py-5">誰適合使用 D3.js</h2>
+        <!-- D3.js 選取與綁定 -->
+        <section class="container-fluid bg-darkOrange py-4">
+            <h2 class="text-white text-center pb-2">D3.js 選取與綁定</h2>
             <div class="flex-wrap d-flex justify-content-around ">
-                <p>point1</p>
-                <p>point2</p>
-                <p>point3</p>
+                <div class="text-center p-2 col-md-6 col-sm-12 col-12">
+                    <p class="">Selection 選取</p>
+                    <img class="rounded w-50" src="./img/select.jpg">
+                </div>
+                <div class="text-center p-2 col-md-6 col-sm-12 col-12">
+                    <p class="">Binding 綁定</p>
+                    <img class="rounded w-50" src="./img/bind.jpg">
+                </div>
             </div>
         </section>
 
-        <!-- 繪圖前必備基礎知識 -->
-        <section class="container py-5">
-            <h2 class="text-center text-darkOrange mb-5 fw-bold">繪圖前必備基礎知識</h2>
+        <!-- 匯入檔案 -->
+        <section class="container pt-5">
+            <h2 class="text-center text-darkOrange mb-5 fw-bold">匯入不同格式的檔案</h2>
             <div class="flex-wrap d-flex justify-content-between">
-                <p>DOM API & Event Model</p>
-                <p>CSS selection</p>
-                <p>SVG</p>
-                <p>JS 物件模型</p>
-            </div>
-        </section>
-
-        <!-- 瞭解 SVG -->
-        <section class="container py-5 z-5 position-relative">
-            <div class="flex-wrap h-100 py-5 w-100 d-flex justify-content-around align-items-center">
-                <div>
-                    <h2 class="text-darkOrange fw-bold">瞭解 SVG </h2>
+                <div class="p-2 col-md-3 col-sm-6 col-12">
+                    <p class="text-center">JSON</p>
+                    <img class="rounded-circle w-100" src="./img/bind.jpg">
                 </div>
-                <div>
-                    <img src="https://fakeimg.pl/350x400/?text=Hello">
+                <div class="p-2 col-md-3 col-sm-6 col-12">
+                    <p class="text-center">csv/tsv/dsv</p>
                 </div>
-                <div>
-                    <img src="https://fakeimg.pl/350x400/?text=Hello">
+                <div class="p-2 col-md-3 col-sm-6 col-12">
+                    <p class="text-center">blob</p>
+                </div>
+                <div class="p-2 col-md-3 col-sm-6 col-12">
+                    <p class="text-center">xml</p>
                 </div>
             </div>
         </section>
 
-        <!-- D3 基礎觀念 -->
+        <!-- 整理資料的 APIs -->
+        <section class="container pt-5 z-5 position-relative">
+            <div class="flex-wrap h-100 text-center py-3 w-100 d-md-flex justify-content-around align-items-center">
+                <div class="mb-3 col-12">
+                    <h2 class="text-darkOrange fw-bold">整理資料的 APIs</h2>
+                </div>
+                <div class="p-3 col-lg-3 col-md-6 col-sm-12">
+                    <p class="text-center">Array</p>
+                </div>
+                <div class="p-3 col-lg-3 col-md-6 col-sm-12">
+                    <p class="text-center">Time Formats</p>
+                </div>
+                <div class="p-3 col-lg-3 col-md-6 col-sm-12">
+                    <p class="text-center">Number Formats</p>
+                </div>
+                <div class="p-3 col-lg-3 col-md-6 col-sm-12">
+                    <p class="text-center">Random</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- D3 三大繪製形狀的 Helper Functions -->
         <section class="container-fluid bg-orange h-50vh position-relative overflow-hidden">
-            <p class="bg-white -top-90 left-25 z-0 position-absolute bubble-lg"></p>
-            <p class="bg-white bubble-sm2"></p>
-            <p class="bg-white bubble-sm4"></p>
-            <h2 class="text-darkOrange top-5 left-40 fw-bold position-absolute">D3 基礎觀念</h2>
+            <p class="bg-white z-0 position-absolute bubble-lg"></p>
+            <p class="bg-white bubble-md"></p>
+            <p class=" bubble-sm"></p>
+            <h2 class="text-center text-darkOrange w-100 fw-bold position-absolute">繪製形狀三大 Helper Functions</h2>
             <div class="flex-wrap text-center top-25 w-100 d-flex justify-content-around position-absolute">
-                <p class="col-12 col-md-4 col-lg-4">選取器</p>
-                <p class="col-12 col-md-4 col-lg-4">資料綁定</p>
-                <p class="col-12 col-md-4 col-lg-4">資料綁定</p>
+                <div class="p-3 col-lg-4 col-md-4 col-sm-12">
+                    <p class="text-center">Generator</p>
+                </div>
+                <div class="p-3 col-md-4 col-12">
+                    <p class="text-center">Component</p>
+                </div>
+                <div class="p-3 col-md-4 col-12">
+                    <p class="text-center">Layout</p>
+                </div>
             </div>
         </section>
 
-        <section class="container py-5">
-            <h2 class="text-center text-darkOrange mb-5 fw-bold">初階圖表</h2>
+        <!-- XY 軸 -->
+        <section class="container pt-5 z-5 position-relative">
+            <div class="flex-wrap h-100 text-center py-3 w-100 d-md-flex justify-content-around align-items-center">
+                <div class="mb-3 col-12">
+                    <h2 class="text-darkOrange fw-bold">比例尺與軸線</h2>
+                </div>
+                <div class="p-3 col-md-6 col-sm-12">
+                    <p class="text-center">比例尺</p>
+                </div>
+                <div class="p-3 col-md-6 col-sm-12">
+                    <p class="text-center">軸線與刻度</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 基礎圖表 -->
+        <section class="container pt-5">
+            <h2 class="text-center text-darkOrange mb-5 fw-bold">基礎圖表</h2>
             <div class="flex-wrap d-flex justify-content-center">
                 <div class="text-center mb-5 col-12 col-sm-8 col-md-6 col-lg-4">
                     <p>line chart</p>
@@ -147,12 +170,60 @@
             </div>
         </section>
 
-        <section class="container-fluid bg-darkOrange h-50vh">
-            <p>whatever~~~</p>
+        <!-- 動畫與互動效果 -->
+        <section class="container-fluid bg-darkOrange py-3">
+            <h2 class="text-center text-white w-100">動畫與互動效果</h2>
+            <div class="flex-wrap text-center top-25 w-100 d-flex justify-content-around">
+                <div class="p-3 col-lg-4 col-md-4 col-sm-12">
+                    <p class="text-center">transition</p>
+                </div>
+                <div class="p-3 col-md-4 col-12">
+                    <p class="text-center">Mouse Event</p>
+                </div>
+                <div class="p-3 col-md-4 col-12">
+                    <p class="text-center">Zoom</p>
+                </div>
+                <div class="p-3 col-md-4 col-12">
+                    <p class="text-center">Drag</p>
+                </div>
+                <div class="p-3 col-md-4 col-12">
+                    <p class="text-center">Force</p>
+                </div>
+                <div class="p-3 col-md-4 col-12">
+                    <p class="text-center">Brush</p>
+                </div>
+            </div>
         </section>
 
-        <section class="container h-100vh py-5">
+        <!-- 進階圖表 -->
+        <section class="container pt-5">
             <h1 class="text-center">進階圖表</h1>
+            <div class="flex-wrap d-flex justify-content-center">
+                <div class="text-center mb-5 col-12 col-sm-8 col-md-6 col-lg-4">
+                    <p>line chart</p>
+                    <img src="https://fakeimg.pl/300x300/?text=Hello">
+                </div>
+                <div class="text-center mb-5 col-12 col-sm-8 col-md-6 col-lg-4">
+                    <p>pie chart</p>
+                    <img src="https://fakeimg.pl/300x300/?text=Hello">
+                </div>
+                <div class="text-center mb-5 col-12 col-sm-8 col-md-6 col-lg-4">
+                    <p>pie chart</p>
+                    <img src="https://fakeimg.pl/300x300/?text=Hello">
+                </div>
+                <div class="text-center mb-5 col-12 col-sm-8 col-md-6 col-lg-4">
+                    <p>pie chart</p>
+                    <img src="https://fakeimg.pl/300x300/?text=Hello">
+                </div>
+                <div class="text-center mb-5 col-12 col-sm-8 col-md-6 col-lg-4">
+                    <p>pie chart</p>
+                    <img src="https://fakeimg.pl/300x300/?text=Hello">
+                </div>
+                <div class="text-center mb-5 col-12 col-sm-8 col-md-6 col-lg-4">
+                    <p>pie chart</p>
+                    <img src="https://fakeimg.pl/300x300/?text=Hello">
+                </div>
+            </div>
         </section>
         
     </div>

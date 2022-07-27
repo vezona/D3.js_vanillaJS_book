@@ -9,9 +9,9 @@
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 8px;
     animation-name: leftin;
-    animation-duration: 4s;
+    /* animation-duration: 4s;
     animation-delay: 0.5s;
-    animation-fill-mode: forwards
+    animation-fill-mode: forwards */
 }
 
 @keyframes leftin {
@@ -19,44 +19,41 @@
     to {width: 50%; opacity:1}
   }
 
+  /*  Medium devices (tablets, 768px and up) */
+  /* md = 大於 768 px 以上 */
+@media (min-width: 768px) {
+    .keyTitle{
+        animation-duration: 4s;
+        animation-delay: 0.5s;
+        animation-fill-mode: forwards
+    }
+ }
+
 
 .bubble-lg{
-    width: 600px;
-    height: 600px;
     border-radius: 50%;
 }
+
+@media(max-width:576px){
+    .bubble-lg{
+        width: 300px;
+    height: 300px;
+        top: -50%;
+        right: 0%
+    }
+ }
+
+ @media(min-width: 577px ){
+    .bubble-lg{
+        width: 600px;
+    height: 600px;
+        top: -90%;
+        left: 25%;
+    }
+ }
 
 .bubble-md{
-    width: 400px;
-    height: 400px;
-    border-radius: 50%;
-}
-
-.bubble-middle{
-    background: url('./img/linechart.png') bottom left no-repeat;
-    background-size: cover;
     position: absolute;
-    width: 400px;
-    height: 400px;
-    border-radius: 50%;
-    bottom: 40%;
-    right: -3%;
-}
-
-.bubble-pie{
-    background: url('./img/pie-2.png') center center no-repeat;
-    background-size: cover;
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    bottom: -10%;
-    left: -5%;
-}
-
-.bubble-sm1{
-    position: absolute;
-    border: 4px solid #f68b47;
     width: 100px;
     height: 100px;
     border-radius: 50%;
@@ -64,32 +61,14 @@
     right:10%;
 }
 
-.bubble-sm2{
+.bubble-sm{
     position: absolute;
+    background-color: #dc734c;
     width: 50px;
     height: 50px;
     border-radius: 50%;
     bottom:10%;
     right:20%;
-}
-
-.bubble-sm3{
-    position: absolute;
-    background: #dc734c;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    top:10%;
-    left:30%;
-}
-
-.bubble-sm4{
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    bottom:20%;
-    right:10%;
 }
 
 .main-title{
