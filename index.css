@@ -75,5 +75,15 @@
     font-size: 60px;
     font-weight: 900;
     text-align: center;
-    
+}
+
+.dark-link{
+    cursor: pointer;
+    color:rgb(65, 65, 65);
+    text-decoration:none
+}
+
+.dark-link:hover{
+    color: orange;
+    font-size: 18px;
 }

@@ -1,5 +1,5 @@
 .bg-orange{
-    background-color: #ec9c39;
+    background-color: #e9ad634d;
 }
 
 .bg-darkOrange{
@@ -23,37 +23,8 @@
 .h-50vh{
     height: 50vh;
 }
-.-top-200px{
-    top: -200px;
-}
-.-top-90{
-    top: -90%;
-}
-.top-5{
-    top:5%
-}
-.top-15{
-    top:15%
-}
-
 .top-25{
     top:25%
-}
-
-.left-8{
-    left: 8%;
-}
-
-.left-25{
-    left: 25%;
-}
-
-.left-40{
-    left: 40%;
-}
-
-.left-60{
-    left: 60%;
 }
 .z-0{
     z-index: 0;
@@ -61,4 +32,13 @@
 
 .z-5{
     z-index: 5;
+}
+
+/* common nav items */
+.nav-title{
+    color: #f7965a;
+}
+
+.nav-title:hover{
+    color: #f7965ad0;
 }
