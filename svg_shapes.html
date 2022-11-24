@@ -23,22 +23,198 @@
     <div class="container p-4">
       <h2 class="text-center text-secondary mb-5">SVG 繪製形狀</h2>
 
-      <div class="">
-        <h3> &lt;Rect&gt; 矩形</h3>
-        <svg widt="400", height="200" style="border:1px solid rgb(96, 96, 96)">
+      <div>
+        <h3> SVG viewport 可視視窗</h3>
+        <p>繪製兩條長度均為360px的線段</p>
+        <svg width="500", height="120" style="border:1px solid rgb(96, 96, 96)">
+          <line x1="40" y1="40" x2="400" y2="40" style="stroke: rgb(248, 204, 61); stroke-width: 6"/>
+          <line x1="240" y1="80" x2="600" y2="80" style="stroke: rgb(248, 117, 61); stroke-width: 6" />
+        </svg>
+        <svg width="400" height="120">
+          <text x="10" y="20">超出可視範圍區域，線段依舊存在只是無法看見</text>
+          <line x1="0" y1="80" x2="100" y2="80" style="stroke: rgb(248, 117, 61); stroke-width: 6" stroke-dasharray="5 5" />
+        </svg>
+      </div>
 
+      <div class="mt-7">
+        <h3> &lt;rect&gt; 矩形</h3>
+        <svg width="500", height="200" style="border:1px solid rgb(96, 96, 96)">
+          <rect x="40" y="40" width="300" height="100" 
+          style="fill:rgb(248, 204, 61); stroke-width:3; stroke:rgb(0,0,0)" />
         </svg>
 
         <p class="mt-3 mb-1 fs-5">程式碼</>
         <pre class="border">
           <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
-            &lt;svg width="400" height="200" style="border:1px solid red"
-              &lt;rect x="20" y="20" width="300" height="100" 
-                  style="fill:rgb(255, 0, 255); stroke-width:3; stroke:rgb(0,0,0)"/&gt;
-            &lt;/svg &gt;
+            &lt;svg width=&quot;500&quot;, height=&quot;200&quot; style=&quot;border:1px solid rgb(96, 96, 96)&quot;&gt;
+              &lt;rect x=&quot;40&quot; y=&quot;40&quot; width=&quot;300&quot; height=&quot;100&quot; 
+                  style=&quot;fill:rgb(248, 204, 61); stroke-width:3; stroke:rgb(0,0,0)&quot; /&gt;
+            &lt;/svg&gt;
           </code>
         </pre>
       </div>
+
+      <div class="mt-7">
+        <h3> &lt;circle&gt; 圓形</h3>
+        <svg width="500", height="200" style="border:1px solid rgb(96, 96, 96)">
+          <circle cx="250" cy="100" r="60" stroke="black" stroke-width="3" fill="rgb(248, 117, 61)" />
+        </svg>
+
+        <p class="mt-3 mb-1 fs-5">程式碼</>
+        <pre class="border">
+          <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+            &lt;svg width=&quot;500&quot;, height=&quot;200&quot; style=&quot;border:1px solid rgb(96, 96, 96)&quot;&gt;
+              &lt;circle cx=&quot;250&quot; cy=&quot;100&quot; r=&quot;60&quot; 
+                     stroke=&quot;black&quot; stroke-width=&quot;3&quot; fill=&quot;rgb(248, 117, 61)&quot; /&gt;
+            &lt;/svg&gt;
+          </code>
+        </pre>
+      </div>
+
+      <div class="mt-7">
+        <h3> &lt;ellipse&gt; 橢圓形</h3>
+        <svg width="500", height="200" style="border:1px solid rgb(96, 96, 96)">
+          <ellipse cx="250" cy="100" rx="150" ry="40" stroke="black" stroke-width="3" fill="rgb(248, 204, 61)"></ellipse>
+        </svg>
+
+        <p class="mt-3 mb-1 fs-5">程式碼</>
+        <pre class="border">
+          <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+            &lt;svg width=&quot;500&quot;, height=&quot;200&quot; style=&quot;border:1px solid rgb(96, 96, 96)&quot;&gt;
+                &lt;ellipse cx=&quot;250&quot; cy=&quot;100&quot; rx=&quot;150&quot; ry=&quot;40&quot; 
+                         stroke=&quot;black&quot; stroke-width=&quot;3&quot; fill=&quot;rgb(248, 204, 61)&quot;&gt;
+                &lt;/ellipse&gt;
+            &lt;/svg&gt;
+          </code>
+        </pre>
+      </div>
+
+      <div class="mt-7">
+        <h3> &lt;line&gt; 線條</h3>
+        <svg width="500", height="200" style="border:1px solid rgb(96, 96, 96)">
+          <line x1="20" y1="80" x2="480" y2="150" style="stroke:rgb(248, 117, 61); stroke-width:6" />
+        </svg>
+
+        <p class="mt-3 mb-1 fs-5">程式碼</>
+        <pre class="border">
+          <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+            &lt;svg width=&quot;500&quot;, height=&quot;200&quot; style=&quot;border:1px solid rgb(96, 96, 96)&quot;&gt;
+                &lt;line x1=&quot;20&quot; y1=&quot;80&quot; x2=&quot;480&quot; y2=&quot;150&quot; style=&quot;stroke:rgb(248, 117, 61); stroke-width:6&quot; /&gt;
+            &lt;/svg&gt;
+          </code>
+        </pre>
+      </div>
+
+      <div class="mt-7">
+        <h3> &lt;polyline&gt; 折線</h3>
+        <svg width="500", height="200" style="border:1px solid rgb(96, 96, 96)">
+          <polyline points="20,50 40,25 60,40 160,120 420,140 460,180 "
+                    style="fill: none; stroke: rgb(248, 204, 61); stroke-width: 6"/>
+        </svg>
+
+        <p class="mt-3 mb-1 fs-5">程式碼</>
+        <pre class="border">
+          <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+            &lt;svg width=&quot;500&quot;, height=&quot;200&quot; style=&quot;border:1px solid rgb(96, 96, 96)&quot;&gt;
+              &lt;polyline points=&quot;20,50 40,25 60,40 160,120 420,140 460,180 &quot;
+                        style=&quot;fill: none; stroke: rgb(248, 204, 61); stroke-width: 6&quot;/&gt;
+            &lt;/svg&gt;
+          </code>
+        </pre>
+      </div>
+
+      <div class="mt-7">
+        <h3> &lt;polygon&gt; 多邊形</h3>
+        <svg width="500", height="200" style="border:1px solid rgb(96, 96, 96)">
+          <polygon points="200,10 250,190 160,180"
+                  style="fill: rgb(248, 117, 61); stroke: black; stroke-width: 3"
+          />
+        </svg>
+
+        <p class="mt-3 mb-1 fs-5">程式碼</>
+        <pre class="border">
+          <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+            &lt;svg width=&quot;500&quot;, height=&quot;200&quot; style=&quot;border:1px solid rgb(96, 96, 96)&quot;&gt;
+                &lt;polygon points=&quot;200,10 250,190 160,180&quot;
+                        style=&quot;fill: rgb(248, 117, 61); stroke: black; stroke-width: 3&quot;/&gt;
+              &lt;/svg&gt;
+          </code>
+        </pre>
+      </div>
+    
+      <div class="mt-7">
+        <h3> &lt;path&gt; 路徑</h3>
+        <svg width="500", height="200" style="border:1px solid rgb(96, 96, 96)">
+          <path
+            d="M50 30 C80 90,40 200,400,100"
+            stroke="rgb(248, 117, 61)"
+            fill="rgb(248, 204, 61)"
+            stroke-width="10"
+          />
+        </svg>
+
+        <p class="mt-3 mb-1 fs-5">程式碼</>
+        <pre class="border">
+          <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+            &lt;svg width=&quot;500&quot;, height=&quot;200&quot; style=&quot;border:1px solid rgb(96, 96, 96)&quot;&gt;
+                &lt;path
+                    d=&quot;M50 30 C80 90,40 200,400,100&quot;
+                    stroke=&quot;rgb(248, 117, 61)&quot;
+                    fill=&quot;rgb(248, 204, 61)&quot;
+                    stroke-width=&quot;10&quot;
+                  /&gt;
+            &lt;/svg&gt;
+          </code>
+        </pre>
+
+
+        <svg width="500", height="200" style="border:1px solid rgb(96, 96, 96)" class="mt-5">
+          <path
+              d="M225,35 L225,80
+                M315,35 L315,80
+                M400,90 C260,200 260,200 140,100"
+              stroke="rgb(248, 117, 61)"
+              fill="none"
+              stroke-width="8"
+            />
+        </svg>
+        <p class="mt-3 mb-1 fs-5">程式碼</>
+        <pre class="border">
+          <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+            &lt;svg width=&quot;500&quot;, height=&quot;200&quot; style=&quot;border:1px solid rgb(96, 96, 96)&quot; class=&quot;mt-5&quot;&gt;
+              &lt;path
+                d=&quot;M225,35 L225,80 M315,35 L315,80 M400,90 C260,200 260,200 140,100&quot;
+                stroke=&quot;rgb(248, 117, 61)&quot;
+                fill=&quot;none&quot;
+                stroke-width=&quot;8&quot;
+              /&gt;
+            &lt;/svg&gt;
+          </code>
+        </pre>
+      </div>
+
+      <div class="mt-7">
+        <h3> &lt;text&gt; 文字</h3>
+        <svg width="500", height="200" style="border:1px solid rgb(96, 96, 96)">
+          <text x="50,100,180,240,360,430,480" y="80,140,40,180,160,80" 
+                fill="rgb(248, 117, 61)" text-anchor="start" font-size="2em">
+            SVG真有趣
+          </text>
+        </svg>
+
+        <p class="mt-3 mb-1 fs-5">程式碼</>
+        <pre class="border">
+          <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+            &lt;svg width=&quot;500&quot;, height=&quot;200&quot; style=&quot;border:1px solid rgb(96, 96, 96)&quot;&gt;
+              &lt;text x=&quot;50,100,180,240,360,430,480&quot; y=&quot;80,140,40,180,160,80&quot; 
+                  fill=&quot;rgb(248, 117, 61)&quot; text-anchor=&quot;start&quot; font-size=&quot;2em&quot;&gt;
+                    SVG真有趣
+              &lt;/text&gt;
+            &lt;/svg&gt;
+          </code>
+        </pre>
+      </div>
+    
     </div>
     
 
