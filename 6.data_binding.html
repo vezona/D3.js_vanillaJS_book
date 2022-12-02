@@ -21,12 +21,224 @@
         </div>
     </nav>
   
-    <div class="container p-4"></div>
+    <div class="container p-4">
+      <div class="mt-3">
+        <h3 class="my-4 fw-bold">綁定 DOM 元素跟資料的方法</h3>
+        <ul class="mb-5">
+          <li>selection.data( [data[, key]] )</li>
+          <li>selection.datum( )</li>
+        </ul>
+
+        <h5> <mark>selection.data( [data[, key]] )</mark></h5>
+        <h6 class="mt-4 fw-bold">1. 綁定單個元素跟數值</h6>
+        <div class="mt-4  ps-4">
+          <p class="bindData"></p>
+        </div>
+  
+        <p class="my-4 mb-1">程式碼</p>
+        <pre class="border">
+          <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+            // html
+            &lt;p class=&quot;bindData&quot;&gt;&lt;/p&gt;
+          </code>
+        </pre>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+              //JS
+              const bindData = d3.select('.bindData')
+                                  .data(['綁定資料'])
+                                  .text(d => d);
+              
+              // 印出綁定資料的 selection 來看看
+              console.log('bindData', bindData)
+              // 印出綁定的 data 來看看
+              console.log(bindData['_groups'][0][0]['__data__'])
+          </code>
+        </pre>
+        <div class="mt-3 p-3"><img class="img-fluid" src="./img/bind-data-selection.jpg" alt=""></div>
+
+        <h6 class="mt-4 fw-bold">2.綁定多個元素跟數值</h6>
+        <div class="mt-4 ps-4">
+          <p class="bindMultiData"></p>
+          <p class="bindMultiData"></p>
+          <p class="bindMultiData"></p>
+          <p class="bindMultiData"></p>
+        </div>
+  
+        <p class="my-4 mb-1">程式碼</p>
+        <pre class="border">
+          <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+            // html
+            &lt;p class=&quot;bindMultiData&quot;&gt;&lt;/p&gt;
+            &lt;p class=&quot;bindMultiData&quot;&gt;&lt;/p&gt;
+            &lt;p class=&quot;bindMultiData&quot;&gt;&lt;/p&gt;
+            &lt;p class=&quot;bindMultiData&quot;&gt;&lt;/p&gt;
+          </code>
+        </pre>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+              //JS
+              const multiData = ['綁', '定', '資', '料']
+              const bindMultiData = d3.selectAll('.bindMultiData')
+                                          .data(multiData)
+                                          .text(d => d);
+                      
+              // 印出綁定資料的 selection 來看看
+              console.log('bindMultiData', bindMultiData)
+          </code>
+        </pre>
+        <div class="mt-3 p-3"><img class="img-fluid" src="./img/bind-multi-data.jpg" alt=""></div>
+
+        <h6 class="mt-4 fw-bold">3.綁定的元素與 data 數量不匹配</h6>
+        <div class="mt-4 ps-4">
+          <p class="bindUnmatchData"></p>
+          <p class="bindUnmatchData"></p>
+        </div>
+  
+        <p class="my-4 mb-1">程式碼</p>
+        <pre class="border">
+          <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+            // html
+            &lt;p class=&quot;bindUnmatchData&quot;&gt;&lt;/p&gt;
+            &lt;p class=&quot;bindMultiData&quot;&gt;&lt;/p&gt;
+          </code>
+        </pre>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+              //JS
+              const UnmatchData = ['綁', '定', '資', '料']
+              const bindUnmatchData = d3.selectAll('.bindUnmatchData')
+                                          .data(UnmatchData)
+                                          .text(d => d);
+                      
+              // 印出綁定資料的 selection 來看看
+              console.log('bindUnmatchData', bindUnmatchData)
+          </code>
+        </pre>
+        <div class="mt-3 p-3"><img class="img-fluid" src="./img/bind-unmatch-data.jpg" alt=""></div>
+
+        <hr >
+        <h5 class="mt-4"> <mark>selection.datum()</mark></h5>
+        <div class="mt-4 ps-4">
+          <p class="datum"></p>
+        </div>
+       
+  
+        <p class="my-4 mb-1 fs-5">程式碼</p>
+        <pre class="border">
+          <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+            // html
+            &lt;p class=&quot;datum&quot;&gt;&lt;/p&gt;
+          </code>
+        </pre>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+            //JS
+            const datumObj = [{name:'jin'}, {name:'JIN'}]
+            const bindDatum = d3.select('.datum')
+                                .datum(datumObj)
+            console.log('bindDatum',bindDatum)
+          </code>
+        </pre>
+        <div class="mt-3 p-3"><img class="img-fluid" src="./img/bind-datum.jpg" alt=""></div>
+    </div>
+
+    <div class="mt-3">
+      <h3 class="my-4 fw-bold">增減資料數量與DOM元素不匹配的方法</h3>
+      <ul>
+        <li>selection.join( )</li>
+        <li>selection.enter( )</li>
+        <li>selection.exit( )</li>
+      </ul>
+      <div class="mb-2 p-3 w-50"><img class="img-fluid" src="./img/enter-update-exit.jpg" alt=""></div>
+
+      <h5> <mark>selection.join()</mark></h5>
+        <div class="mt-4 ps-4">
+        </div>
+  
+        <p class="my-4 mb-1 fs-5">程式碼</p>
+        <pre class="border">
+          <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+            // html
+          </code>
+        </pre>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+              //JS
+          </code>
+        </pre>
+
+        <hr>
+        <h5> <mark>selection.enter()</mark></h5>
+        <div class="mt-4 ps-4">
+        </div>
+  
+        <p class="my-4 mb-1 fs-5">程式碼</p>
+        <pre class="border">
+          <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+            // html
+          </code>
+        </pre>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+              //JS
+          </code>
+        </pre>
+
+        <hr>
+        <h5> <mark>selection.exit()</mark></h5>
+        <div class="mt-4 ps-4">
+        </div>
+  
+        <p class="my-4 mb-1 fs-5">程式碼</p>
+        <pre class="border">
+          <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+            // html
+          </code>
+        </pre>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+              //JS
+          </code>
+        </pre>
+    </div>
+
+    </div>
     
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script></script>
+    <script>
+      //bind data single
+      const bindData = d3.select('.bindData')
+                         .data(['綁定資料'])
+                         .text(d => d);
+      
+      console.log('bindData', bindData)
+      console.log(bindData['_groups'][0][0]['__data__'])
+
+      // bind data multiple
+      const multiData = ['綁', '定', '資', '料']
+      const bindMultiData = d3.selectAll('.bindMultiData')
+                                  .data(multiData)
+                                  .text(d => d);
+              
+      console.log('bindMultiData', bindMultiData)
+      
+      //bind Unmatch Data
+      const UnmatchData = ['綁', '定', '資', '料']
+      const bindUnmatchData = d3.selectAll('.bindUnmatchData')
+                                .data(UnmatchData)
+                                .text(d => d);
+              
+      console.log('bindUnmatchData', bindUnmatchData)
+
+      //datum
+      const datumObj = [{name:'jin'}, {name:'JIN'}]
+      const bindDatum = d3.select('.datum')
+                          .datum(datumObj)
+      console.log('bindDatum',bindDatum)
+    </script>
 </body>
 </html>
