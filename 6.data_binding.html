@@ -146,61 +146,122 @@
     <div class="mt-3">
       <h3 class="my-4 fw-bold">增減資料數量與DOM元素不匹配的方法</h3>
       <ul>
-        <li>selection.join( )</li>
-        <li>selection.enter( )</li>
-        <li>selection.exit( )</li>
+        <li><span class="text-danger fw-bold">update</span> : 如果資料跟DOM元素能夠綁定，該筆輸入的資料會被歸納為 update 資料。</li>
+        <li><span class="text-danger fw-bold">enter</span> : 如果資料沒有DOM元素能綁定，該筆輸入的資料會被歸納為 enter 資料。</li>
+        <li><span class="text-danger fw-bold">exit</span> : 如果沒有資料能跟被DOM元素綁定，剩下的元素就會被歸納為 exit 資料。</li>
+      
       </ul>
       <div class="mb-2 p-3 w-50"><img class="img-fluid" src="./img/enter-update-exit.jpg" alt=""></div>
 
-      <h5> <mark>selection.join()</mark></h5>
-        <div class="mt-4 ps-4">
+      <h5>三種API</h5>
+      <ul>
+        <li>selection.enter( )</li>
+        <li>selection.exit( )</li>
+        <li>selection.join( )</li>
+      </ul>
+      
+        <div>
+          <h5> <mark>selection.enter()</mark></h5>
+          <div class="mt-4 enterData ps-4">
+            <p></p>
+            <p></p>
+          </div>
+
+          <p class="my-4 mb-1 fs-5">程式碼</p>
+          <pre class="border">
+            <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+              // html
+              &lt;div class=&quot;enterDataWrap&quot;&gt;
+                &lt;p class=&quot;enterData&quot;&gt;&lt;/p&gt;
+                &lt;p class=&quot;enterData&quot;&gt;&lt;/p&gt;
+              &lt;/div&gt;
+            </code>
+          </pre>
+          <pre>
+            <code class="language-js line-numbers remove-initial-line-feed">
+                //JS
+                const enterData = ["資", "料", "比", "較", "多"];
+                const enterDom = d3.select(".enterData")
+                                .selectAll('p')
+                                .data(enterData)
+                                  .text(d=>d)
+                                  
+                enterDom.enter()
+                        .append('p')
+                        .text(d=>d)
+                        .classed('fw-bold',true)
+                        .classed('text-danger',true)
+            </code>
+          </pre>
         </div>
-  
-        <p class="my-4 mb-1 fs-5">程式碼</p>
-        <pre class="border">
-          <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
-            // html
-          </code>
-        </pre>
-        <pre>
-          <code class="language-js line-numbers remove-initial-line-feed">
-              //JS
-          </code>
-        </pre>
 
         <hr>
-        <h5> <mark>selection.enter()</mark></h5>
-        <div class="mt-4 ps-4">
-        </div>
-  
-        <p class="my-4 mb-1 fs-5">程式碼</p>
-        <pre class="border">
-          <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
-            // html
-          </code>
-        </pre>
-        <pre>
-          <code class="language-js line-numbers remove-initial-line-feed">
-              //JS
-          </code>
-        </pre>
+        <div>
+          <h5> <mark>selection.exit()</mark></h5>
+          <div class="mt-4 exitData ps-4">
+            <p></p>
+            <p></p>
+            <p></p>
+            <p></p>
+            <p></p>
+            <p></p>
+          </div>
+    
+          <p class="my-4 mb-1 fs-5">程式碼</p>
+          <pre class="border">
+            <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+              // html
+              &lt;div class=&quot;exitData&quot;&gt;
+                &lt;p&gt;&lt;/p&gt;
+                &lt;p&gt;&lt;/p&gt;
+                &lt;p&gt;&lt;/p&gt;
+                &lt;p&gt;&lt;/p&gt;
+                &lt;p&gt;&lt;/p&gt;
+                &lt;p&gt;&lt;/p&gt;
+              &lt;/div&gt;
+            </code>
+          </pre>
+          <pre>
+            <code class="language-js line-numbers remove-initial-line-feed">
+                //JS
+                const exitData = ["資", "料","少"];
+                const exitDom = d3.select(".exitData")
+                                  .selectAll('p')
+                                  .data(exitData)
+                                  .text(d=>d)
 
-        <hr>
-        <h5> <mark>selection.exit()</mark></h5>
-        <div class="mt-4 ps-4">
+                exitDom.exit().remove()
+            </code>
+          </pre>
         </div>
-  
-        <p class="my-4 mb-1 fs-5">程式碼</p>
-        <pre class="border">
-          <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
-            // html
-          </code>
-        </pre>
-        <pre>
-          <code class="language-js line-numbers remove-initial-line-feed">
+        
+        <hr>
+        <div class="mt-3">
+          <h5> <mark>selection.join()</mark></h5>
+          <div class="mt-4 joinData ps-4">
+          </div>
+    
+          <p class="my-4 mb-1 fs-5">程式碼</p>
+          <pre class="border">
+            <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+              // html
+              &lt;div class=&quot;joinData&quot;&gt;&lt;/div&gt;
+            </code>
+          </pre>
+          <pre>
+            <code class="language-js line-numbers remove-initial-line-feed">
               //JS
-          </code>
-        </pre>
+              const joinData = ['j', 'o', 'i', 'n']
+              d3.select('.joinData')
+                .selectAll('p')
+                .data(joinData)
+                .join() // 把 update 跟 enter 一起處理
+                .append('p')
+                .attr('class','text-danger')
+                .text(d => d);
+            </code>
+          </pre>
+        </div>
     </div>
 
     </div>
@@ -239,6 +300,42 @@
       const bindDatum = d3.select('.datum')
                           .datum(datumObj)
       console.log('bindDatum',bindDatum)
+
+      // enter data
+      const enterData = ["資", "料", "比", "較", "多"];
+      const enterDom = d3.select(".enterData")
+                      .selectAll('p')
+                      .data(enterData)
+                        .text(d=>d)
+
+      console.log('enterDom',enterDom);
+
+      enterDom.enter()
+              .append('p')
+             .text(d=>d)
+             .classed('fw-bold',true)
+             .classed('text-danger',true)
+
+      // exit data
+      const exitData = ["資", "料","少"];
+      const exitDom = d3.select(".exitData")
+                        .selectAll('p')
+                        .data(exitData)
+                        .text(d=>d)
+
+      console.log('exitDom',exitDom);
+
+      exitDom.exit().remove()
+
+      // join data
+      const joinData = ['j', 'o', 'i', 'n']
+      d3.select('.joinData')
+        .selectAll('p')
+        .data(joinData)
+        .join() // 把 update 跟 enter 一起處理
+        .append('p')
+        .attr('class','text-danger')
+        .text(d => d);
     </script>
 </body>
 </html>
