@@ -27,7 +27,30 @@
     </nav>
 
     <div class="container p-4">
-      
+      <div>
+        <div class="my-3">d3.blob()</div>
+        <div>
+          <input
+            type="file"
+            id="file-uploader"
+            data-target="file-uploader"
+            accept="image/*"
+            multiple="multiple"
+          />
+        </div>
+
+        <p class="my-4 mb-1 fs-5">程式碼</p>
+        <pre class="border">
+          <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+            //html
+          </code>
+        </pre>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+              //JS
+          </code>
+        </pre>
+      </div>
     </div>
 
     <script
@@ -38,7 +61,10 @@
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
-      
+      const fileUploader = document.querySelector("#file-uploader");
+      fileUploader.addEventListener("change", (e) => {
+        console.log(e.target.files);
+      });
     </script>
   </body>
 </html>
