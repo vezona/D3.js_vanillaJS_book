@@ -27,29 +27,94 @@
     </nav>
 
     <div class="container p-4">
+      <h3 class="my-4 fw-bold">匯入資料的APIs</h3>
       <div>
-        <div class="my-3">d3.blob()</div>
         <div>
-          <input
-            type="file"
-            id="file-uploader"
-            data-target="file-uploader"
-            accept="image/*"
-            multiple="multiple"
-          />
+          <h5 h5 class="mt-4 fw-bolder">1. d3.json( )</h5>
+          <div>
+            <p>
+              範例API：
+              <a
+                href="https://ws.hsinchu.gov.tw/001/Upload/1/opendata/8774/1380/af80d954-d968-42a0-bc97-a2f801840b65.json"
+              >
+                新竹縣政府水資源回收中心每日排放量
+              </a>
+            </p>
+            <div class="mt-3 p-3">
+              <img class="img-fluid" src="./img/get-data/d3.json.jpg" alt="" />
+            </div>
+          </div>
+
+          <p class="my-4 mb-1 fs-4">程式碼</p>
+          <pre>
+            <code class="language-js line-numbers remove-initial-line-feed">
+              //JS
+              // 使用 CORS-AnyWhere 跨網域存取 API 資料
+              // CORS-AnyWhere  https://github.com/Rob--W/cors-anywhere
+              const cors = "https://cors-anywhere.herokuapp.com/";
+              const url =
+                "https://ws.hsinchu.gov.tw/001/Upload/1/opendata/8774/1380/af80d954-d968-42a0-bc97-a2f801840b65.json";
+
+              const getCorsData = async () => {
+                const dataGet = await d3.json(`${cors}${url}`); // 串接網址
+                console.log("d3.json()", dataGet);
+              };
+              getCorsData();
+            </code>
+          </pre>
         </div>
 
-        <p class="my-4 mb-1 fs-5">程式碼</p>
-        <pre class="border">
-          <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
-            //html
-          </code>
-        </pre>
-        <pre>
-          <code class="language-js line-numbers remove-initial-line-feed">
+        <div>
+          <h5 class="mt-4 fw-bolder">2. d3.csv( )、d3.tsv( )、d3.dsv( )</h5>
+          <div>
+            <p>
+              - 範例資料檔案連結：
+              <a href="https://data.gov.tw/dataset/120449">
+                COVID-19各國家地區累積病例數與死亡數
+              </a>
+            </p>
+            <div class="mt-3 p-3">
+              <img class="img-fluid" src="./img/get-data/d3.csv.jpg" alt="" />
+            </div>
+          </div>
+
+          <p class="my-4 mb-1 fs-5">程式碼</p>
+          <pre>
+            <code class="language-js line-numbers remove-initial-line-feed">
+              // 拿取csv資料
+              const getCsvData = async () => {
+                const csvData = await d3.csv(
+                  "./data/covid19_global_cases_and_deaths.csv"
+                );
+                console.log("csvData", csvData);
+              };
+              getCsvData();
+            </code>
+          </pre>
+
+          <h5 class="mt-5">- 使用參數中的function 抓取特定值</h5>
+          <div class="mt-3 p-3">
+            <img
+              class="img-fluid"
+              src="./img/get-data/d3.csv-specific-data.jpg"
+              alt=""
+            />
+          </div>
+          <p class="my-2 mb-1 fs-4">程式碼</p>
+          <pre>
+            <code class="language-js line-numbers remove-initial-line-feed">
               //JS
-          </code>
-        </pre>
+              const getCsvSpecificData = async () => {
+                const csvSpecificData = await d3.csv(
+                  "./data/covid19_global_cases_and_deaths.csv",
+                  (d) => d.country_ch
+                );
+                console.log("csv Specific Data", csvSpecificData);
+              };
+              getCsvSpecificData();
+            </code>
+          </pre>
+        </div>
       </div>
     </div>
 
@@ -61,10 +126,37 @@
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
-      const fileUploader = document.querySelector("#file-uploader");
-      fileUploader.addEventListener("change", (e) => {
-        console.log(e.target.files);
-      });
+      // 使用 CORS-AnyWhere 跨網域存取 API 資料
+      // CORS proxy https://gist.github.com/jimmywarting/ac1be6ea0297c16c477e17f8fbe51347
+      // 使用 CORS-AnyWhere  https://github.com/Rob--W/cors-anywhere
+      const cors = "https://cors-anywhere.herokuapp.com/";
+      const url =
+        "https://ws.hsinchu.gov.tw/001/Upload/1/opendata/8774/1380/af80d954-d968-42a0-bc97-a2f801840b65.json";
+
+      const getCorsData = async () => {
+        const dataGet = await d3.json(`${cors}${url}`); // 串接網址
+        console.log("dataGet", dataGet);
+      };
+      getCorsData();
+
+      // 拿取csv資料
+      const getCsvData = async () => {
+        const csvData = await d3.csv(
+          "./data/covid19_global_cases_and_deaths.csv"
+        );
+        console.log("csvData", csvData);
+      };
+      getCsvData();
+
+      // 拿取特定csv資料
+      const getCsvSpecificData = async () => {
+        const csvSpecificData = await d3.csv(
+          "./data/covid19_global_cases_and_deaths.csv",
+          (d) => d.country_ch
+        );
+        console.log("csv Specific Data", csvSpecificData);
+      };
+      getCsvSpecificData();
     </script>
   </body>
 </html>

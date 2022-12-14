@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>資料匯入的APIs</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./extension/prism.css" />
+    <link rel="stylesheet" href="./css/utils.css" />
+  </head>
+  <body>
+    <nav class="bg-orange navbar">
+      <div class="container-fluid">
+        <a
+          class="text-decoration-none fw-bold navbar-brand"
+          href="./index.html"
+        >
+          <span class="nav-title"> D3.js 圖表繪製教學</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="container p-4">
+      <h3 class="mt-6 fw-bold">整理資料的APIs</h3>
+      <h5 class="mt-4"><mark>d3 Array</mark></h5>
+      <div>
+        <div>
+          <p class="mt-4 fs-6">d3 Array 分類中包含的子項目</p>
+          <ul class="text-danger">
+            <li class="my-2">Statistics 統計數據</li>
+            <li class="my-2">Search 尋找</li>
+            <li class="my-2">Transformations 改變結構</li>
+            <li class="my-2">Iterables 迭代</li>
+            <li class="my-2">Sets 數組</li>
+            <li class="my-2">Histograms 直條圖</li>
+            <li class="my-2">Interning</li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="mt-4">1. d3.min( )、d3.max( ) ⇒ 取最小值/最大值</p>
+          <div></div>
+
+          <p class="mt-2 mb-1 fs-6">程式碼</p>
+          <pre>
+            <code class="language-js line-numbers remove-initial-line-feed">
+              //JS
+              // d3.min、d3.max Number
+              const numberData = [7, 5, 1, 13, 55, 2, 64, null];
+              const minNumber = d3.min(numberData);
+              const maxNumber = d3.max(numberData);
+              console.log("min max number", minNumber, maxNumber); // 1, 64
+
+              // d3.min、d3.max String
+              const stringData = ["狗", "貓", "羊", "豬"];
+              const minString = d3.min(stringData);
+              const maxString = d3.max(stringData);
+              console.log("min max stirng", minString, maxString); // '狗' '貓'
+            </code>
+          </pre>
+        </div>
+
+        <div>
+          <p class="mt-4">2. d3.extent( ) ⇒ 同時返回最大與最小值</p>
+          <div></div>
+
+          <p class="mt-2 mb-1 fs-6">程式碼</p>
+          <pre>
+            <code class="language-js line-numbers remove-initial-line-feed">
+              //JS
+              const extentData = [7, 5, 1, 13, 55, 2, 64, null];
+              const extent = d3.extent(extentData);
+              console.log("extent", extent); // [1, 64]
+            </code>
+          </pre>
+        </div>
+
+        <div>
+          <p class="mt-4">3. d3.sum( ) ⇒ 把資料加總</p>
+          <div></div>
+
+          <p class="mt-2 mb-1 fs-6">程式碼</p>
+          <pre>
+            <code class="language-js line-numbers remove-initial-line-feed">
+              //JS
+              const sumStringData = ["狗", "貓", "羊", "豬"];
+              const sumString = d3.sum(sumStringData);
+              console.log("sum string", sumString); // 0
+            </code>
+          </pre>
+        </div>
+
+        <div>
+          <p class="mt-4">
+            4. d3.every( ) ⇒ 遍歷資料陣列，確認陣列內的值是否全都符合條件
+          </p>
+          <div></div>
+
+          <p class="mt-2 mb-1 fs-6">程式碼</p>
+          <pre>
+            <code class="language-js line-numbers remove-initial-line-feed">
+              //JS
+              const isAllIntegersBiggerThanTwenty = d3.every(everData, (d) => d > 20);
+              console.log("every >20", isAllIntegersBiggerThanTwenty); // false
+            </code>
+          </pre>
+        </div>
+
+        <div>
+          <p class="mt-4">
+            5. d3.some( ) ⇒ 遍歷資料陣列，確認陣列內的任一資料是否符合條件
+          </p>
+          <div></div>
+
+          <p class="mt-2 mb-1 fs-6">程式碼</p>
+          <pre>
+            <code class="language-js line-numbers remove-initial-line-feed">
+              //JS
+              const someData = [7, 5, 1, 13, 55, 2, 64];
+              const isAllDataBiggerThanTen = d3.some(someData, (d) => d > 10);
+              console.log("some >10", isAllDataBiggerThanTen); // true
+            </code>
+          </pre>
+        </div>
+
+        <div>
+          <p class="mt-4">
+            6. d3.filter( ) ⇒ 遍歷資料陣列，返還陣列內所有符合條件的資料
+          </p>
+          <div></div>
+
+          <p class="mt-2 mb-1 fs-6">程式碼</p>
+          <pre>
+            <code class="language-js line-numbers remove-initial-line-feed">
+                //JS
+                const filterData = [7, 5, 1, 13, 55, 2, 64];
+                const filter = d3.filter(filterData, (d) => d > 10);
+                console.log("filter", filter); // [13, 55, 64]
+            </code>
+          </pre>
+        </div>
+
+        <div>
+          <p class="mt-4">7. d3.sort( ) ⇒ 按照條件排序資料陣列</p>
+          <div></div>
+
+          <p class="mt-2 mb-1 fs-6">程式碼</p>
+          <pre>
+            <code class="language-js line-numbers remove-initial-line-feed">
+              //JS
+              const sortData = [7, 5, 1, 13, 55, 2, 64, null];
+              const sort = d3.sort(sortData);
+              console.log("sort", sort); // [1, 2, 5, 7, 13, 55, 64, null]
+            </code>
+          </pre>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./extension/prism.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+      // d3.min、d3.max Number
+      const numberData = [7, 5, 1, 13, 55, 2, 64, null];
+      const minNumber = d3.min(numberData);
+      const maxNumber = d3.max(numberData);
+      console.log("min max number", minNumber, maxNumber); // 1, 64
+
+      // d3.min、d3.max String
+      const stringData = ["狗", "貓", "羊", "豬"];
+      const minString = d3.min(stringData);
+      const maxString = d3.max(stringData);
+      console.log("min max stirng", minString, maxString); // '狗' '貓'
+
+      // d3.extent
+      const extentData = [7, 5, 1, 13, 55, 2, 64, null];
+      const extent = d3.extent(extentData);
+      console.log("extent", extent); // [1, 64]
+
+      // d3.sum
+      // 數字可以加總
+      const sumNumberData = [7, 5, 1, 13, 55, 2, 64, null];
+      const sum = d3.sum(sumNumberData);
+      console.log("sum number", sum); // 147
+
+      // 字串無法加總
+      const sumStringData = ["狗", "貓", "羊", "豬"];
+      const sumString = d3.sum(sumStringData);
+      console.log("sum string", sumString); // 0
+
+      // d3.every
+      // 全部的數字都非空值
+      const everData = [7, 5, 1, 13, 55, 2, 64];
+      const isArrayAllIntegers = d3.every(everData, (d) => d);
+      console.log("every !== nll", isArrayAllIntegers); // true
+
+      // 全部的數字都大於20
+      const isAllIntegersBiggerThanTwenty = d3.every(everData, (d) => d > 20);
+      console.log("every >20", isAllIntegersBiggerThanTwenty); // false
+
+      // d3.some，其中任意一個數字大於20
+      const someData = [7, 5, 1, 13, 55, 2, 64];
+      const isAllDataBiggerThanTen = d3.some(someData, (d) => d > 10);
+      console.log("some >10", isAllDataBiggerThanTen); // true
+
+      // d3.filter
+      const filterData = [7, 5, 1, 13, 55, 2, 64];
+      const filter = d3.filter(filterData, (d) => d > 10);
+      console.log("filter", filter); // [13, 55, 64]
+
+      // d3.sort
+      const sortData = [7, 5, 1, 13, 55, 2, 64, null];
+      const sort = d3.sort(sortData);
+      console.log("sort", sort); // [1, 2, 5, 7, 13, 55, 64, null]
+    </script>
+  </body>
+</html>
