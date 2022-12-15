@@ -26,6 +26,177 @@
       </div>
     </nav>
 
+    <div class="container">
+      <h3 class="mt-6 fw-bold">Generators</h3>
+      <p>
+        透過使用基礎的資料集（像是array、number等等），來產生繪製 svg < path
+        >需要的命令列字串（d）
+      </p>
+
+      <div>
+        <!-- d3.line() -->
+        <div>
+          <h5 class="mt-4"><mark>d3.line()</mark></h5>
+          <svg
+            id="lineWrapper"
+            width="500"
+            height="200"
+            style="border: 1px solid rgb(96, 96, 96)"
+          ></svg>
+
+          <p class="mt-2 mb-1 fs-6">程式碼</p>
+          <pre>
+            <code class="language-js line-numbers remove-initial-line-feed">
+              // JS - Line Generator
+              const lineData = [
+                { x: 50, y: 180 },
+                { x: 50, y: 100 },
+                { x: 200, y: 100 },
+                { x: 200, y: 20 },
+                { x: 400, y: 20 },
+              ];
+
+              // 設定繪製線段的的方法
+              const drawLine = d3.line()
+                                 .x((d) => d.x) // 設定x值要抓哪項資料
+                                 .y((d) => d.y); // 設定y值要抓哪項資料
+
+              console.log(drawLine(lineData)); 
+              // 帶入要換算的資料，得到路徑為 "M30,180L50,100L200,100L200,20L400,20"
+
+              // 繪製線段
+              d3.select("#lineWrapper")
+                .append("path")
+                .attr("d", drawLine(lineData))
+                .attr("stroke", "black")
+                .attr("stroke-width", "2")
+                .attr("fill", "none");
+            </code>
+          </pre>
+        </div>
+
+        <!-- d3.area( ) -->
+        <div>
+          <h5 class="mt-4"><mark>d3.area( )</mark></h5>
+          <svg
+            id="areaWrapper"
+            width="500"
+            height="200"
+            style="border: 1px solid rgb(96, 96, 96)"
+          ></svg>
+
+          <p class="mt-2 mb-1 fs-6">程式碼</p>
+          <pre>
+            <code class="language-js line-numbers remove-initial-line-feed">
+              //JS
+              const areaData = [
+                { x: 30, y: 180 },
+                { x: 50, y: 100 },
+                { x: 200, y: 100 },
+                { x: 200, y: 20 },
+                { x: 400, y: 20 },
+              ];
+              const drawArea = d3.area()
+                                 .x((d) => d.x)
+                                 .y1((d) => d.y)
+                                 .y0(10);
+
+              console.log(drawArea(areaData));
+              // 帶入要換算的資料，得到路徑為 
+              // M30,180L50,100L200,100L200,20L400,20L400,10L200,10L200,10L50,10L30,10Z
+
+              // 繪製區域
+              d3.select("#areaWrapper")
+                .append("path")
+                .attr("d", drawArea(areaData))
+                .attr("stroke", "blue")
+                .attr("stroke-width", "3")
+                .attr("fill", "rgba(31, 211, 225, 0.2)");
+            </code>
+          </pre>
+        </div>
+
+        <!-- d3.curve( ) -->
+        <div>
+          <h5 class="mt-4"><mark>d3.curve( )</mark></h5>
+          <svg
+            id="curveWrapper"
+            width="500"
+            height="200"
+            style="border: 1px solid rgb(96, 96, 96)"
+          ></svg>
+
+          <p class="mt-2 mb-1 fs-6">程式碼</p>
+          <pre>
+            <code class="language-js line-numbers remove-initial-line-feed">
+              //JS
+            </code>
+          </pre>
+        </div>
+
+        <!-- d3.link( ) -->
+        <div>
+          <h5 class="mt-4"><mark>d3.link( )</mark></h5>
+          <svg
+            id="linkVerticalWrapper"
+            width="500"
+            height="200"
+            style="border: 1px solid rgb(96, 96, 96)"
+          ></svg>
+
+          <p class="mt-2 mb-1 fs-6">程式碼</p>
+          <pre>
+            <code class="language-js line-numbers remove-initial-line-feed">
+              //JS
+            </code>
+          </pre>
+
+          <svg
+            id="linkHorizontalWrapper"
+            width="500"
+            height="200"
+            style="border: 1px solid rgb(96, 96, 96)"
+          ></svg>
+        </div>
+
+        <!-- d3.arc( ) -->
+        <div>
+          <h5 class="mt-4"><mark>d3.arc( )</mark></h5>
+          <svg
+            id="arcWrapper"
+            width="500"
+            height="200"
+            style="border: 1px solid rgb(96, 96, 96)"
+          ></svg>
+
+          <p class="mt-2 mb-1 fs-6">程式碼</p>
+          <pre>
+            <code class="language-js line-numbers remove-initial-line-feed">
+              //JS
+            </code>
+          </pre>
+        </div>
+
+        <!-- d3.symbol( ) -->
+        <div>
+          <h5 class="mt-4"><mark>d3.symbol( )</mark></h5>
+          <svg
+            id="symbolWrapper"
+            width="500"
+            height="200"
+            style="border: 1px solid rgb(96, 96, 96)"
+          ></svg>
+
+          <p class="mt-2 mb-1 fs-6">程式碼</p>
+          <pre>
+            <code class="language-js line-numbers remove-initial-line-feed">
+              //JS
+            </code>
+          </pre>
+        </div>
+      </div>
+    </div>
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
@@ -33,6 +204,113 @@
     ></script>
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script></script>
+    <script>
+      // Line Generator ==================================
+      const lineData = [
+        { x: 30, y: 180 },
+        { x: 50, y: 100 },
+        { x: 200, y: 100 },
+        { x: 200, y: 20 },
+        { x: 400, y: 20 },
+      ];
+
+      // 設定繪製線段的的方法
+      const drawLine = d3
+        .line()
+        .x((d) => d.x) // 設定x值要抓哪項資料
+        .y((d) => d.y); // 設定y值要抓哪項資料
+
+      console.log(drawLine(lineData)); // 帶入要換算的資料，得到路徑為 "M30,180L50,100L200,100L200,20L400,20"
+
+      // 繪製線段
+      d3.select("#lineWrapper")
+        .append("path")
+        .attr("d", drawLine(lineData))
+        .attr("stroke", "black")
+        .attr("stroke-width", "2")
+        .attr("fill", "none");
+
+      // area Generator ==================================
+      const areaData = [
+        { x: 30, y: 180 },
+        { x: 50, y: 100 },
+        { x: 200, y: 100 },
+        { x: 200, y: 20 },
+        { x: 400, y: 20 },
+      ];
+      const drawArea = d3
+        .area()
+        .x((d) => d.x)
+        .y1((d) => d.y)
+        .y0(10);
+
+      console.log(drawArea(areaData));
+      // 帶入要換算的資料，得到路徑為 M30,180L50,100L200,100L200,20L400,20L400,10L200,10L200,10L50,10L30,10Z
+
+      // 繪製區域
+      d3.select("#areaWrapper")
+        .append("path")
+        .attr("d", drawArea(areaData))
+        .attr("stroke", "blue")
+        .attr("stroke-width", "3")
+        .attr("fill", "rgba(31, 211, 225, 0.2)");
+
+      // links Generator ==================================
+      const linkVerticalData = [
+        { source: [100, 25], target: [25, 75] },
+        { source: [100, 25], target: [100, 75] },
+        { source: [100, 25], target: [175, 75] },
+      ];
+
+      const drawVerticalLink = d3
+        .linkVertical()
+        .source((d) => d.source)
+        .target((d) => d.target);
+
+      // 繪製區域
+      d3.select("#linkVerticalWrapper")
+        .selectAll("path")
+        .data(linkVerticalData)
+        .join("path")
+        .attr("d", drawVerticalLink)
+        .attr("fill", "none")
+        .attr("stroke", "black");
+
+      const linkHorizontalData = [
+        { source: [100, 100], target: [300, 25] },
+        { source: [100, 100], target: [300, 100] },
+        { source: [100, 100], target: [300, 175] },
+      ];
+
+      const drawHorizontalLink = d3
+        .linkHorizontal()
+        .source((d) => d.source)
+        .target((d) => d.target);
+
+      // 繪製區域
+      d3.select("#linkHorizontalWrapper")
+        .selectAll("path")
+        .data(linkHorizontalData)
+        .join("path")
+        .attr("d", drawHorizontalLink)
+        .attr("fill", "none")
+        .attr("stroke", "black");
+
+      // arc Generator ==================================
+      const drawArc = d3
+        .arc()
+        .innerRadius(90) // 內圈範圍40
+        .outerRadius(95) // 內圈範圍50
+        .startAngle(Math.PI * 1.2)
+        .endAngle(Math.PI * 2.8);
+
+      d3.select("#arcWrapper")
+        .append("g")
+        .attr("transform", "translate(250,100)") // 把整個圓弧移動到 100,100 的位置
+        .append("path")
+        .attr("d", drawArc())
+        .attr("stroke", "blue")
+        .attr("fill", "blue");
+    </script>
   </body>
 </html>
