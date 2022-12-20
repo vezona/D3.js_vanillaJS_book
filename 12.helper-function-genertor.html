@@ -119,12 +119,83 @@
         <!-- d3.curve( ) -->
         <div>
           <h5 class="mt-4"><mark>d3.curve( )</mark></h5>
-          <svg
-            id="curveWrapper"
-            width="500"
-            height="200"
-            style="border: 1px solid rgb(96, 96, 96)"
-          ></svg>
+            <div class="border px-2">
+              <p>curveBasis</p>
+              <svg
+                id="curveBasisWrapper"
+                width="500"
+                height="200"
+                style="border: 1px solid rgb(96, 96, 96)"
+              ></svg>
+            </div>
+            <div class="border p-2"><p>curveBumpX</p>
+              <svg
+                id="curveBumpXWrapper"
+                width="500"
+                height="200"
+                style="border: 1px solid rgb(96, 96, 96)"
+              ></svg>
+            </div>
+            <div class="border p-2"><p>curveBundle</p>
+              <svg
+                id="curveBundleWrapper"
+                width="500"
+                height="200"
+                style="border: 1px solid rgb(96, 96, 96)"
+              ></svg>
+            </div>
+            <div class="border p-2"><p>curveCardinal</p>
+              <svg
+                id="curveCardinalWrapper"
+                width="500"
+                height="200"
+                style="border: 1px solid rgb(96, 96, 96)"
+              ></svg>
+            </div>
+            <div class="border p-2"><p>tension</p>
+              <svg
+                id="curveTensionWrapper"
+                width="500"
+                height="200"
+                style="border: 1px solid rgb(96, 96, 96)"
+              ></svg>
+            </div>
+            <div class="border p-2"><p>curveCatmullRom alpha</p>
+              <svg
+                id="curveCatmullRomWrapper"
+                width="500"
+                height="200"
+                style="border: 1px solid rgb(96, 96, 96)"
+              ></svg>
+            </div>
+            <div class="border p-2"><p>curveLinear</p>
+              <svg
+                id="curveLinearWrapper"
+                width="500"
+                height="200"
+                style="border: 1px solid rgb(96, 96, 96)"
+              ></svg>
+            </div>
+            <div class="border p-2"><p>curveNatural</p>
+              <svg
+                id="curveNaturalWrapper"
+                width="500"
+                height="200"
+                style="border: 1px solid rgb(96, 96, 96)"
+              ></svg>
+            </div>
+            <div class="border p-2"><p>curveStep</p>
+              <svg
+                id="curveStepWrapper"
+                width="500"
+                height="200"
+                style="border: 1px solid rgb(96, 96, 96)"
+              ></svg>
+            </div>
+
+          <div>Custom Curves</div>
+
+          
 
           <p class="mt-2 mb-1 fs-6">程式碼</p>
           <pre>
@@ -255,6 +326,28 @@
         .attr("stroke-width", "3")
         .attr("fill", "rgba(31, 211, 225, 0.2)");
 
+      // curve Generator ==================================
+      const lineCurveData = [
+        { x: 30, y: 180 },
+        { x: 50, y: 100 },
+        { x: 200, y: 100 },
+        { x: 200, y: 20 },
+        { x: 400, y: 20 },
+      ];
+
+      const drawLineCurveBundle = d3
+        .line()
+        .curve(d3.curveBundle)
+        .x((d) => d.x) // 設定x值要抓哪項資料
+        .y((d) => d.y); // 設定y值要抓哪項資料z
+
+      d3.select("#curveBundleWrapper")
+        .append("path")
+        .attr("d", drawLineCurveBundle(lineCurveData))
+        .attr("stroke", "black")
+        .attr("stroke-width", "2")
+        .attr("fill", "none");
+
       // links Generator ==================================
       const linkVerticalData = [
         { source: [100, 25], target: [25, 75] },
@@ -267,7 +360,7 @@
         .source((d) => d.source)
         .target((d) => d.target);
 
-      // 繪製區域
+      // 繪製links
       d3.select("#linkVerticalWrapper")
         .selectAll("path")
         .data(linkVerticalData)
@@ -287,7 +380,7 @@
         .source((d) => d.source)
         .target((d) => d.target);
 
-      // 繪製區域
+      // 繪製links
       d3.select("#linkHorizontalWrapper")
         .selectAll("path")
         .data(linkHorizontalData)
