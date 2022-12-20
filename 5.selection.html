@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="./extension/prism.css" />
     <link rel="stylesheet" href="./css/utils.css" />
     <style>
+      /* https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/cx
+      https://www.w3.org/TR/SVG/geometry.html */
       .circle {
         r: 30px;
         cx: 50px;
@@ -148,9 +150,9 @@
             //JS
             d3.select('.svgCircleWrap-attr circle')
               .attr("r", 30)
-              .attr("fill", "rgb(248, 204, 61)")
               .attr("cx", 50)
-              .attr("cy", 50);
+              .attr("cy", 50)
+              .attr("fill", "rgb(248, 204, 61)")
           </code>
         </pre>
 
@@ -181,10 +183,10 @@
             <code class="language-js line-numbers remove-initial-line-feed ">
               //JS
               d3.select('.svgCircleChangePositionWrap circle')
-                .attr("r", 30)
-                .attr("fill", "rgb(248, 204, 61)")
-                .attr("cx", 50)
+                .attr("r", 30),
+                .attr("cx", 50),
                 .attr("cy", 50),
+                .attr("fill", "rgb(248, 204, 61)"),
                 .attr("transform", "translate(400,100)");
             </code>
           </pre>
@@ -201,6 +203,25 @@
           >
             <circle></circle>
           </svg>
+
+          <p class="my-4 mb-1 fs-5">程式碼</p>
+          <pre class="border">
+            <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+              //html
+              &lt;svg width=&quot;500&quot; height=&quot;200&quot; 
+                    class=&quot;svgCircleWrap-classed &quot; 
+                    style=&quot;border: 1px solid rgb(96, 96, 96)&quot;&gt;
+                &lt;circle&gt;&lt;/circle&gt;
+              &lt;/svg&gt;
+            </code>
+          </pre>
+          <pre data-line="6">
+            <code class="language-js line-numbers remove-initial-line-feed ">
+              //JS
+              d3.select(".svgCircleWrap-classed circle")
+                .classed("yellow circle", true);
+            </code>
+          </pre>
         </div>
 
         <!-- selection.style -->
@@ -214,6 +235,23 @@
           >
             <circle></circle>
           </svg>
+
+          <p class="my-4 mb-1 fs-5">程式碼</p>
+          <pre class="border">
+            <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+              //html
+              &lt;svg width=&quot;500&quot; height=&quot;200&quot; 
+                    class=&quot;svgCircleWrap-style &quot; 
+                    style=&quot;border: 1px solid rgb(96, 96, 96)&quot;&gt;
+                &lt;circle&gt;&lt;/circle&gt;
+              &lt;/svg&gt;
+            </code>
+          </pre>
+          <pre data-line="6">
+            <code class="language-js line-numbers remove-initial-line-feed ">
+              //JS
+            </code>
+          </pre>
         </div>
       </div>
 
@@ -433,22 +471,28 @@
       // selection.attr()
       d3.select(".svgCircleWrap-attr circle")
         .attr("r", 30)
-        .attr("fill", "rgb(248, 204, 61)")
         .attr("cx", 50)
-        .attr("cy", 50);
+        .attr("cy", 50)
+        .attr("fill", "rgb(248, 204, 61)")
 
       // change position
       d3.select(".svgCircleChangePositionWrap circle")
         .attr("r", 30)
-        .attr("fill", "rgb(248, 204, 61)")
         .attr("cx", 50)
         .attr("cy", 50)
+        .attr("fill", "rgb(248, 204, 61)")
         .attr("transform", "translate(400,100)");
 
       // selection.classed()
-      d3.select(".svgCircleWrap-classed circle").classed("yellow circle", true);
+      d3.select(".svgCircleWrap-classed circle")
+        .classed("yellow circle", true);
 
       // selection.style()
+      d3.select(".svgCircleWrap-style circle")
+        .style('r', '30px')
+        .style('cx', '50px')
+        .style('cy', '50px')
+        .style('fill', 'rgb(248, 204, 61)', 'important')
 
       // append
       d3.select(".append")
