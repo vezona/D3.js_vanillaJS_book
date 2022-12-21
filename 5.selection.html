@@ -14,8 +14,6 @@
     <link rel="stylesheet" href="./extension/prism.css" />
     <link rel="stylesheet" href="./css/utils.css" />
     <style>
-      /* https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/cx
-      https://www.w3.org/TR/SVG/geometry.html */
       .circle {
         r: 30px;
         cx: 50px;
@@ -194,7 +192,7 @@
 
         <!-- selection.classed -->
         <div class="my-4">
-          <h5><mark>selection.classed(name[, value])</mark></h5>
+          <h5><mark>selection.classed(names[, value])</mark></h5>
           <svg
             width="500"
             height="200"
@@ -215,7 +213,20 @@
               &lt;/svg&gt;
             </code>
           </pre>
-          <pre data-line="6">
+          <pre>
+            <code  class="language-css line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+              //CSS
+              .circle {
+                r: 30px;
+                cx: 50px;
+                cy: 50px;
+              }
+              .yellow {
+                fill: rgb(248, 204, 61);
+              }
+            </code>
+          </pre>
+          <pre>
             <code class="language-js line-numbers remove-initial-line-feed ">
               //JS
               d3.select(".svgCircleWrap-classed circle")
@@ -247,9 +258,14 @@
               &lt;/svg&gt;
             </code>
           </pre>
-          <pre data-line="6">
+          <pre>
             <code class="language-js line-numbers remove-initial-line-feed ">
               //JS
+              d3.select(".svgCircleWrap-style circle")
+                .style("r", "30px")
+                .style("cx", "50px")
+                .style("cy", "50px")
+                .style("fill", "rgb(248, 204, 61)", "important");
             </code>
           </pre>
         </div>
@@ -259,25 +275,56 @@
       <div>
         <h4 class="fw-bold">增減元素</h4>
         <ul>
+          <li>selection.text([value]) 設定元素內的文字</li>
           <li>selection.append(type) 向後加入元素</li>
-          <li>selection.insert(type[, before]) 可在指定位置加入元素</li>
+          <li>selection.insert(type[,before]) 可在指定位置加入元素</li>
           <li>selection.remove( ) 移除元素</li>
-          <li>selction.merge(other) 合併元素</li>
         </ul>
+        <!-- selection.text -->
+        <div class="my-4">
+          <h5 class="mb-4"><mark>selection.text([value])</mark></h5>
+          <div class="text">
+            <p>Hi</p>
+            <p>World</p>
+          </div>
+          </svg>
 
-        <div class="my-3">
-          原本畫面上只有 a、b、c、d 四項，現在用 selection.append API
-          向後加上一個 e 項目，並設定樣式
-        </div>
-        <div class="append">
-          <p>a</p>
-          <p>b</p>
-          <p>c</p>
-          <p>d</p>
+          <p class="my-4 mb-1 fs-5">程式碼</p>
+          <pre class="border">
+            <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+              //html
+              &lt;div class=&quot;text&quot;&gt;
+                &lt;p&gt;Hi&lt;/p&gt;
+                &lt;p&gt;World&lt;/p&gt;
+              &lt;/div&gt;
+            </code>
+          </pre>
+          <pre>
+            <code class="language-js line-numbers remove-initial-line-feed ">
+              //JS
+              d3.select(".text")
+                .text("Hello World")
+            </code>
+          </pre>
         </div>
 
-        <p class="my-4 mb-1 fs-5">程式碼</p>
-        <pre class="border">
+        <!-- selection.append -->
+        <div class="my-4">
+          <h5><mark>selection.append(type)</mark></h5>
+
+          <div class="my-3">
+            原本畫面上只有 a、b、c、d 四項，現在用 selection.append API
+            向後加上一個 e 項目，並設定樣式
+          </div>
+          <div class="append">
+            <p>a</p>
+            <p>b</p>
+            <p>c</p>
+            <p>d</p>
+          </div>
+
+          <p class="my-4 mb-1 fs-5">程式碼</p>
+          <pre class="border">
              <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
                 //html
                 &lt;div class=&quot;append&quot;&gt;
@@ -287,8 +334,8 @@
                   &lt;p&gt;d&lt;/p&gt;
                 &lt;/div&gt;
              </code>
-            </pre>
-        <pre>
+        </pre>
+          <pre>
                 <code class="language-js line-numbers remove-initial-line-feed">
                     //JS
                     d3.select('.append')
@@ -297,151 +344,84 @@
                       .classed('fw-bold',true)
                       .style('color','rgb(248, 117, 61)')
                  </code>
-            </pre>
-
+        </pre>
+        </div>
         <hr />
-        <div class="my-3">
-          原本畫面上只有 a、b、c、d 四項，現在用 selection.insert API 在指定位置
-          (a與b中間) 加上一個 e 項目，並設定樣式
-        </div>
-        <div class="insert">
-          <p>a</p>
-          <p>b</p>
-          <p>c</p>
-          <p>d</p>
-        </div>
 
-        <p class="my-4 mb-1 fs-5">程式碼</p>
-        <pre class="border">
-             <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
-                //html
-                &lt;div class=&quot;insert&quot;&gt;
-                  &lt;p&gt;a&lt;/p&gt;
-                  &lt;p&gt;b&lt;/p&gt;
-                  &lt;p&gt;c&lt;/p&gt;
-                  &lt;p&gt;d&lt;/p&gt;
-                &lt;/div&gt;
-             </code>
-            </pre>
-        <pre>
-                <code class="language-js line-numbers remove-initial-line-feed">
-                    //JS
-                    d3.select('.insert')
-                      .append('p')
-                      .text('e')
-                      .classed('fw-bold',true)
-                      .style('color','rgb(248, 117, 61)')
-                 </code>
-            </pre>
-
-        <hr />
-        <div class="my-3">
-          原本畫面上有 a、b、c、d 四項，現在用 selection.remove API 移除 b 項目
-        </div>
-        <div>
-          <p>a</p>
-          <p class="remove">b</p>
-          <p>c</p>
-          <p>d</p>
-        </div>
-
-        <p class="my-4 mb-1 fs-5">程式碼</p>
-        <pre class="border">
-             <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
-                //html
-                &lt;div&gt;
-                  &lt;p&gt;a&lt;/p&gt;
-                  &lt;p class=&quot;remove&quot;&gt;b&lt;/p&gt;
-                  &lt;p&gt;c&lt;/p&gt;
-                  &lt;p&gt;d&lt;/p&gt;
-                &lt;/div&gt;
-             </code>
-            </pre>
-        <pre>
-                <code class="language-js line-numbers remove-initial-line-feed">
-                    //JS
-                    d3.select('.remove')
-                      .remove()
-                 </code>
-            </pre>
-
-        <hr />
-        <div class="my-3">
-          selection.merge API 主要是用在selection.join API內部，當資料綁定後處理
-          enter 與 update selection， 並依據 index 去填補原本是 null 的位置。
-          以下範例是將奇數資料與偶數資料合併，並呈現在右方框框內
-        </div>
-        <div class="d-flex">
-          <div
-            class="border border-dark left py-2 px-4 w-50 d-flex merge justify-content-between"
-          >
-            <div class="text-center mergedData">
-              <p>原始資料</p>
-              <h6>1</h6>
-              <h6>2</h6>
-              <h6>3</h6>
-              <h6>4</h6>
-              <h6>5</h6>
-            </div>
-            <div class="text-center">
-              <p>奇數資料</p>
-              <h6>1</h6>
-              <h6>3</h6>
-              <h6>5</h6>
-            </div>
-            <div class="text-center">
-              <p>偶數資料</p>
-              <h6>2</h6>
-              <h6>4</h6>
-              <h6>6</h6>
-            </div>
+        <!-- selection.insert -->
+        <div class="my-4">
+          <h5><mark>selection.insert(type[,before])</mark></h5>
+          <div class="my-3">
+            原本畫面上只有 a、b、c、d 四項，現在用 selection.insert API
+            在指定位置 (a與b中間) 加上一個 e 項目，並設定樣式
           </div>
-          <div
-            class="border border-dark right text-center py-2 px-4 w-50 mergedContainer"
-          >
-            <p>奇數資料與偶數資料合併後</p>
+          <div class="insert">
+            <p>a</p>
+            <p>b</p>
+            <p>c</p>
+            <p>d</p>
           </div>
+
+          <p class="my-4 mb-1 fs-5">程式碼</p>
+          <pre class="border">
+            <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+              //html
+              &lt;div class=&quot;insert&quot;&gt;
+                &lt;p&gt;a&lt;/p&gt;
+                &lt;p&gt;b&lt;/p&gt;
+                &lt;p&gt;c&lt;/p&gt;
+                &lt;p&gt;d&lt;/p&gt;
+              &lt;/div&gt;
+            </code>
+          </pre>
+          <pre>
+            <code class="language-js line-numbers remove-initial-line-feed">
+              //JS
+              d3.select(".insert")
+                .insert("p", "p:nth-child(2)")
+                .text("e")
+                .classed("fw-bold", true)
+                .style("color", "rgb(248, 117, 61)");
+            </code>
+          </pre>
         </div>
+        <hr />
+        <!-- selection.remove -->
+        <div class="my-4">
+          <h5><mark>selection.remove()</mark></h5>
+          <div class="my-3">
+            原本畫面上有 a、b、c、d 四項，現在用 selection.remove API 移除 b
+            項目
+          </div>
+          <div>
+            <p>a</p>
+            <p class="remove">b</p>
+            <p>c</p>
+            <p>d</p>
+          </div>
 
-        <p class="my-4 mb-1 fs-5">程式碼</p>
-        <pre class="border">
-             <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
-                //html
-                &lt;div class=&quot;text-center mergedData&quot;&gt;
-                  &lt;p&gt;原始資料&lt;/p&gt;
-                  &lt;h6&gt;1&lt;/h6&gt;
-                  &lt;h6&gt;2&lt;/h6&gt;
-                  &lt;h6&gt;3&lt;/h6&gt;
-                  &lt;h6&gt;4&lt;/h6&gt;
-                  &lt;h6&gt;5&lt;/h6&gt;
-                &lt;/div&gt;
+          <p class="my-4 mb-1 fs-5">程式碼</p>
+          <pre class="border">
+            <code class="language-html line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+              //html
+              &lt;div&gt;
+                &lt;p&gt;a&lt;/p&gt;
+                &lt;p class=&quot;remove&quot;&gt;b&lt;/p&gt;
+                &lt;p&gt;c&lt;/p&gt;
+                &lt;p&gt;d&lt;/p&gt;
+              &lt;/div&gt;
+            </code>
+          </pre>
+          <pre>
+            <code class="language-js line-numbers remove-initial-line-feed">
+              //JS
+              d3.select('.remove')
+                .remove()
+            </code>
+          </pre>
+        </div>
+        <hr />
 
-                &lt;div class=&quot;border border-dark right text-center py-2 px-4 w-50 mergedContainer&quot;&gt;
-                  &lt;p&gt;奇數資料與偶數資料合併後
-                  &lt;/p&gt;
-                &lt;/div&gt;
-             </code>
-            </pre>
-        <pre>
-              <code class="language-js line-numbers remove-initial-line-feed">
-                //JS
-                const even = d3.select('.mergedData').selectAll("h6")
-                                .select(function (d, i) {
-                                    return i & 1 ? this : null
-                                  });
-
-                const odd = d3.select('.mergedData').selectAll("h6")
-                              .select(function (d, i) {
-                                  return i & 1 ? null : this
-                              });
-                    
-                const merged = odd.merge(even);
-                const mergedContainer = d3.select('.mergedContainer')
-                for(const element of merged._groups[0]){
-                  mergedContainer.append('p').text(element.innerText)
-                }
-              </code>
-            </pre>
       </div>
     </div>
 
@@ -473,7 +453,7 @@
         .attr("r", 30)
         .attr("cx", 50)
         .attr("cy", 50)
-        .attr("fill", "rgb(248, 204, 61)")
+        .attr("fill", "rgb(248, 204, 61)");
 
       // change position
       d3.select(".svgCircleChangePositionWrap circle")
@@ -484,15 +464,19 @@
         .attr("transform", "translate(400,100)");
 
       // selection.classed()
-      d3.select(".svgCircleWrap-classed circle")
-        .classed("yellow circle", true);
+      d3.select(".svgCircleWrap-classed circle").classed("yellow circle", true);
 
       // selection.style()
       d3.select(".svgCircleWrap-style circle")
-        .style('r', '30px')
-        .style('cx', '50px')
-        .style('cy', '50px')
-        .style('fill', 'rgb(248, 204, 61)', 'important')
+        .style("r", "30px")
+        .style("cx", "50px")
+        .style("cy", "50px")
+        .style("fill", "rgb(248, 204, 61)", "important");
+
+      
+      // text
+      d3.select(".text")
+        .text("Hello World")
 
       // append
       d3.select(".append")
@@ -510,27 +494,6 @@
 
       // remove
       d3.select(".remove").remove();
-
-      // merge
-      const even = d3
-        .select(".mergedData")
-        .selectAll("h6")
-        .select(function (d, i) {
-          return i & 1 ? this : null;
-        });
-
-      const odd = d3
-        .select(".mergedData")
-        .selectAll("h6")
-        .select(function (d, i) {
-          return i & 1 ? null : this;
-        });
-
-      const merged = odd.merge(even);
-      const mergedContainer = d3.select(".mergedContainer");
-      for (const element of merged._groups[0]) {
-        mergedContainer.append("p").text(element.innerText);
-      }
     </script>
   </body>
 </html>
