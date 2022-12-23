@@ -50,10 +50,8 @@
             <code class="language-js line-numbers remove-initial-line-feed">
               //JS
               // 使用 CORS-AnyWhere 跨網域存取 API 資料
-              // CORS-AnyWhere  https://github.com/Rob--W/cors-anywhere
               const cors = "https://cors-anywhere.herokuapp.com/";
-              const url =
-                "https://ws.hsinchu.gov.tw/001/Upload/1/opendata/8774/1380/af80d954-d968-42a0-bc97-a2f801840b65.json";
+              const url ="https://ws.hsinchu.gov.tw/001/Upload/1/opendata/8774/1380/af80d954-d968-42a0-bc97-a2f801840b65.json";
 
               const getCorsData = async () => {
                 const dataGet = await d3.json(`${cors}${url}`); // 串接網址
@@ -128,7 +126,7 @@
     <script>
       // 使用 CORS-AnyWhere 跨網域存取 API 資料
       // CORS proxy https://gist.github.com/jimmywarting/ac1be6ea0297c16c477e17f8fbe51347
-      // 使用 CORS-AnyWhere  https://github.com/Rob--W/cors-anywhere
+      // CORS-AnyWhere  https://github.com/Rob--W/cors-anywhere
       const cors = "https://cors-anywhere.herokuapp.com/";
       const url =
         "https://ws.hsinchu.gov.tw/001/Upload/1/opendata/8774/1380/af80d954-d968-42a0-bc97-a2f801840b65.json";
@@ -137,7 +135,7 @@
         const dataGet = await d3.json(`${cors}${url}`); // 串接網址
         console.log("dataGet", dataGet);
       };
-      getCorsData();
+      // getCorsData();
 
       // 拿取csv資料
       const getCsvData = async () => {
@@ -146,7 +144,7 @@
         );
         console.log("csvData", csvData);
       };
-      getCsvData();
+      // getCsvData();
 
       // 拿取特定csv資料
       const getCsvSpecificData = async () => {
@@ -156,7 +154,7 @@
         );
         console.log("csv Specific Data", csvSpecificData);
       };
-      getCsvSpecificData();
+      // getCsvSpecificData();
     </script>
   </body>
 </html>
