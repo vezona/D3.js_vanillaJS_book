@@ -89,6 +89,12 @@
           <pre>
             <code class="language-js line-numbers remove-initial-line-feed">
               //JS
+              // 數字可以加總
+              const sumNumberData = [7, 5, 1, 13, 55, 2, 64, null];
+              const sum = d3.sum(sumNumberData);
+              console.log("sum number", sum); // 147
+
+              // 字串無法加總
               const sumStringData = ["狗", "貓", "羊", "豬"];
               const sumString = d3.sum(sumStringData);
               console.log("sum string", sumString); // 0
