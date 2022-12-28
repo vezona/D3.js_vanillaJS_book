@@ -40,10 +40,10 @@
           <pre>
             <code class="language-js line-numbers remove-initial-line-feed">
               //JS
-              const timeData = "2021-09-07";
+              const timeData = "2023-03-07";
               const timeParse = d3.timeParse("%Y-%m-%d");
               console.log("timeParse", timeParse(timeData)); 
-              // Tue Sep 07 2021 00:00:00 GMT+0800 (台北標準時間)
+              // Tue Mar 07 2023 00:00:00 GMT+0800 (台北標準時間)
             </code>
           </pre>
         </div>
@@ -57,9 +57,16 @@
           <p class="mt-2 mb-1 fs-6">程式碼</p>
           <pre>
             <code class="language-js line-numbers remove-initial-line-feed">
-              //JS
-              const timeFormat = d3.timeFormat("%Y/%m/%d"); // 轉換後想變成用 "/" 分隔
-              console.log("timeFormat", timeFormat(parsedData)); // 2021/09/07
+              //d3.timeParse
+              const timeData = "2023-03-07";
+              const timeParse = d3.timeParse("%Y-%m-%d");
+              console.log("timeParse", timeParse(timeData));
+
+              //d3.timeFormat
+              // 轉換後想變成用 "/" 分隔
+              const timeFormat = d3.timeFormat("%Y/%m/%d"); 
+              console.log("timeFormat", timeFormat(parsedData)); 
+              // 2023/03/07
             </code>
           </pre>
         </div>
@@ -75,18 +82,18 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
       // d3.timeParse
-      const timeData = "2021-09-07";
+      const timeData = "2023-03-07";
       const timeParse = d3.timeParse("%Y-%m-%d");
-      console.log("timeParse", timeParse(timeData)); // Tue Sep 07 2021 00:00:00 GMT+0800 (台北標準時間)
+      console.log("timeParse", timeParse(timeData));
 
       // d3.timeFormate 轉換成 D3 看得懂的數值
-      const timeFormateData = "2021-09-07";
+      const timeFormateData = "2023-03-07";
       const parsedData = timeParse(timeData); // 使用前面設定好的 timeParse function
       console.log("parsedData", parsedData); // 得到D3看得懂的數值
 
       // Time Formate 轉換成人類看得懂的數值
       const timeFormat = d3.timeFormat("%Y/%m/%d"); // 轉換後想變成用 "/" 分隔
-      console.log("timeFormat", timeFormat(parsedData)); // 2021/09/07
+      console.log("timeFormat", timeFormat(parsedData));
     </script>
   </body>
 </html>
