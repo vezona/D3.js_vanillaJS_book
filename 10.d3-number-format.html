@@ -37,9 +37,9 @@
           <pre>
             <code class="language-js line-numbers remove-initial-line-feed">
               //JS
-              const originNumber = 10;
-              const numberFormat = d3.format("b"); // 參數 b 是指二進位制
-              console.log("format", numberFormat(originNumber)); // 1010
+              const numberFormat = d3.format("b"); // 參數 b 指二進位制
+              const binaryNumber = numberFormat(10)
+              console.log("format", binaryNumber); // '1010'
             </code>
           </pre>
         </div>
@@ -55,9 +55,9 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
       // d3.format
-      const originNumber = 10;
-      const numberFormat = d3.format("b"); // 參數 b 是指二進位制
-      console.log("format", numberFormat(originNumber)); // 1010
+      const numberFormat = d3.format("b"); // 參數 b 指二進位制
+      const binaryNumber = numberFormat(10);
+      console.log("format", binaryNumber); // '1010'
     </script>
   </body>
 </html>

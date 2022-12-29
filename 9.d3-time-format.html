@@ -44,13 +44,17 @@
               const timeParse = d3.timeParse("%Y-%m-%d");
               console.log("timeParse", timeParse(timeData)); 
               // Tue Mar 07 2023 00:00:00 GMT+0800 (台北標準時間)
+
+              // 簡寫
+              d3.timeParse("%Y-%m-%d")("2023-03-07")
+              // Tue Mar 07 2023 00:00:00 GMT+0800 (台北標準時間)
             </code>
           </pre>
         </div>
 
         <div>
           <p class="mt-4">
-            2. d3.timeFormate( ) ⇒ 將D3的日期時間數值轉換成我們看得懂的文字
+            2. d3.timeFormat( ) ⇒ 將D3的日期時間數值轉換成我們看得懂的文字
           </p>
           <div></div>
 
@@ -86,12 +90,12 @@
       const timeParse = d3.timeParse("%Y-%m-%d");
       console.log("timeParse", timeParse(timeData));
 
-      // d3.timeFormate 轉換成 D3 看得懂的數值
-      const timeFormateData = "2023-03-07";
+      // d3.timeFormat 轉換成 D3 看得懂的數值
+      const timeFormatData = "2023-03-07";
       const parsedData = timeParse(timeData); // 使用前面設定好的 timeParse function
       console.log("parsedData", parsedData); // 得到D3看得懂的數值
 
-      // Time Formate 轉換成人類看得懂的數值
+      // Time Format 轉換成人類看得懂的數值
       const timeFormat = d3.timeFormat("%Y/%m/%d"); // 轉換後想變成用 "/" 分隔
       console.log("timeFormat", timeFormat(parsedData));
     </script>
