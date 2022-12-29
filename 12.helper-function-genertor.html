@@ -238,15 +238,6 @@
               style="border: 1px solid rgb(96, 96, 96)"
             ></svg>
           </div>
-
-          <div>Custom Curves</div>
-
-          <p class="mt-2 mb-1 fs-6">程式碼</p>
-          <pre>
-            <code class="language-js line-numbers remove-initial-line-feed">
-              //JS
-            </code>
-          </pre>
         </div>
 
         <!-- d3.curve( ) display -->
@@ -349,7 +340,29 @@
           <p class="mt-2 mb-1 fs-6">程式碼</p>
           <pre>
             <code class="language-js line-numbers remove-initial-line-feed">
+              // html
+              &lt;svg id=&quot;linkVerticalWrapper&quot;&gt;&lt;/svg&gt;
+              
               //JS
+              const linkVerticalData = [
+                { source: [100, 25], target: [25, 75] },
+                { source: [100, 25], target: [100, 75] },
+                { source: [100, 25], target: [175, 75] },
+              ];
+
+              const drawVerticalLink = d3
+                .linkVertical()
+                .source((d) => d.source)
+                .target((d) => d.target);
+
+              // 繪製links
+              d3.select("#linkVerticalWrapper")
+                .selectAll("path")
+                .data(linkVerticalData)
+                .join("path")
+                .attr("d", drawVerticalLink)
+                .attr("fill", "none")
+                .attr("stroke", "black");
             </code>
           </pre>
 
@@ -363,7 +376,29 @@
           <p class="mt-2 mb-1 fs-6">程式碼</p>
           <pre>
             <code class="language-js line-numbers remove-initial-line-feed">
+              //html
+              &lt;svg id=&quot;linkHorizontalWrapper&quot;&gt;&lt;/svg&gt;
+
               //JS
+              const linkHorizontalData = [
+                { source: [100, 100], target: [300, 25] },
+                { source: [100, 100], target: [300, 100] },
+                { source: [100, 100], target: [300, 175] },
+              ];
+
+              const drawHorizontalLink = d3
+                .linkHorizontal()
+                .source((d) => d.source)
+                .target((d) => d.target);
+
+              // 繪製links
+              d3.select("#linkHorizontalWrapper")
+                .selectAll("path")
+                .data(linkHorizontalData)
+                .join("path")
+                .attr("d", drawHorizontalLink)
+                .attr("fill", "none")
+                .attr("stroke", "black");
             </code>
           </pre>
         </div>
@@ -381,25 +416,69 @@
           <p class="mt-2 mb-1 fs-6">程式碼</p>
           <pre>
             <code class="language-js line-numbers remove-initial-line-feed">
+              //html 
+              &lt;svg id=&quot;arcWrapper&quot;&gt;&lt;/svg&gt;
+              
               //JS
+              const drawArc = d3.arc()
+                                .innerRadius(90) // 內圈範圍40
+                                .outerRadius(95) // 內圈範圍50
+                                .startAngle(Math.PI * 1.2)
+                                .endAngle(Math.PI * 2.8);
+
+              d3.select("#arcWrapper")
+                .append("g")
+                  // 把整個圓弧移動到 100,100 的位置
+                .attr("transform", "translate(250,100)") 
+                .append("path")
+                .attr("d", drawArc())
+                .attr("stroke", "blue")
+                .attr("fill", "blue");
             </code>
           </pre>
         </div>
 
         <!-- d3.symbol( ) -->
         <div>
-          <h5 class="mt-4"><mark>d3.symbol( )</mark></h5>
+          <h5 class="my-4"><mark>d3.symbol([type][, size])</mark></h5>
           <svg
             id="symbolWrapper"
-            width="500"
-            height="200"
+            width="200"
+            height="100"
             style="border: 1px solid rgb(96, 96, 96)"
           ></svg>
 
           <p class="mt-2 mb-1 fs-6">程式碼</p>
           <pre>
             <code class="language-js line-numbers remove-initial-line-feed">
+              // html
+              &lt;svg
+                id=&quot;symbolWrapper&quot;
+                width=&quot;200&quot;
+                height=&quot;100&quot;
+                style=&quot;border: 1px solid rgb(96, 96, 96)&quot;
+              &gt;&lt;/svg&gt;
+
               //JS
+              const symbolDiamond = d3.symbol().type(d3.symbolDiamond).size(200);
+              const symbolCross = d3.symbol().type(d3.symbolCross).size(200);
+              const symbolStar = d3.symbol().type(d3.symbolStar).size(200);
+
+              const symbolWrapper = d3.select("#symbolWrapper");
+              symbolWrapper
+                .append("path")
+                .attr("d", symbolDiamond)
+                .attr("transform", "translate(30,30)");
+
+              symbolWrapper
+                .append("path")
+                .attr("d", symbolCross)
+                .attr("transform", "translate(60,30)");
+
+              symbolWrapper
+                .append("path")
+                .attr("d", symbolStar)
+                .attr("transform", "translate(90,30)");
             </code>
           </pre>
         </div>
@@ -654,6 +733,27 @@
         .attr("d", drawArc())
         .attr("stroke", "blue")
         .attr("fill", "blue");
+
+      // symbol https://github.com/d3/d3-shape/blob/v3.2.0/README.md#symbol
+      const symbolDiamond = d3.symbol().type(d3.symbolDiamond).size(200);
+      const symbolCross = d3.symbol().type(d3.symbolCross).size(200);
+      const symbolStar = d3.symbol().type(d3.symbolStar).size(200);
+
+      const symbolWrapper = d3.select("#symbolWrapper");
+      symbolWrapper
+        .append("path")
+        .attr("d", symbolDiamond)
+        .attr("transform", "translate(30,30)");
+
+      symbolWrapper
+        .append("path")
+        .attr("d", symbolCross)
+        .attr("transform", "translate(60,30)");
+
+      symbolWrapper
+        .append("path")
+        .attr("d", symbolStar)
+        .attr("transform", "translate(90,30)");
     </script>
   </body>
 </html>

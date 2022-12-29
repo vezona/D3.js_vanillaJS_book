@@ -33,48 +33,57 @@
       <div>
         <div>
           <h5 class="mt-4"><mark>d3.stack( )</mark></h5>
-          <div></div>
+          <svg
+            class="mt-4 stack"
+            style="border: 1px solid rgb(96, 96, 96)"
+          ></svg>
 
           <p class="mt-2 mb-1 fs-6">程式碼</p>
           <pre>
             <code class="language-js line-numbers remove-initial-line-feed">
+              // html
+              &lt;svg class=&quot;stack&quot;&gt;&lt;/svg&gt;
               //JS
-            </code>
-          </pre>
-        </div>
+              const dataStack = [
+                { month: new Date(2023, 0, 1), China: 132, America: 120, Taiwan: 30 },
+                { month: new Date(2023, 1, 1), China: 70, America: 127, Taiwan: 98 },
+                { month: new Date(2023, 2, 1), China: 130, America: 33, Taiwan: 118 },
+                { month: new Date(2023, 3, 1), China: 60, America: 90, Taiwan: 60 },
+              ];
 
-        <div>
-          <h5 class="mt-4"><mark>d3.pie( )</mark></h5>
-          <div></div>
+              // 設定資料的keys
+              const stackGenerator = d3.stack().keys(["China", "America", "Taiwan"]);
+              // 把資料帶入stack方法
+              const stackedSeries = stackGenerator(dataStack);
+              console.log("stack", stackedSeries);
 
-          <p class="mt-2 mb-1 fs-6">程式碼</p>
-          <pre>
-            <code class="language-js line-numbers remove-initial-line-feed">
-              //JS
-            </code>
-          </pre>
-        </div>
+              // 設定顏色
+              const colorScale = d3
+                .scaleOrdinal()
+                .domain(["China", "America", "Taiwan"])
+                .range(["red", "blue", "orange"]);
 
-        <div>
-          <h5 class="mt-4"><mark>d3.hierarchy( )</mark></h5>
-          <div></div>
+              // 建立集合元素g、設定顏色
+              const g = d3
+                .select(".stack")
+                .attr("width", 300)
+                .selectAll("g")
+                .data(stackedSeries)
+                .enter()
+                .append("g")
+                .attr("fill", (d) => colorScale(d.key));
 
-          <p class="mt-2 mb-1 fs-6">程式碼</p>
-          <pre>
-            <code class="language-js line-numbers remove-initial-line-feed">
-              //JS
-            </code>
-          </pre>
-        </div>
-
-        <div>
-          <h5 class="mt-4"><mark>d3.chords( )</mark></h5>
-          <div></div>
-
-          <p class="mt-2 mb-1 fs-6">程式碼</p>
-          <pre>
-            <code class="language-js line-numbers remove-initial-line-feed">
-              //JS
+              // 繪製長條圖
+              g.selectAll("rect")
+                .data((d) => d)
+                .join("rect")
+                // 長度為終點值減起始值
+                .attr("width", (d) => d[1] - d[0])
+                // x 座標設定為起始值
+                .attr("x", (d) => d[0])
+                // y 座標用 index 來處理，乘上每條長條圖想拉開的距離
+                .attr("y", (d, i) => i * 35)
+                .attr("height", 20);
             </code>
           </pre>
         </div>
@@ -88,6 +97,48 @@
     ></script>
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script></script>
+    <script>
+      // stack ==============
+      const dataStack = [
+        { month: new Date(2023, 0, 1), China: 132, America: 120, Taiwan: 30 },
+        { month: new Date(2023, 1, 1), China: 70, America: 127, Taiwan: 98 },
+        { month: new Date(2023, 2, 1), China: 130, America: 33, Taiwan: 118 },
+        { month: new Date(2023, 3, 1), China: 60, America: 90, Taiwan: 60 },
+      ];
+
+      // 設定資料的keys
+      const stackGenerator = d3.stack().keys(["China", "America", "Taiwan"]);
+      // 把資料帶入stack方法
+      const stackedSeries = stackGenerator(dataStack);
+      console.log("stack", stackedSeries);
+
+      // 設定顏色
+      const colorScale = d3
+        .scaleOrdinal()
+        .domain(["China", "America", "Taiwan"])
+        .range(["red", "blue", "orange"]);
+
+      // 建立集合元素g、設定顏色
+      const g = d3
+        .select(".stack")
+        .attr("width", 300)
+        .selectAll("g")
+        .data(stackedSeries)
+        .enter()
+        .append("g")
+        .attr("fill", (d) => colorScale(d.key));
+
+      // 繪製長條圖
+      g.selectAll("rect")
+        .data((d) => d)
+        .join("rect")
+        // 長度為終點值減起始值
+        .attr("width", (d) => d[1] - d[0])
+        // x 座標設定為起始值
+        .attr("x", (d) => d[0])
+        // y 座標用 index 來處理，乘上每條長條圖想拉開的距離
+        .attr("y", (d, i) => i * 35)
+        .attr("height", 20);
+    </script>
   </body>
 </html>
