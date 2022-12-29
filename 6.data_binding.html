@@ -670,6 +670,47 @@
             </code>
           </pre>
         </div>
+
+        <!-- selection.on -->
+        <div class="mt-5">
+          <h5><mark>selection.on()</mark></h5>
+          <div class="my-3 selectionOn">HiHi</div>
+          <pre class="border">
+            <code class="language-js line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+              //html 
+              &lt;div class=&quot;selectionOn&quot;&gt;HiHi&lt;/div&gt;
+              
+              //JS
+              const textToRed = (e) => {
+                e.target.classList.add("fw-bold");
+                e.target.style.color = "red";
+              };
+              d3.select(".selectionOn").on("click", textToRed);
+            </code>
+          </pre>
+        </div>
+
+        <!-- selection.call -->
+        <div class="mt-5">
+          <h5><mark>selection.call()</mark></h5>
+          <div class="my-3">
+            金金永遠 <span class="fw-bold selectionCall"></span> 歲
+          </div>
+          <pre class="border">
+            <code class="language-js line-numbers remove-initial-line-feed" data-prismjs-copy="複製程式碼">
+              //html 
+              &lt;div&gt;
+                金金永遠 &lt;span class=&quot;fw-bold selectionCall&quot;&gt;&lt;/span&gt; 歲
+              &lt;/div&gt;
+              
+              //JS
+              const setAge = (selection, age) => {
+                selection.text(age);
+              };
+              d3.select(".selectionCall").call(setAge, "19");
+            </code>
+          </pre>
+        </div>
       </div>
     </div>
 
@@ -877,6 +918,19 @@
             (exit) => exit.remove()
           );
       };
+
+      // selection.on
+      const textToRed = (e) => {
+        e.target.classList.add("fw-bold");
+        e.target.style.color = "red";
+      };
+      d3.select(".selectionOn").on("click", textToRed);
+
+      // selection.call
+      const setAge = (selection, age) => {
+        selection.text(age);
+      };
+      d3.select(".selectionCall").call(setAge, "19");
     </script>
   </body>
 </html>

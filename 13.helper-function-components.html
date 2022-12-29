@@ -35,13 +35,39 @@
 
       <div>
         <div>
-          <h5 class="mt-4"><mark>axis 軸線</mark></h5>
-          <div></div>
+          <h5 class="my-4"><mark>axis 軸線</mark></h5>
+          <svg style="border: 1px solid rgb(96, 96, 96)" class="axis"></svg>
 
           <p class="mt-2 mb-1 fs-6">程式碼</p>
           <pre>
             <code class="language-js line-numbers remove-initial-line-feed">
               //JS
+              const data = [
+              { x: 10, y: 100 },
+              { x: 20, y: 100 },
+              { x: 30, y: 100 },
+              { x: 90, y: 20 },
+              { x: 220, y: 10 },
+            ];
+      
+            // 抓出 x 軸要使用的資料
+            const xData = data.map((i) => i.x);
+      
+            // 設定X軸的比例尺與繪製範圍
+            const xScale = d3
+              .scaleLinear()
+              .domain([0, d3.max(xData)])
+              .range([10, 290]);
+      
+            //使用xScale的設定，繪製刻度(ticks)朝下的軸線
+            const xAxis = d3.axisBottom(xScale);
+      
+            // 繪製軸線
+            d3.select(".axis")
+              .append("g")
+              .call(xAxis)
+                // 調整X軸位置
+              .attr("transform", "translate(0,130)"); 
             </code>
           </pre>
         </div>
@@ -55,6 +81,32 @@
     ></script>
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script></script>
+    <script>
+      const data = [
+        { x: 10, y: 100 },
+        { x: 20, y: 100 },
+        { x: 30, y: 100 },
+        { x: 90, y: 20 },
+        { x: 220, y: 10 },
+      ];
+
+      // 抓出 x 軸要使用的資料
+      const xData = data.map((i) => i.x);
+
+      // 設定X軸的比例尺與繪製範圍
+      const xScale = d3
+        .scaleLinear()
+        .domain([0, d3.max(xData)])
+        .range([10, 290]);
+
+      //使用xScale的設定，繪製刻度(ticks)朝下的軸線
+      const xAxis = d3.axisBottom(xScale);
+
+      // 繪製軸線
+      d3.select(".axis")
+        .append("g")
+        .call(xAxis) // https://github.com/d3/d3-selection/blob/v3.0.0/README.md#selection_call
+        .attr("transform", "translate(0,130)"); // 調整X軸位置
+    </script>
   </body>
 </html>
