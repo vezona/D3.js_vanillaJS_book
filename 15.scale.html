@@ -30,12 +30,100 @@
       <h3 class="mt-6 fw-bold">比例尺 Scales</h3>
 
       <div>
-        <h5 class="mt-4"><mark>d3.scale( )</mark></h5>
+        <h5 class="mt-4"><mark>輸入域與輸出域 Domain ＆ Range </mark></h5>
+        <ul class="mt-3">
+          <li class="my-2">
+            <span class="text-danger mr-3 fw-bold">輸入域 Domain</span>
+            是在進行比例尺換算前，資料的整個數值範圍
+          </li>
+          <li class="my-2">
+            <span class="text-danger mr-3 fw-bold">輸出域 Range</span>
+            則是進行比例尺換算後，得到換算之後的資料數值範圍
+          </li>
+        </ul>
+        <div>
+          <img src="./img/domain-range.jpg" class="w-70" />
+        </div>
+
+        <pre>
+            <code class="language-js line-numbers remove-initial-line-feed">
+              // 輸入與輸出比例換算範例
+              const convert = d3.scaleLinear().domain([0, 100]).range([0, 10]);
+  
+              console.log(convert(50)); // 5，換算輸出比例完成
+            </code>
+          </pre>
+      </div>
+
+      <div>
+        <h5 class="mt-5"><mark>連續性與離散性 continuous & discrete </mark></h5>
+        <ul class="mt-3">
+          <li class="my-2">
+            <span class="text-danger mr-3 fw-bold">連續性 continuous</span>
+            指的是資料之間具備關聯的特性，可以用某些運算方式找出彼此的關聯，這類資料通常為數字、日期等等
+          </li>
+          <li class="my-2">
+            <span class="text-danger mr-3 fw-bold">離散性 discrete</span>
+            指的是則是資料之間並沒有任何關聯，無法用任何運算方式找出彼此的關聯，這類資料通常為字串
+          </li>
+        </ul>
+        <p>將連續性或離散性搭配輸入域與輸出域的概念，就可以得出四種結果</p>
+        <ul>
+          <li class="my-2">
+            <span class="text-danger mr-3 fw-bold">continuous input</span>
+            輸入的資料是連續性資料
+          </li>
+          <li class="my-2">
+            <span class="text-danger mr-3 fw-bold">continuous output</span>
+            輸出的資料是連續性資料
+          </li>
+          <li class="my-2">
+            <span class="text-danger mr-3 fw-bold">discrete input</span>
+            輸入的資料是離散性資料
+          </li>
+          <li class="my-2">
+            <span class="text-danger mr-3 fw-bold">discrete output</span>
+            輸出的資料是離散性資料
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h5 class="mt-5"><mark>D3.js Scale 比例尺分類</mark></h5>
+        <p class="mt-4">D3 的官方文件將比例尺分成五種：</p>
+        <ul class="mt-1">
+          <li class="my-2">Continuous Scale 連續性比例尺</li>
+          <li class="my-2">Sequential Scale 序列比例尺</li>
+          <li class="my-2">Diverging Scale 發散比例尺</li>
+          <li class="my-2">Quantize Scale 量化比例尺</li>
+          <li class="my-2">Ordinal Scale 次序/序位比例尺</li>
+        </ul>
+        <p>但若按照輸入與輸出的資料來分類，這五類比例尺又可以被歸納為三大類</p>
+        <li class="my-2">
+          「連續性資料輸入」與「連續性資料輸出」的比例尺
+          <p class="ms-4">
+            ex:Continuous Scale、Sequential Scale、Diverging Scale
+          </p>
+        </li>
+        <li class="my-2">
+          「連續性資料輸入」與「離散性資料輸出」的比例尺
+          <p class="ms-4">ex:Quantize Scale</p>
+        </li>
+        <li class="my-2">
+          「離散性資料輸出」與「離散性資料輸出」的比例尺
+          <p class="ms-4">ex:Ordinal Scale</p>
+        </li>
+      </div>
+      <div>
         <svg class="mt-4 stack" style="border: 1px solid rgb(96, 96, 96)"></svg>
 
         <p class="mt-2 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
+            // 輸入與輸出比例換算範例
+            const convert = d3.scaleLinear().domain([0, 100]).range([0, 10]);
+
+            console.log(convert(50)); // 5，換算輸出比例完成
           </code>
         </pre>
       </div>
@@ -47,6 +135,11 @@
     ></script>
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script></script>
+    <script>
+      // 輸入與輸出比例換算範例
+      const convert = d3.scaleLinear().domain([0, 100]).range([0, 10]);
+
+      console.log(convert(50)); // 5，換算輸出比例完成
+    </script>
   </body>
 </html>
