@@ -32,6 +32,15 @@ pre.language-js.line-numbers {
 .h-50vh{
     height: 50vh;
 }
+
+.w-70{
+    width: 70%;
+}
+
+.w-80{
+    width: 80%;
+}
+
 .top-20{
     top:20%
 }
