@@ -13,6 +13,11 @@
     />
     <link rel="stylesheet" href="./extension/prism.css" />
     <link rel="stylesheet" href="./css/utils.css" />
+    <style>
+      .basicLineChart {
+        width: 80%;
+      }
+    </style>
   </head>
   <body>
     <nav class="bg-orange navbar">
@@ -28,7 +33,13 @@
 
     <div class="container">
       <h3 class="mt-6 fw-bold">折線圖 line chart</h3>
+
+      <div>
+        <h5>基本折線圖</h5>
+        <div class="basicLineChart"></div>
+      </div>
     </div>
+    <!-- 套件 -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
@@ -36,6 +47,127 @@
     ></script>
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/dayjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/locale/zh-tw.min.js"></script>
+    <script>
+      // https://pip.moi.gov.tw/V3/E/SCRE0301.aspx
+      // Big5 轉UTF8 https://data.gov.tw/faqs/79203
+
+      let data;
+      const getData = async () => {
+        // Excel 開啟 CSV 檔案時，預設用 Big5 編碼，如果遇到不是 Big5 編碼的 CSV 檔案，就會出現亂碼
+        const res = await d3.csv("./data/100年-113年房價統計資訊整合結果.csv");
+        data = res.map((i) => {
+          i["時間"] = TWDateToADDate(i["時間"]);
+          return i;
+        });
+        drawLineChart();
+      };
+
+      // 中華年份改西元
+      const TWDateToADDate = (date) => {
+        // 年份轉換
+        date = date.replace(/\d{3}/, (match) => String(+match + 1911));
+
+        // 季度換為每季第一天
+        const seasonDates = {
+          Q1: "-01-01",
+          Q2: "-04-01",
+          Q3: "-07-01",
+          Q4: "-10-01",
+        };
+
+        const season = date.match(/Q\d/)[0];
+        date = date.replace(season, seasonDates[season]);
+        return new Date(date);
+      };
+
+      const drawLineChart = async () => {
+        // 刪除原本的svg.charts，重新渲染改變寬度的svg
+        d3.select(".basicLineChart svg").remove();
+
+        // 設定 RWD svg 寬高
+        const rwdSvgWidth = parseInt(
+            d3.select(".basicLineChart").style("width")
+          ),
+          rwdSvgHeight = rwdSvgWidth < 800 ? rwdSvgWidth * 0.6 : 400,
+          margin = 70,
+          bandWidth = 20;
+
+        const svg = d3
+          .select(".basicLineChart")
+          .append("svg")
+          .attr("width", rwdSvgWidth)
+          .attr("height", rwdSvgHeight)
+          .style("border", "1px solid rgb(96, 96, 96)");
+
+        console.log("data", data);
+        // map 資料集
+        const xData = data.map((i) => i["時間"]);
+        const yData = data.map((i) => +i["買賣契約價格平均總價(不分建物類別)"]);
+
+        // 設定要給 X 軸用的 scale 跟 axis
+        const xScale = d3
+          .scaleTime()
+          .domain(d3.extent(xData))
+          .range([margin / 2, rwdSvgWidth - margin / 3]); // 長度、高度
+
+        // rwd X軸的刻度
+        // let tickNumber = window.innerWidth > 900 ? xData.length / 2 : 8;
+        const xAxis = d3
+          .axisBottom(xScale)
+          // .ticks(tickNumber)
+          .tickFormat((d) => {
+            return dayjs(d).format("YYYY/MM/DD");
+          });
+
+        // 呼叫繪製x軸、調整x軸位置
+        const xAxisGroup = svg
+          .append("g")
+          .call(xAxis)
+          .attr("transform", `translate(0,${rwdSvgHeight - margin})`);
+
+        // X軸刻度位置調整 https://observablehq.com/@d3/styled-axes
+        xAxisGroup.call((g) =>
+          g
+            .selectAll(".tick text")
+            .style("transform", "rotate(-48deg)")
+            .attr("x", -30)
+            .attr("y", 10)
+        );
+
+        // 設定要給 Y 軸用的 scale 跟 axis
+        const yScale = d3
+          .scaleLinear()
+          .domain([0, d3.max(yData)])
+          .range([rwdSvgHeight - margin, margin / 3]); // 數值要顛倒，才會從低往高排
+
+        const yAxis = d3.axisLeft(yScale).ticks(5);
+
+        // 呼叫繪製y軸、調整y軸位置
+        const yAxisGroup = svg
+          .append("g")
+          .call(yAxis)
+          .attr("transform", `translate(${margin / 2},0)`);
+
+        // 設定 path 的 d
+        const lineChart = d3
+          .line()
+          .x((d) => xScale(d["時間"]))
+          .y((d) => yScale(+d["買賣契約價格平均總價(不分建物類別)"]));
+
+        // 建立折線圖
+        svg
+          .append("path")
+          .data(data)
+          .attr("d", lineChart(data))
+          .attr("fill", "none")
+          .attr("stroke", "steelblue")
+          .attr("stroke-width", 1.5);
+      };
+
+      getData();
+      d3.select(window).on("resize", drawLineChart);
+    </script>
   </body>
 </html>
