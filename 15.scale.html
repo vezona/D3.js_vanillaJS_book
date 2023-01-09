@@ -90,42 +90,120 @@
 
       <div>
         <h5 class="mt-5"><mark>D3.js Scale 比例尺分類</mark></h5>
-        <p class="mt-4">D3 的官方文件將比例尺分成五種：</p>
-        <ul class="mt-1">
-          <li class="my-2">Continuous Scale 連續性比例尺</li>
-          <li class="my-2">Sequential Scale 序列比例尺</li>
-          <li class="my-2">Diverging Scale 發散比例尺</li>
-          <li class="my-2">Quantize Scale 量化比例尺</li>
-          <li class="my-2">Ordinal Scale 次序/序位比例尺</li>
-        </ul>
         <p>但若按照輸入與輸出的資料來分類，這五類比例尺又可以被歸納為三大類</p>
-        <li class="my-2">
-          「連續性資料輸入」與「連續性資料輸出」的比例尺
-          <p class="ms-4">
-            ex:Continuous Scale、Sequential Scale、Diverging Scale
+
+        <div class="my-2">
+          <p class="fw-bold">
+            <mark class="bg-lightOrange">
+              「連續性資料輸入」與「連續性資料輸出」的比例尺
+            </mark>
           </p>
-        </li>
-        <li class="my-2">
-          「連續性資料輸入」與「離散性資料輸出」的比例尺
-          <p class="ms-4">ex:Quantize Scale</p>
-        </li>
-        <li class="my-2">
-          「離散性資料輸出」與「離散性資料輸出」的比例尺
-          <p class="ms-4">ex:Ordinal Scale</p>
-        </li>
-      </div>
-      <div>
-        <svg class="mt-4 stack" style="border: 1px solid rgb(96, 96, 96)"></svg>
+          <ul>
+            <li>
+              <p>連續性比例尺 Continuous Scale</p>
 
-        <p class="mt-2 mb-1 fs-6">程式碼</p>
-        <pre>
-          <code class="language-js line-numbers remove-initial-line-feed">
-            // 輸入與輸出比例換算範例
-            const convert = d3.scaleLinear().domain([0, 100]).range([0, 10]);
+              <!-- scaleLinear -->
+              <div>
+                <p class="text-danger fw-bold">d3.scaleLinear</p>
+                <svg style="border: 1px solid rgb(96, 96, 96)"></svg>
 
-            console.log(convert(50)); // 5，換算輸出比例完成
-          </code>
-        </pre>
+                <p class="mt-2 mb-1 fs-6">程式碼</p>
+                <pre>
+                  <code class="language-js line-numbers remove-initial-line-feed">
+                    // JS
+                  </code>
+                </pre>
+              </div>
+
+              <!-- d3.scaleTime -->
+              <div>
+                <p class="mt-4 text-danger fw-bold">d3.scaleTime</p>
+                <svg style="border: 1px solid rgb(96, 96, 96)"></svg>
+
+                <p class="mt-2 mb-1 fs-6">程式碼</p>
+                <pre>
+                  <code class="language-js line-numbers remove-initial-line-feed">
+                    // JS
+                  </code>
+                </pre>
+              </div>
+            </li>
+            <li class="mt-4">序列比例尺 Sequential Scale</li>
+            <li class="mt-4">發散比例尺 Diverging Scale</li>
+          </ul>
+        </div>
+        <div class="my-5">
+          <p class="fw-bold">
+            <mark class="bg-lightOrange">
+              「連續性資料輸入」與「離散性資料輸出」的比例尺
+            </mark>
+          </p>
+          <ul>
+            <li>
+              <p>量化比例尺 Quantize Scale</p>
+              <p class="text-danger fw-bold">d3.scaleQuantize</p>
+              <svg style="border: 1px solid rgb(96, 96, 96)"></svg>
+
+              <p class="mt-2 mb-1 fs-6">程式碼</p>
+              <pre>
+                  <code class="language-js line-numbers remove-initial-line-feed">
+                    // JS
+                  </code>
+                </pre>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="fw-bold">
+            <mark class="bg-lightOrange">
+              「離散性資料輸出」與「離散性資料輸出」的比例尺
+            </mark>
+          </p>
+          <ul>
+            <li>
+              <p>次序/序位比例尺 Ordinal Scale</p>
+              <!-- d3.scaleOrdinal -->
+              <div>
+                <p class="mt-4 text-danger fw-bold">d3.scaleOrdinal</p>
+                <svg style="border: 1px solid rgb(96, 96, 96)"></svg>
+
+                <p class="mt-2 mb-1 fs-6">程式碼</p>
+                <pre>
+                  <code class="language-js line-numbers remove-initial-line-feed">
+                    // JS
+                  </code>
+                </pre>
+              </div>
+
+              <!-- d3.scaleBand -->
+              <div>
+                <p class="mt-4 text-danger fw-bold">d3.scaleBand</p>
+                <svg style="border: 1px solid rgb(96, 96, 96)"></svg>
+
+                <p class="mt-2 mb-1 fs-6">程式碼</p>
+                <pre>
+                  <code class="language-js line-numbers remove-initial-line-feed">
+                    // JS
+                  </code>
+                </pre>
+              </div>
+
+              <!-- d3.scalePoint -->
+              <div>
+                <p class="mt-4 text-danger fw-bold">d3.scalePoint</p>
+                <svg style="border: 1px solid rgb(96, 96, 96)"></svg>
+
+                <p class="mt-2 mb-1 fs-6">程式碼</p>
+                <pre>
+                  <code class="language-js line-numbers remove-initial-line-feed">
+                    // JS
+                  </code>
+                </pre>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
     <script

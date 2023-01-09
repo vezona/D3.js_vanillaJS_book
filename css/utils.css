@@ -23,6 +23,10 @@ pre.language-js.line-numbers {
     background-color: white;
 }
 
+.bg-lightOrange{
+    background-color: #fcf1e3;
+}
+
 .h-100vh{
     height: 100vh;
 }

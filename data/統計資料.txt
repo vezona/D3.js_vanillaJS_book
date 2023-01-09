@@ -1,0 +1,30 @@
+能源統計專區 (油價)
+https://www.esist.org.tw/publication/page2_detail?Id=2c40d7868ff7
+油價
+https://www.taiwanstat.com/realtime/oil/
+
+臺北市老人安養、養護機構概況按月別
+https://data.taipei/dataset/detail?id=af257faf-9ee6-4ca7-9631-4e4cb7d4e2fd
+
+台灣即時用電資訊
+https://www.taipower.com.tw/tc/pageList.aspx 台電
+https://www.taiwanstat.com/realtime/power/ 數據看台灣
+
+台灣水庫即時水情
+http://www.wra.gov.tw/
+https://water.taiwanstat.com/
+
+農產品交易行情
+https://amis.afa.gov.tw/main/Main.aspx
+https://amis.afa.gov.tw/veg/VegProdDayTransInfo.aspx
+
+各縣市公益彩券銷售情形
+
+資料開放平台活化應用
+https://data.gov.tw/applications?p=2&s=created.date_desc
+
+中央政府財政收支狀況
+https://data.gov.tw/dataset/6940
+
+全國電腦使用率
+https://data.gov.tw/dataset/151161
