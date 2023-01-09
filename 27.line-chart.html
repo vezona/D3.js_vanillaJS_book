@@ -158,7 +158,7 @@
           .range([rwdSvgHeight - margin, margin / 3]) // 數值要顛倒，才會從低往高排
           .nice();
 
-        const yAxis = d3.axisLeft(yScale).ticks(5);
+        const yAxis = d3.axisLeft(yScale);
 
         // 呼叫繪製y軸、調整y軸位置
         const yAxisGroup = svg
