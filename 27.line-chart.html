@@ -56,7 +56,7 @@
       let data;
       const getData = async () => {
         // Excel 開啟 CSV 檔案時，預設用 Big5 編碼，如果遇到不是 Big5 編碼的 CSV 檔案，就會出現亂碼
-        const res = await d3.csv("./data/100年-113年房價統計資訊整合結果.csv");
+        const res = await d3.csv("./data/U96年-113年房價統計資訊整合結果.csv");
         data = res.map((i) => {
           i["時間"] = TWDateToADDate(i["時間"]);
           return i;
@@ -98,25 +98,40 @@
           .select(".basicLineChart")
           .append("svg")
           .attr("width", rwdSvgWidth)
-          .attr("height", rwdSvgHeight)
-          .style("border", "1px solid rgb(96, 96, 96)");
+          .attr("height", rwdSvgHeight);
+        // .style("border", "1px solid rgb(96, 96, 96)");
 
-        console.log("data", data);
         // map 資料集
         const xData = data.map((i) => i["時間"]);
         const yData = data.map((i) => +i["買賣契約價格平均總價(不分建物類別)"]);
 
+        // =========Band Scale
+        // ticks() function is not working with scalepoint() function
+        // https://github.com/d3/d3-scale/issues/182
+        // 改用 tickValue
+        // const xScale = d3
+        //   .scalePoint()
+        //   .domain(xData.reverse())
+        //   .range([margin / 2, rwdSvgWidth - margin / 3]); // 長度、高度
+
+        //   const xAxis = d3
+        //   .axisBottom(xScale)
+        //   .tickFormat((d) => d)
+        //   .tickValues(xScale.domain().filter((d, i) => d.match(/\Q1/)));
+
+        // =========Time Scale
         // 設定要給 X 軸用的 scale 跟 axis
         const xScale = d3
           .scaleTime()
           .domain(d3.extent(xData))
-          .range([margin / 2, rwdSvgWidth - margin / 3]); // 長度、高度
+          .range([margin / 2, rwdSvgWidth - margin / 3]) // 長度、高度
+          .nice();
 
         // rwd X軸的刻度
-        // let tickNumber = window.innerWidth > 900 ? xData.length / 2 : 8;
+        let tickNumber = window.innerWidth > 900 ? xData.length / 3 : 10;
         const xAxis = d3
           .axisBottom(xScale)
-          // .ticks(tickNumber)
+          .ticks(tickNumber)
           .tickFormat((d) => {
             return dayjs(d).format("YYYY/MM/DD");
           });
@@ -139,8 +154,9 @@
         // 設定要給 Y 軸用的 scale 跟 axis
         const yScale = d3
           .scaleLinear()
-          .domain([0, d3.max(yData)])
-          .range([rwdSvgHeight - margin, margin / 3]); // 數值要顛倒，才會從低往高排
+          .domain(d3.extent(yData)) //[0, d3.max(yData)]
+          .range([rwdSvgHeight - margin, margin / 3]) // 數值要顛倒，才會從低往高排
+          .nice();
 
         const yAxis = d3.axisLeft(yScale).ticks(5);
 
