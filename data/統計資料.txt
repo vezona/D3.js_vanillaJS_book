@@ -28,3 +28,7 @@ https://data.gov.tw/dataset/6940
 
 全國電腦使用率
 https://data.gov.tw/dataset/151161
+
+黃金價格
+https://rate.bot.com.tw/gold?Lang=zh-TW
+https://www.truney.com/gold-chart
