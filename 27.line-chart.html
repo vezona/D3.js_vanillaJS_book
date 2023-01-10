@@ -43,7 +43,11 @@
 
       <div>
         <h5>基本折線圖</h5>
-        <div class="basicLineChart"></div>
+        <div class="basicLineChart">
+          <p class="mt-4 text-center mb-0 fw-bold">
+            2006-2024 台灣房屋成交價格
+          </p>
+        </div>
       </div>
     </div>
     <!-- 套件 -->
@@ -98,13 +102,16 @@
             d3.select(".basicLineChart").style("width")
           ),
           rwdSvgHeight = rwdSvgWidth < 600 ? 300 : 400,
-          margin = 70,
+          marginTop = 20,
+          marginBottom = 70,
+          marginRight = 20,
+          marginLeft = 40,
           bandWidth = 20;
 
         const svg = d3
           .select(".basicLineChart")
           .append("svg")
-          .attr("width", rwdSvgWidth < 700 ? rwdSvgWidth : 700)
+          .attr("width", rwdSvgWidth)
           .attr("height", rwdSvgHeight);
         // .style("border", "1px solid rgb(96, 96, 96)");
 
@@ -131,7 +138,7 @@
         const xScale = d3
           .scaleTime()
           .domain(d3.extent(xData))
-          .range([margin / 2, rwdSvgWidth - margin / 3]) // 長度、高度
+          .range([marginLeft, rwdSvgWidth - marginRight]) // 長度、高度
           .nice();
 
         // rwd X軸的刻度
@@ -147,7 +154,7 @@
         const xAxisGroup = svg
           .append("g")
           .call(xAxis)
-          .attr("transform", `translate(0,${rwdSvgHeight - margin})`);
+          .attr("transform", `translate(0,${rwdSvgHeight - marginBottom})`);
 
         // X軸刻度位置調整 https://observablehq.com/@d3/styled-axes
         xAxisGroup.call((g) =>
@@ -162,16 +169,16 @@
         const yScale = d3
           .scaleLinear()
           .domain(d3.extent(yData)) //[0, d3.max(yData)]
-          .range([rwdSvgHeight - margin, margin / 3]) // 數值要顛倒，才會從低往高排
+          .range([rwdSvgHeight - marginBottom, marginTop]) // 數值要顛倒，才會從低往高排
           .nice();
 
-        const yAxis = d3.axisLeft(yScale);
+        const yAxis = d3.axisLeft(yScale).tickFormat((d) => `${d}萬`);
 
         // 呼叫繪製y軸、調整y軸位置
         const yAxisGroup = svg
           .append("g")
           .call(yAxis)
-          .attr("transform", `translate(${margin / 2},0)`);
+          .attr("transform", `translate(${marginLeft},0)`);
 
         // 設定 path 的 d
         const lineChart = d3
