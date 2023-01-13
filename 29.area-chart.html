@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>折線圖 line chart</title>
+    <title>區域圖 area chart</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -24,6 +24,10 @@
           width: 80%;
         }
       }
+
+      .chartTitle {
+        max-width: 700px;
+      }
     </style>
   </head>
   <body>
@@ -39,12 +43,12 @@
     </nav>
 
     <div class="container">
-      <h3 class="mt-6 fw-bold">折線圖 line chart</h3>
+      <h3 class="mt-6 fw-bold">區域圖 area chart</h3>
 
       <div>
-        <h5>基本折線圖</h5>
+        <h5>基本區域圖</h5>
         <div class="basicLineChart">
-          <p class="mt-4 text-center mb-0 fw-bold">
+          <p class="mt-4 text-center mb-0 chartTitle fw-bold">
             2006-2024 台灣房屋成交價格
           </p>
         </div>
@@ -98,9 +102,10 @@
         d3.select(".basicLineChart svg").remove();
 
         // 設定 RWD svg 寬高
-        const rwdSvgWidth = parseInt(
+        const containerWidth = parseInt(
             d3.select(".basicLineChart").style("width")
           ),
+          rwdSvgWidth = containerWidth > 600 ? 700 : containerWidth,
           rwdSvgHeight = rwdSvgWidth < 600 ? 300 : 400,
           marginTop = 20,
           marginBottom = 70,
@@ -108,6 +113,7 @@
           marginLeft = 40,
           bandWidth = 20;
 
+        // chart SVG
         const svg = d3
           .select(".basicLineChart")
           .append("svg")
@@ -182,16 +188,17 @@
 
         // 設定 path 的 d
         const lineChart = d3
-          .line()
+          .area()
           .x((d) => xScale(d["時間"]))
-          .y((d) => yScale(+d["買賣契約價格平均總價(不分建物類別)"]));
+          .y1((d) => yScale(+d["買賣契約價格平均總價(不分建物類別)"]))
+          .y0(rwdSvgHeight - marginBottom);
 
         // 建立折線圖
         svg
           .append("path")
           .data(data)
           .attr("d", lineChart(data))
-          .attr("fill", "none")
+          .attr("fill", "rgba(246, 139, 71, 0.2)")
           .attr("stroke", "#f68b47")
           .attr("stroke-width", 1.5);
       };

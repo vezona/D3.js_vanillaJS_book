@@ -24,6 +24,10 @@
           width: 80%;
         }
       }
+
+      .chartTitle {
+        max-width: 700px;
+      }
     </style>
   </head>
   <body>
@@ -44,7 +48,7 @@
       <div>
         <h5>基本折線圖</h5>
         <div class="basicLineChart">
-          <p class="mt-4 text-center mb-0 fw-bold">
+          <p class="mt-4 text-center mb-0 chartTitle fw-bold">
             2006-2024 台灣房屋成交價格
           </p>
         </div>
@@ -98,9 +102,10 @@
         d3.select(".basicLineChart svg").remove();
 
         // 設定 RWD svg 寬高
-        const rwdSvgWidth = parseInt(
+        const containerWidth = parseInt(
             d3.select(".basicLineChart").style("width")
           ),
+          rwdSvgWidth = containerWidth > 600 ? 700 : containerWidth,
           rwdSvgHeight = rwdSvgWidth < 600 ? 300 : 400,
           marginTop = 20,
           marginBottom = 70,
@@ -108,6 +113,7 @@
           marginLeft = 40,
           bandWidth = 20;
 
+        // chart SVG
         const svg = d3
           .select(".basicLineChart")
           .append("svg")

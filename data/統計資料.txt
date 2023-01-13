@@ -15,6 +15,7 @@ http://www.wra.gov.tw/
 https://water.taiwanstat.com/
 
 農產品交易行情
+https://data.gov.tw/dataset/8066
 https://amis.afa.gov.tw/main/Main.aspx
 https://amis.afa.gov.tw/veg/VegProdDayTransInfo.aspx
 
@@ -32,3 +33,9 @@ https://data.gov.tw/dataset/151161
 黃金價格
 https://rate.bot.com.tw/gold?Lang=zh-TW
 https://www.truney.com/gold-chart
+
+文化資料開放網
+https://opendata.culture.tw/
+
+台灣公民該知道的 25 個開放資料庫
+https://ithelp.ithome.com.tw/users/20103852/ironman/5889
