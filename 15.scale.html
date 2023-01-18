@@ -13,6 +13,21 @@
     />
     <link rel="stylesheet" href="./extension/prism.css" />
     <link rel="stylesheet" href="./css/utils.css" />
+    <style>
+    @media (max-width: 767px) {
+      img{
+          width: 100%;
+      }
+    }
+    
+    @media (min-width: 768px) {
+      img{
+          width: 50%;
+      }
+    }
+
+
+    </style>
   </head>
   <body>
     <nav class="bg-orange navbar">
@@ -29,23 +44,22 @@
     <div class="container">
       <h3 class="mt-6 fw-bold">比例尺 Scales</h3>
 
+      <!-- 輸入域與輸出域 -->
       <div>
         <h5 class="mt-4"><mark>輸入域與輸出域 Domain ＆ Range </mark></h5>
         <ul class="mt-3">
           <li class="my-2">
             <span class="text-danger mr-3 fw-bold">輸入域 Domain</span>
-            是在進行比例尺換算前，資料的整個數值範圍
+            ：進行比例尺換算前，原始資料的整個數值範圍
           </li>
           <li class="my-2">
             <span class="text-danger mr-3 fw-bold">輸出域 Range</span>
-            則是進行比例尺換算後，得到換算之後的資料數值範圍
+            ：進行比例尺換算後，換算後的資料數值範圍
           </li>
         </ul>
-        <div>
-          <img src="./img/domain-range.jpg" class="w-70" />
-        </div>
+          <img src="./img/domain-range.jpg"/>
 
-        <pre>
+          <pre>
             <code class="language-js line-numbers remove-initial-line-feed">
               // 輸入與輸出比例換算範例
               const convert = d3.scaleLinear().domain([0, 100]).range([0, 10]);
@@ -53,158 +67,244 @@
               console.log(convert(50)); // 5，換算輸出比例完成
             </code>
           </pre>
-      </div>
-
-      <div>
-        <h5 class="mt-5"><mark>連續性與離散性 continuous & discrete </mark></h5>
-        <ul class="mt-3">
-          <li class="my-2">
-            <span class="text-danger mr-3 fw-bold">連續性 continuous</span>
-            指的是資料之間具備關聯的特性，可以用某些運算方式找出彼此的關聯，這類資料通常為數字、日期等等
-          </li>
-          <li class="my-2">
-            <span class="text-danger mr-3 fw-bold">離散性 discrete</span>
-            指的是則是資料之間並沒有任何關聯，無法用任何運算方式找出彼此的關聯，這類資料通常為字串
-          </li>
-        </ul>
-        <p>將連續性或離散性搭配輸入域與輸出域的概念，就可以得出四種結果</p>
-        <ul>
-          <li class="my-2">
-            <span class="text-danger mr-3 fw-bold">continuous input</span>
-            輸入的資料是連續性資料
-          </li>
-          <li class="my-2">
-            <span class="text-danger mr-3 fw-bold">continuous output</span>
-            輸出的資料是連續性資料
-          </li>
-          <li class="my-2">
-            <span class="text-danger mr-3 fw-bold">discrete input</span>
-            輸入的資料是離散性資料
-          </li>
-          <li class="my-2">
-            <span class="text-danger mr-3 fw-bold">discrete output</span>
-            輸出的資料是離散性資料
-          </li>
-        </ul>
-      </div>
-
-      <div>
-        <h5 class="mt-5"><mark>D3.js Scale 比例尺分類</mark></h5>
-        <p>但若按照輸入與輸出的資料來分類，這五類比例尺又可以被歸納為三大類</p>
-
-        <div class="my-2">
-          <p class="fw-bold">
-            <mark class="bg-lightOrange">
-              「連續性資料輸入」與「連續性資料輸出」的比例尺
-            </mark>
-          </p>
-          <ul>
-            <li>
-              <p>連續性比例尺 Continuous Scale</p>
-
-              <!-- scaleLinear -->
-              <div>
-                <p class="text-danger fw-bold">d3.scaleLinear</p>
-                <svg style="border: 1px solid rgb(96, 96, 96)"></svg>
-
-                <p class="mt-2 mb-1 fs-6">程式碼</p>
-                <pre>
-                  <code class="language-js line-numbers remove-initial-line-feed">
-                    // JS
-                  </code>
-                </pre>
-              </div>
-
-              <!-- d3.scaleTime -->
-              <div>
-                <p class="mt-4 text-danger fw-bold">d3.scaleTime</p>
-                <svg style="border: 1px solid rgb(96, 96, 96)"></svg>
-
-                <p class="mt-2 mb-1 fs-6">程式碼</p>
-                <pre>
-                  <code class="language-js line-numbers remove-initial-line-feed">
-                    // JS
-                  </code>
-                </pre>
-              </div>
-            </li>
-            <li class="mt-4">序列比例尺 Sequential Scale</li>
-            <li class="mt-4">發散比例尺 Diverging Scale</li>
-          </ul>
         </div>
-        <div class="my-5">
-          <p class="fw-bold">
-            <mark class="bg-lightOrange">
-              「連續性資料輸入」與「離散性資料輸出」的比例尺
-            </mark>
-          </p>
-          <ul>
-            <li>
-              <p>量化比例尺 Quantize Scale</p>
-              <p class="text-danger fw-bold">d3.scaleQuantize</p>
-              <svg style="border: 1px solid rgb(96, 96, 96)"></svg>
-
-              <p class="mt-2 mb-1 fs-6">程式碼</p>
-              <pre>
-                  <code class="language-js line-numbers remove-initial-line-feed">
-                    // JS
-                  </code>
-                </pre>
-            </li>
-          </ul>
-        </div>
-
+  
         <div>
-          <p class="fw-bold">
-            <mark class="bg-lightOrange">
-              「離散性資料輸出」與「離散性資料輸出」的比例尺
-            </mark>
-          </p>
-          <ul>
-            <li>
-              <p>次序/序位比例尺 Ordinal Scale</p>
-              <!-- d3.scaleOrdinal -->
-              <div>
-                <p class="mt-4 text-danger fw-bold">d3.scaleOrdinal</p>
-                <svg style="border: 1px solid rgb(96, 96, 96)"></svg>
+          <h5 class="mt-5"><mark>D3.js Scale 比例尺分類</mark></h5>
+          <p>按照輸入域與輸出域的資料來分類，比例尺可以被歸納為三大類</p>
+  
+          <div class="my-2">
+            <p class="fw-bold">
+              <mark class="bg-lightOrange">
+                「連續性資料輸入」與「連續性資料輸出」的比例尺
+              </mark>
+            </p>
+            <ul>
+              <li>
+                <p>連續性比例尺 Continuous Scale</p>
+  
+                <!-- scaleLinear -->
+                <div>
+                  <p class="text-danger fw-bold">d3.scaleLinear</p>
+                  <p class="mt-2 mb-1 fs-6">程式碼</p>
+                  <pre>
+                    <code class="language-js line-numbers remove-initial-line-feed">
+                      // JS
+                      let linearScale = d3.scaleLinear()
+                                          .domain([0, 100])
+                                          .range([0, 50]);
+                
+                      linearScale(0);   // return 0
+                      linearScale(50);   // returns 25
+                      linearScale(100);  // returns 50
+                    </code>
+                  </pre>
 
+                  <pre class="mt-3">
+                    <code  class="language-js line-numbers remove-initial-line-feed">
+                      const colorScale = d3.scaleLinear()
+                                            .domain([0, 10])
+                                            .range(['yellow', 'red']);
+
+                      colorScale(0);   // returns "rgb(255, 255, 0)"
+                      colorScale(5);   // returns "rgb(255, 128, 0)"
+                      colorScale(10);  // returns "rgb(255, 0, 0)"
+                    </code>
+                  </pre>
+                </div>
+  
+                <!-- d3.scaleTime -->
+                <div>
+                  <p class="mt-4 text-danger fw-bold">d3.scaleTime</p>
+                  <p class="mt-2 mb-1 fs-6">程式碼</p>
+                  <pre>
+                    <code class="language-js line-numbers remove-initial-line-feed">
+                      // JS
+                      const timeScale = d3.scaleTime()
+                                      .domain([new Date(2023, 0, 1), new Date(2023, 11, 1)])
+                                      .range([0, 100]);
+
+                      timeScale(new Date(2023, 0, 1));   // returns 0
+                      timeScale(new Date(2023, 6, 1));   // returns 45.209...
+                      timeScale(new Date(2023, 11, 1));   // returns 100
+                    </code>
+                  </pre>
+                </div>
+
+                <!-- continuous.clamp -->
+                <div>
+                  <p class="mt-4 text-primary fw-bold">continuous.clamp</p>
+                  <p class="mt-2 mb-1 fs-6">程式碼</p>
+                  <pre>
+                    <code class="language-js line-numbers remove-initial-line-feed">
+                      // JS
+                      const linearScaleClamp = d3.scaleLinear()
+                                                .domain([0, 10])
+                                                .range([0, 100])
+                                                .clamp(true) // 斬斷鎖鏈～
+
+                      linearScaleClamp(20);  // returns 100
+                      linearScaleClamp(-10); // returns 0
+                    </code>
+                  </pre>
+                </div>
+
+                 <!-- continuous.nice -->
+                 <div>
+                  <p class="mt-4 text-primary fw-bold">continuous.nice</p>
+                  <svg class="xAxis" style="width:500px; height: 100px;"></svg>
+                  <svg class="xAxisNice" style="width:500px; height: 50px;"></svg>
+                  <p class="mt-2 mb-1 fs-6">程式碼</p>
+                  <pre>
+                    <code class="language-js line-numbers remove-initial-line-feed">
+                      // JS
+                      const data = [0.243, 0.584, 0.987, 0.153, 0.433];
+                      const xAxis = d3.scaleLinear()
+                                      .domain(d3.extent(data))
+                                      .range([0, 100])
+                                      .nice();
+                    </code>
+                  </pre>
+                </div>
+
+                 <!-- continuous.invert -->
+                 <div>
+                  <p class="mt-4 text-primary fw-bold">continuous.invert</p>
+                  <p class="mt-2 mb-1 fs-6">程式碼</p>
+                  <pre>
+                    <code class="language-js line-numbers remove-initial-line-feed">
+                      // JS
+                      const linearScale = d3.scaleLinear()
+                                            .domain([0, 10])
+                                            .range([0, 100]);
+
+                      linearScale.invert(50);   // return 5
+                      linearScale.invert(100);  // return 10
+                    </code>
+                  </pre>
+                </div>
+              </li>
+              <li class="mt-4">序列比例尺 Sequential Scale</li>
+              <div>
+                <p class="mt-4 text-danger fw-bold">d3.scaleSequential()</p>
                 <p class="mt-2 mb-1 fs-6">程式碼</p>
                 <pre>
                   <code class="language-js line-numbers remove-initial-line-feed">
                     // JS
+                    const sequentialScale = d3.scaleSequential()
+                                              .domain([0, 100])
+                                              .interpolator(d3.interpolateRainbow);
+                                              
+                    sequentialScale(0);   // return 'rgb(110, 64, 170)'
+                    sequentialScale(50);  // return 'rgb(175, 240, 91)'
+                    sequentialScale(100); // return 'rgb(110, 64, 170)'
                   </code>
                 </pre>
               </div>
-
-              <!-- d3.scaleBand -->
+              <li class="mt-4">發散比例尺 Diverging Scale</li>
               <div>
-                <p class="mt-4 text-danger fw-bold">d3.scaleBand</p>
-                <svg style="border: 1px solid rgb(96, 96, 96)"></svg>
-
+                <p class="mt-4 text-danger fw-bold">d3.scaleDiverging()</p>
                 <p class="mt-2 mb-1 fs-6">程式碼</p>
                 <pre>
                   <code class="language-js line-numbers remove-initial-line-feed">
                     // JS
+                    const scaleAnomalyPuOr = d3.scaleDiverging()
+                                              .domain([-10, 0, 10])
+                                              .interpolator(d3.interpolatePuOr)
+
+                    scaleAnomalyPuOr(-10); //rgb(45, 0, 75) 深紫色
+                    scaleAnomalyPuOr(10); //rgb(127, 59, 8) 橘色
                   </code>
                 </pre>
               </div>
-
-              <!-- d3.scalePoint -->
-              <div>
-                <p class="mt-4 text-danger fw-bold">d3.scalePoint</p>
+            </ul>
+          </div>
+          <div class="my-5">
+            <p class="fw-bold">
+              <mark class="bg-lightOrange">
+                「連續性資料輸入」與「離散性資料輸出」的比例尺
+              </mark>
+            </p>
+            <ul>
+              <li>
+                <p>量化比例尺 Quantize Scale</p>
+                <p class="text-danger fw-bold">d3.scaleQuantize</p>
                 <svg style="border: 1px solid rgb(96, 96, 96)"></svg>
-
+  
                 <p class="mt-2 mb-1 fs-6">程式碼</p>
                 <pre>
-                  <code class="language-js line-numbers remove-initial-line-feed">
-                    // JS
-                  </code>
-                </pre>
-              </div>
-            </li>
-          </ul>
+                    <code class="language-js line-numbers remove-initial-line-feed">
+                      // JS
+                      const quantizeScale = d3.scaleQuantize()
+                                        .domain([0, 100])
+                                        .range(['lightblue', 'orange', 'lightgreen', 'red']);
+                     
+                      quantizeScale(10);  // return 'lightblue'
+                      quantizeScale(30);  // return 'orange'
+                      quantizeScale(73);  // return 'lightgreen'
+                      quantizeScale(90);  // return 'red'
+                    </code>
+                  </pre>
+              </li>
+            </ul>
+          </div>
+  
+          <div>
+            <p class="fw-bold">
+              <mark class="bg-lightOrange">
+                「離散性資料輸出」與「離散性資料輸出」的比例尺
+              </mark>
+            </p>
+            <ul>
+              <li>
+                <p>次序/序位比例尺 Ordinal Scale</p>
+                <!-- d3.scaleOrdinal -->
+                <div>
+                  <p class="mt-4 text-danger fw-bold">d3.scaleOrdinal</p>
+                  <svg style="border: 1px solid rgb(96, 96, 96)"></svg>
+  
+                  <p class="mt-2 mb-1 fs-6">程式碼</p>
+                  <pre>
+                    <code class="language-js line-numbers remove-initial-line-feed">
+                      // JS
+                    </code>
+                  </pre>
+                </div>
+  
+                <!-- d3.scaleBand -->
+                <div>
+                  <p class="mt-4 text-danger fw-bold">d3.scaleBand</p>
+                  <svg style="border: 1px solid rgb(96, 96, 96)"></svg>
+  
+                  <p class="mt-2 mb-1 fs-6">程式碼</p>
+                  <pre>
+                    <code class="language-js line-numbers remove-initial-line-feed">
+                      // JS
+                    </code>
+                  </pre>
+                </div>
+  
+                <!-- d3.scalePoint -->
+                <div>
+                  <p class="mt-4 text-danger fw-bold">d3.scalePoint</p>
+                  <svg style="border: 1px solid rgb(96, 96, 96)"></svg>
+  
+                  <p class="mt-2 mb-1 fs-6">程式碼</p>
+                  <pre>
+                    <code class="language-js line-numbers remove-initial-line-feed">
+                      // JS
+                    </code>
+                  </pre>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
+
+       
       </div>
+
+
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -218,6 +318,82 @@
       const convert = d3.scaleLinear().domain([0, 100]).range([0, 10]);
 
       console.log(convert(50)); // 5，換算輸出比例完成
+
+      // d3.scaleLinear
+      let linearScale = d3.scaleLinear()
+                  .domain([0, 100])
+                  .range([0, 50]);
+
+      linearScale(0);   // return 0
+      linearScale(50);   // return 25
+      linearScale(100);  // return 50
+
+      // d3.scaleLinear 換算顏色
+      const colorScale = d3.scaleLinear()
+                    .domain([0, 10])
+                    .range(['yellow', 'red']);
+
+      colorScale(0);   // return "rgb(255, 255, 0)"
+      colorScale(5);   // return "rgb(255, 128, 0)"
+      colorScale(10);  // return "rgb(255, 0, 0)"
+
+      // d3.scaleTime
+      const timeScale = d3.scaleTime()
+                      .domain([new Date(2023, 0, 1), new Date(2023, 11, 1)])
+                      .range([0, 100]);
+
+      timeScale(new Date(2023, 0, 1));   // return 0
+      timeScale(new Date(2023, 6, 1));   // return 45.209...
+      timeScale(new Date(2023, 11, 1));   // return 100
+
+      // continuous.clamp
+      const linearScaleClamp = d3.scaleLinear()
+                        .domain([0, 10])
+                        .range([0, 100])
+                        .clamp(true) // 斬斷
+
+      linearScaleClamp(20);  // return 100
+      linearScaleClamp(-10); // return 0
+
+      // continuous.nice
+      const data = [0.243, 0.584, 0.987, 0.153, 0.433];
+      
+      const xScale = d3.scaleLinear()
+                        .domain(d3.extent(data))
+                        .range([0, 400]);
+
+      const xAxis = d3.axisBottom(xScale);
+      d3.select('.xAxis').append('g').call(xAxis)
+
+      const xAxisNice = d3.axisBottom(xScale.nice());
+      d3.select('.xAxisNice').append('g').call(xAxisNice)
+
+      // sequential scale
+      const sequentialScale = d3.scaleSequential()
+                                .domain([0, 100])
+                                .interpolator(d3.interpolateRainbow);
+                                              
+      sequentialScale(0);   // return 'rgb(110, 64, 170)'
+      sequentialScale(50);  // return 'rgb(175, 240, 91)'
+      sequentialScale(100); // return 'rgb(110, 64, 170)'
+
+      // diverging scale
+      const scaleAnomalyPuOr = d3.scaleDiverging()
+                        .domain([-10, 0, 10])
+                        .interpolator(d3.interpolatePuOr)
+
+      scaleAnomalyPuOr(-10); //rgb(45, 0, 75) 深紫色
+      scaleAnomalyPuOr(10); //rgb(127, 59, 8) 橘色
+
+      // quantize scale
+      let quantizeScale = d3.scaleQuantize()
+                            .domain([0, 100])
+                            .range(['lightblue', 'orange', 'lightgreen', 'red']);
+
+      quantizeScale(10);  // return 'lightblue'
+      quantizeScale(30);  // return 'orange'
+      quantizeScale(73);  // return 'lightgreen'
+      quantizeScale(90);  // return 'red'
     </script>
   </body>
 </html>

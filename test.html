@@ -73,7 +73,7 @@
 
       let yAxis = d3
         .axisLeft(yScale)
-        .tickSizeInner(-(rwdSvgHeight + margin))
+        .tickSizeInner(-rwdSvgHeight - margin)
         .tickSizeOuter(0)
         .tickPadding(15);
 
@@ -91,9 +91,8 @@
       svg
         .append("g")
         .attr("class", "yAxis")
-        .attr("transform", `translate(${margin * 3}, ${margin})`)
-        .style("strock", "red")
-        .call(yAxis);
+        .call(yAxis)
+        .attr("transform", `translate(${margin * 3}, ${margin})`);
 
       // 調整tick特殊樣式
       d3.selectAll(".yAxis line").attr("transform", "translate(-10,0)");
