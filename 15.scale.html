@@ -229,7 +229,6 @@
               <li>
                 <p>量化比例尺 Quantize Scale</p>
                 <p class="text-danger fw-bold">d3.scaleQuantize</p>
-                <svg style="border: 1px solid rgb(96, 96, 96)"></svg>
   
                 <p class="mt-2 mb-1 fs-6">程式碼</p>
                 <pre>
@@ -252,7 +251,7 @@
           <div>
             <p class="fw-bold">
               <mark class="bg-lightOrange">
-                「離散性資料輸出」與「離散性資料輸出」的比例尺
+                「離散性資料輸入」與「離散性資料輸出」的比例尺
               </mark>
             </p>
             <ul>
@@ -261,12 +260,23 @@
                 <!-- d3.scaleOrdinal -->
                 <div>
                   <p class="mt-4 text-danger fw-bold">d3.scaleOrdinal</p>
-                  <svg style="border: 1px solid rgb(96, 96, 96)"></svg>
   
                   <p class="mt-2 mb-1 fs-6">程式碼</p>
                   <pre>
                     <code class="language-js line-numbers remove-initial-line-feed">
                       // JS
+                      const ordinalData = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+                      const ordinalScale = d3.scaleOrdinal()
+                                            .domain(myData)
+                                            .range(['black', 'red', 'green']);
+
+                      ordinalScale('Monday');  // return 'black';
+
+                      ordinalScale('Jan');  // return 'black';
+                      ordinalScale('Feb');  // return 'red';
+                      ordinalScale('Mar');  // return 'green';
+                      ordinalScale('Apr');  // return 'black'; 從頭重複算一次
                     </code>
                   </pre>
                 </div>
@@ -394,6 +404,18 @@
       quantizeScale(30);  // return 'orange'
       quantizeScale(73);  // return 'lightgreen'
       quantizeScale(90);  // return 'red'
+
+      // ordinal scale
+      const ordinalData = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+      const ordinalScale = d3.scaleOrdinal()
+                            .domain(myData)
+                            .range(['black', 'red', 'green']);
+
+      ordinalScale('Jan');  // return 'black';
+      ordinalScale('Feb');  // return 'red';
+      ordinalScale('Mar');  // return 'green';
+      ordinalScale('Apr');  // return 'black'; 從頭重複算一次
     </script>
   </body>
 </html>
