@@ -28,6 +28,19 @@
 
     <div class="container">
       <h3 class="mt-6 fw-bold">長條圖 bar chart</h3>
+      <!-- simple example -->
+      <div class="simpleBarchart"></div>
+      <pre>
+        <code class="language-js line-numbers remove-initial-line-feed">
+          //JS
+          const xScale = d3.scaleBand()
+                          .domain(["狗", "貓", "豬", "雞", "魚"])
+                          .range([40, 700])
+                          .padding(0.5);
+
+          console.log(xScale.bandwidth()); // 116
+        </code>
+      </pre>
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -36,6 +49,75 @@
     ></script>
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script></script>
+    <script>
+      const drawSimpleBarchart = () => {
+        const currentWidth = 700;
+        // parseInt(
+        //   d3.select(".simpleBarchart").style("width")
+        // );
+        const height = 400;
+        const margin = 40;
+
+        const svg = d3
+          .select(".simpleBarchart")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height)
+          .style("border", "1px solid rgb(96,96,96)");
+
+        const data = [
+          { x: "狗", y: 20 },
+          { x: "貓", y: 30 },
+          { x: "豬", y: 150 },
+          { x: "雞", y: 60 },
+          { x: "魚", y: 90 },
+        ];
+
+        // 抓出x、y軸需要用的資料
+        const xData = data.map((i) => i.x); // 得到 ["狗", "貓", "豬", "雞", "魚"] 陣列
+        const yData = data.map((i) => i.y); // 得到 [20, 30, 150] 陣列
+
+        // x軸比例尺與軸線
+        const xScale = d3
+          .scaleBand()
+          .domain(["狗", "貓", "豬", "雞", "魚"])
+          .range([40, 600])
+          .padding(0.5);
+
+        console.log(xScale.bandwidth()); // 116
+
+        const xAxisGenerator = d3.axisBottom(xScale);
+        const xAxis = svg
+          .append("g")
+          .call(xAxisGenerator)
+          .attr("transform", `translate(0,${height - margin})`);
+
+        // y軸比例尺與軸線
+        const yScale = d3
+          .scaleLinear()
+          .domain([0, d3.max(yData)])
+          .range([height - margin * 2, 0])
+          .nice();
+
+        const yAxisGenerator = d3.axisLeft(yScale);
+        const yAxis = svg
+          .append("g")
+          .call(yAxisGenerator)
+          .attr("transform", `translate(${margin},${margin})`);
+
+        // 繪製長條圖
+        svg
+          .selectAll("rect")
+          .data(data)
+          .join("rect")
+          .attr("x", (d) => xScale(d.x))
+          .attr("y", (d) => yScale(d.y))
+          .attr("width", xScale.bandwidth())
+          .attr("height", (d) => height - margin - yScale(d.y))
+          .attr("fill", "#69b3a2");
+      };
+
+      drawSimpleBarchart();
+    </script>
   </body>
 </html>

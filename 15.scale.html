@@ -284,12 +284,18 @@
                 <!-- d3.scaleBand -->
                 <div>
                   <p class="mt-4 text-danger fw-bold">d3.scaleBand</p>
-                  <svg style="border: 1px solid rgb(96, 96, 96)"></svg>
   
                   <p class="mt-2 mb-1 fs-6">程式碼</p>
                   <pre>
                     <code class="language-js line-numbers remove-initial-line-feed">
                       // JS
+                      const bandScale = d3.scaleBand()
+                                          .domain(['狗', '貓', '天竺鼠', '烏龜', '海豚'])
+                                          .range([0, 200]); // SVG 寬度
+
+                      bandScale('狗'); // returns 0
+                      bandScale('貓'); // returns 40
+                      bandScale('海豚'); // returns 160
                     </code>
                   </pre>
                 </div>
@@ -416,6 +422,15 @@
       ordinalScale('Feb');  // return 'red';
       ordinalScale('Mar');  // return 'green';
       ordinalScale('Apr');  // return 'black'; 從頭重複算一次
+
+      // band scale
+      const bandScale = d3.scaleBand()
+                          .domain(['狗', '貓', '天竺鼠', '烏龜', '海豚'])
+                          .range([0, 200]); // SVG 寬度
+
+      bandScale('狗'); // returns 0
+      bandScale('貓'); // returns 40
+      bandScale('海豚'); // returns 160
     </script>
   </body>
 </html>

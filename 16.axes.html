@@ -31,7 +31,7 @@
 
       <!-- Axes -->
       <div>
-        <h5 class="my-4"><mark>Axes</mark></h5>
+        <h5 class="my-4"><mark>responsive Axes</mark></h5>
         <div class="axes"></div>
       </div>
 
@@ -39,7 +39,7 @@
       <div>
         <h5 class="my-4"><mark>responsive d3.axisBottom( )</mark></h5>
         <div class="axisBottom"></div>
-       
+
         <p class="mt-2 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
@@ -73,7 +73,7 @@
       <div>
         <h5 class="my-4"><mark>axis.ticks(Arguments...)</mark></h5>
 
-        <p class="fw-bold mb-1 mt-4">Number Ticks</p>
+        <p class="mt-4 mb-1 fw-bold">Number Ticks</p>
         <div class="numberTicks"></div>
         <p class="mt-2 mb-1 fs-6">程式碼</p>
         <pre>
@@ -104,7 +104,7 @@
           </code>
         </pre>
 
-        <p class="fw-bold  mb-1 mt-4">Time Ticks</p>
+        <p class="mt-4 mb-1 fw-bold">Time Ticks</p>
         <div class="timeTicks"></div>
         <p class="mt-2 mb-1 fs-6">程式碼</p>
         <pre>
@@ -375,6 +375,59 @@
         </pre>
       </div>
 
+      <!-- XY軸線 -->
+      <div>
+        <h5 class="mt-6"><mark>XY軸線</mark></h5>
+
+        <div class="xyAxes"></div>
+        <p class="mt-2 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+            //html 
+            &lt;div class=&quot;xyAxes&quot;&gt;&lt;/div&gt;
+
+            //JS
+            const currentWidth = parseInt(d3.select(".xyAxes").style("width"));;
+            const height = 400;
+            const margin = 40;
+    
+            const svg = d3.select(".xyAxes")
+                          .append("svg")
+                          .attr("width", currentWidth)
+                          .attr("height", height)
+                          .style("border", "1px solid rgb(96,96,96)");
+
+            const data = [{x:100, y:20}, {x:18, y:30}, {x:90, Y:250}]
+
+            // 抓出xy軸需要用的資料
+            const xData = data.map((i) => i.x); // 得到 [100, 18, 90] 陣列
+            const yData = data.map((i) => i.y); // 得到 [20, 30, 150] 陣列
+    
+            // X比例尺與軸線
+            const xScale = d3.scaleLinear()
+                            .domain([0, d3.max(xData)])
+                            .range([0, currentWidth - margin * 2]);
+    
+            const xAxisGenerator = d3.axisBottom(xScale);
+            const xAxis = svg.append("g")
+                      .call(xAxisGenerator)
+                      .attr("transform", `translate(${margin},${height - margin})`);
+    
+            // Y比例尺與軸線
+            const yScale = d3.scaleLinear()
+                            .domain([0, d3.max(yData)])
+                            .range([height - margin * 2, 0])
+                            .nice();
+    
+            const yAxisGenerator = d3.axisLeft(yScale);
+
+            const yAxis = svg.append("g")
+                    .call(yAxisGenerator)
+                    .attr("transform", `translate(${margin},${margin})`);
+          </code>
+        </pre>
+      </div>
+
       <!-- 軸線樣式調整 -->
       <div>
         <h5 class="mt-6"><mark>軸線樣式調整</mark></h5>
@@ -383,7 +436,34 @@
         <p class="mt-2 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
+            const width = 500;
+            const height = 300;
+            const margin = 20;
+    
+            const svg = d3.select(".tickStyle")
+                          .append("svg")
+                          .attr("width", width)
+                          .attr("height", height);
+    
+            const xScale = d3.scaleLinear()
+                             .domain([0, 100])
+                             .range([0, width - margin * 2]);
+    
+            const xAxisGenerator = d3.axisBottom(xScale)
+                            .tickSize(`${-height + margin * 2}`)
+                            .tickSizeOuter(0)
+                            .tickPadding(10);
+    
+            const xAxis = svg.append("g")
+                  .call(xAxisGenerator)
+                  .attr("class", "xStyleAxis")
+                  .attr("transform", `translate(${margin},${height - margin})`);
 
+            // 設定軸線樣式
+            d3.selectAll(".xStyleAxis line")
+              .style("stroke-dasharray", "2 10 5")
+              .style("stroke", "#f68b47")
+              .style("stroke-width", "2");
           </code>
         </pre>
       </div>
@@ -414,8 +494,8 @@
         </pre>
       </div>
 
-       <!-- Grid 軸線樣式 -->
-       <div>
+      <!-- Grid 軸線樣式 -->
+      <div>
         <h5 class="mt-6"><mark>Grid軸線樣式</mark></h5>
 
         <div class="gridTicks"></div>
@@ -427,7 +507,31 @@
         </pre>
       </div>
 
+      <!-- 文字標籤旋轉-->
+      <div>
+        <h5 class="mt-6"><mark>文字標籤旋轉</mark></h5>
 
+        <div class="textLabelRotate"></div>
+        <p class="mt-4 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+
+          </code>
+        </pre>
+      </div>
+
+      <!-- 文字標籤置中-->
+      <div>
+        <h5 class="mt-6"><mark>文字標籤置中</mark></h5>
+
+        <div class="textLabelCenter"></div>
+        <p class="mt-4 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+
+          </code>
+        </pre>
+      </div>
     </div>
 
     <script
@@ -438,479 +542,762 @@
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
-    // axes
-    const generateAxes = ()=>{
-      const currentWidth	=	parseInt(d3.select(".axes").style("width"));
-      const height = 430;
-      const margin = 20
+      // axes
+      const generateAxes = () => {
+        const currentWidth = parseInt(d3.select(".axes").style("width"));
+        const height = 430;
+        const margin = 20;
 
-      const svg = d3.select('.axes')
-                    .append('svg')
-                    .attr('width',currentWidth)
-                    .attr('height',height)
+        const svg = d3
+          .select(".axes")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height);
 
-      const xScale = d3.scaleLinear()
-                      .domain([0,100])
-                      .range([0,currentWidth-margin*2]);
+        const xScale = d3
+          .scaleLinear()
+          .domain([0, 100])
+          .range([0, currentWidth - margin * 2]);
 
-      const yScale = d3.scaleLinear()
-                      .domain([0,100])
-                      .range([height-margin*3,0 ]);
+        const yScale = d3
+          .scaleLinear()
+          .domain([0, 100])
+          .range([height - margin * 3, 0]);
 
-      const xAxisTopGenerator = d3.axisTop(xScale);
-      const xAxisBottonGenerator = d3.axisBottom(xScale);
-      const yAxisRightGenerator = d3.axisRight(yScale);
-      const yAxisLeftGenerator = d3.axisLeft(yScale);
+        const xAxisTopGenerator = d3.axisTop(xScale);
+        const xAxisBottonGenerator = d3.axisBottom(xScale);
+        const yAxisRightGenerator = d3.axisRight(yScale);
+        const yAxisLeftGenerator = d3.axisLeft(yScale);
 
-      svg.append('g')
+        svg
+          .append("g")
           .call(xAxisTopGenerator)
-          .attr('transform', `translate(${margin}, ${margin})`)
-      
-      svg.append('g')
+          .attr("transform", `translate(${margin}, ${margin})`);
+
+        svg
+          .append("g")
           .call(xAxisBottonGenerator)
-          .attr('transform', `translate(${margin}, ${height-margin})`)
-
-      svg.append('g')
-         .call(yAxisRightGenerator)
-         .attr('transform', `translate(${currentWidth-margin*1.5}, ${margin*1.5})`)
-
-      svg.append('g')
-         .call(yAxisLeftGenerator)
-         .attr('transform', `translate(${margin*1.5}, ${margin*1.5})`)
-    }
-
-    // axisBottom
-    const generateAxisBottom = ()=>{
-      const currentWidth	=	parseInt(d3.select(".axisBottom").style("width"));
-      const height = 100;
-      const margin = 20;
-
-      const svg = d3.select('.axisBottom')
-                    .append('svg')
-                    .attr('width',currentWidth)
-                    .attr('height',height)
-                    .style('border', '1px solid rgb(96,96,96)')
-
-      const xScale = d3.scaleLinear()
-                      .domain([0,100])
-                      .range([0,currentWidth-margin]);
-
-      const xAxisGenerator = d3.axisBottom(xScale);
-      const xAxis = svg.append('g')
-                      .call(xAxisGenerator)
-                      .attr('transform', `translate(${margin/2},${height-margin})`);
-    };
-
-    //  number ticks
-    const adjustNumberTicks = ()=>{
-      const currentWidth	=	parseInt(d3.select(".numberTicks").style("width"));
-      const height = 100;
-      const margin = 20;
-
-      const svg = d3.select('.numberTicks')
-                              .append('svg')
-                              .attr('width',currentWidth)
-                              .attr('height',height);
-
-      const xScale = d3.scaleLinear()
-                      .domain([0,100])
-                      .range([0,currentWidth-margin*2]) 
-                      .nice();
-
-      const xAxisGenerator = d3.axisBottom(xScale).ticks(5, '.1f'); 
-
-      const xAxis = svg.append('g')
-                      .call(xAxisGenerator)
-                      .attr('transform', `translate(${margin},${margin*2})`);
-    };
-
-    // time ticks
-    const adjustTimeTicks = ()=>{
-      const currentWidth	=	parseInt(d3.select(".timeTicks").style("width"));
-      const height = 100;
-      const margin = 20;
-      const January = new Date('2023/01')
-      const December = new Date('2023/12');
-
-      const svg = d3.select('.timeTicks')
-                              .append('svg')
-                              .attr('width',currentWidth)
-                              .attr('height',height);
-
-      const xScale = d3.scaleTime()
-                      .domain([January,December])
-                      .range([0,currentWidth-margin*2.5])
-                      .nice();
-
-      const xAxisGenerator = d3.axisBottom(xScale).ticks(12, '%B'); 
-      const xAxis = svg.append('g')
-                      .call(xAxisGenerator)
-                      .attr('transform', `translate(${margin},${height-margin})`);
-    };
-
-    // axis.tickValues
-    const adjustTickValues = ()=>{
-      const currentWidth	=	parseInt(d3.select(".tickValues").style("width"));
-      const height = 100;
-      const margin = 20;
-
-      const svg = d3.select('.tickValues')
-                              .append('svg')
-                              .attr('width',currentWidth)
-                              .attr('height',height)
-      // Linear
-      const xScaleLinear = d3.scaleLinear()
-                              .domain([0,100])
-                              .range([0,currentWidth-margin*2])
-                              .nice();
-
-      const xAxisLinearGenerator = d3.axisBottom(xScaleLinear)
-                                     .tickValues([0,20,51,58,77,100]);
-
-      const xAxisLinear = svg.append('g')
-                      .call(xAxisLinearGenerator)
-                      .attr('transform', `translate(${margin},0)`);
-
-      // Band
-      const data = ['鼠','牛','虎','兔','龍','蛇','馬','羊','猴','雞','狗','豬']
-      const xScaleBand = d3.scaleBand()
-                      .domain(data)
-                      .range([0,currentWidth-margin*2]);
-
-      const xAxisBandGenerator = d3.axisBottom(xScaleBand)
-                              .tickValues(xScaleBand.domain().filter((i,idx)=>idx%2===0));
-
-      const xAxisBand = svg.append('g')
-                      .call(xAxisBandGenerator)
-                      .attr('transform', `translate(${margin},${height*0.75})`);
-    }
-
-    // axis.tickFormat
-    const adjustTickFormat = ()=>{
-      const currentWidth	= parseInt(d3.select(".tickFormat").style("width"));
-      const height = 100;
-      const margin = 20;
-
-      const svg = d3.select('.tickFormat')
-                              .append('svg')
-                              .attr('width',currentWidth)
-                              .attr('height',height)
-
-      const xScale = d3.scaleLinear()
-                      .domain([0,100])
-                      .range([0,currentWidth-margin*2])
-                      .nice();
-
-      const xAxisGenerator = d3.axisBottom(xScale)
-                               .tickFormat(d=>`${d}元`); 
-
-      const xAxis = svg.append('g')
-                      .call(xAxisGenerator)
-                      .attr('transform', `translate(${margin},${margin})`);
-
-      const xAxisFormatGenerator = d3.axisBottom(xScale)
-                               .tickFormat(d3.format('.1f')); 
-                               
-      const xFormatAxis = svg.append('g')
-                      .call(xAxisFormatGenerator)
-                      .attr('transform', `translate(${margin},${height*0.75})`);
-    }
-
-    // axis.tickSize
-    const adjustTickSize = ()=>{
-      const currentWidth	=	parseInt(d3.select(".tickSize").style("width"));
-      const height = 150;
-      const margin = 20;
-
-      const svg = d3.select('.tickSize')
-                              .append('svg')
-                              .attr('width',currentWidth)
-                              .attr('height',height)
-
-      const xScale = d3.scaleLinear()
-                      .domain([0,100])
-                      .range([0,currentWidth-margin*2]);
-
-      const xAxisGeneratorPositive = d3.axisBottom(xScale)
-                               .tickSize(30); 
-      const xAxisPositive = svg.append('g')
-                      .call(xAxisGeneratorPositive)
-                      .attr('transform', `translate(${margin},0)`);
-
-      const xAxisGeneratorNegative = d3.axisBottom(xScale)
-                               .tickSize(-30); 
-      const xAxisNegative = svg.append('g')
-                      .call(xAxisGeneratorNegative)
-                      .attr('transform', `translate(${margin},${height-margin})`);
-    }
-
-    // axis.tickSizeInner
-    const adjustTickSizeInner= ()=>{
-      const currentWidth	=	parseInt(d3.select(".tickSizeInner").style("width"));
-      const height = 100;
-      const margin = 20;
-
-      const svg = d3.select('.tickSizeInner')
-                              .append('svg')
-                              .attr('width',currentWidth)
-                              .attr('height',height)
-
-      const data = ['鼠','牛','虎','兔','龍','蛇','馬','羊','猴','雞','狗','豬']
-      const xScale = d3.scaleBand()
-                      .domain(data)
-                      .range([0,currentWidth-margin*2]);
-
-      const xAxisGenerator = d3.axisBottom(xScale)
-                               .tickSizeInner(30);
-      const xAxis = svg.append('g')
-                      .call(xAxisGenerator)
-                      .attr('transform', `translate(${margin},${margin})`);
-    }
-
-    // axis.tickSizeOuter
-    const adjustTickSizeOuter = ()=>{
-      const currentWidth	=	parseInt(d3.select(".tickSizeOuter").style("width"));
-      const height = 100;
-      const margin = 20;
-
-      const svg = d3.select('.tickSizeOuter')
-                              .append('svg')
-                              .attr('width',currentWidth)
-                              .attr('height',height)
-
-      const xScale = d3.scaleLinear()
-                      .domain([0,100])
-                      .range([0,currentWidth-margin*2]);
-
-      const xAxisGenerator = d3.axisBottom(xScale)
-                              .tickSizeOuter(30); 
-
-      const xAxis = svg.append('g')
-                      .call(xAxisGenerator)
-                      .attr('transform', `translate(${margin},${margin})`);
-    }
-
-    // axis.tickPadding
-    const adjustTickPadding = ()=>{
-      const currentWidth	=	parseInt(d3.select(".tickPadding").style("width"));
-      const height = 100;
-      const margin = 20;
-
-      const svg = d3.select('.tickPadding')
-                              .append('svg')
-                              .attr('width',currentWidth)
-                              .attr('height',height)
-
-      const xScale = d3.scaleLinear()
-                      .domain([0,100])
-                      .range([0,currentWidth-margin*2]);
-
-      const xAxisGenerator = d3.axisBottom(xScale)
-                               .tickPadding(60);
-
-      const xAxis = svg.append('g')
-                      .call(xAxisGenerator)
-                      .attr('transform', `translate(${margin},${margin})`);
-    }
-
-    // 軸線樣式調整
-    const adjustTickStyle = ()=>{
-      const currentWidth	=	parseInt(d3.select(".tickStyle").style("width"));
-      const height = 400;
-      const margin = 20;
-
-      const svg = d3.select('.tickStyle')
-                              .append('svg')
-                              .attr('width',currentWidth)
-                              .attr('height',height)
-
-      const xScale = d3.scaleLinear()
-                      .domain([0,100])
-                      .range([0,currentWidth-margin*2]);
-
-      const xAxisGenerator = d3.axisBottom(xScale)
-                               .tickSize(`${-height+margin*2}`)
-                               .tickSizeOuter(0)
-                               .tickPadding(10)
-
-      const xAxis = svg.append('g')
-                      .call(xAxisGenerator)
-                      .attr('class', 'xStyleAxis')
-                      .attr('transform', `translate(${margin},${height-margin})`);
-      // 設定軸線樣式
-      d3.selectAll('.xStyleAxis line') 
-        .style('stroke-dasharray', '2 10 5')
-        .style('stroke', '#f68b47')
-        .style('stroke-width', '2')
-    }
-
-    // 棋盤軸線樣式
-    const adjustCheckerBoardTicks = ()=>{
-      const currentWidth	=	parseInt(d3.select(".checkerboardTicks").style("width"));
-      const height = 400;
-      const margin = 40;
-
-      const svg = d3.select('.checkerboardTicks')
-                              .append('svg')
-                              .attr('width',currentWidth)
-                              .attr('height',height)
-
-      // X軸線
-      const xScale = d3.scaleLinear()
-                      .domain([0,100])
-                      .range([0,currentWidth-margin*2]);
-
-      const xAxisGenerator = d3.axisBottom(xScale)
-                               .tickSize(`${-height+margin*2}`)
-                               .tickSizeOuter(0)
-                               .tickPadding(10);
-
-      const xAxis = svg.append('g')
-                      .call(xAxisGenerator)
-                      .attr('transform', `translate(${margin},${height-margin})`);
-
-      // Ｙ軸線
-      const yScale = d3.scaleLinear()
-                      .domain([0,100])
-                      .range([height-margin,margin]);
-                      
-
-      const yAxisGenerator = d3.axisLeft(yScale)
-                               .tickSize(`${-currentWidth+margin*2}`)
-                               .tickSizeOuter(0)
-                               .tickPadding(10)
-
-      const yAxis = svg.append('g')
-                      .call(yAxisGenerator)
-                      .attr('transform', `translate(${margin},0)`);
-    }
-
-    // 井字軸線樣式
-    const adjustWellTicks = ()=>{
-      const currentWidth	=	parseInt(d3.select(".wellTicks").style("width"));
-      const height = 400;
-      const margin = 60;
-
-      const svg = d3.select('.wellTicks')
-                              .append('svg')
-                              .attr('width',currentWidth)
-                              .attr('height',height)
-
-      // X軸線
-      const xScale = d3.scaleLinear()
-                      .domain([0,100])
-                      .range([0,currentWidth-margin*2]);
-
-      const xAxisGenerator = d3.axisBottom(xScale)
-                               .tickSize(`${-height+margin}`)
-                               .tickSizeOuter(0)
-                               .tickPadding(40);
-
-      const xAxis = svg.append('g')
-                      .attr('class', 'xCheckerboardAxis')
-                      .call(xAxisGenerator)
-                      .attr('transform', `translate(${margin},${height-margin})`);
-
-      // Ｙ軸線
-      const yScale = d3.scaleLinear()
-                      .domain([0,100])
-                      .range([height-margin,margin]);
-                      
-
-      const yAxisGenerator = d3.axisLeft(yScale)
-                               .tickSize(`${-currentWidth+margin}`)
-                               .tickSizeOuter(0)
-                               .tickPadding(40)
-
-      const yAxis = svg.append('g')
-                      .attr('class', 'yCheckerboardAxis')
-                      .call(yAxisGenerator)
-                      .attr('transform', `translate(${margin},0)`);
-
-      // 調整tick特殊樣式
-      d3.selectAll(".xCheckerboardAxis line")
-        .attr("transform", `translate(0,${margin/2})`);
-        
-      d3.selectAll(".yCheckerboardAxis line")
-        .attr("transform", `translate(${-margin/2},0)`);
-     
-    }
-
-    // Grid軸線樣式
-    const drawGridTicks = ()=>{
-      const currentWidth	=	parseInt(d3.select(".gridTicks").style("width"));
-      const height = 400;
-      const margin = 60;
-
-      const svg = d3.select('.gridTicks')
-                              .append('svg')
-                              .attr('width',currentWidth)
-                              .attr('height',height)
-
-      // X軸線
-      const xScale = d3.scaleLinear()
-                      .domain([0,100])
-                      .range([0,currentWidth-margin*2]);
-
-      const xAxisGenerator = d3.axisBottom(xScale)
-                               .tickSize(15)
-                               .tickPadding(20);
-
-      const xAxis = svg.append('g')
-                      .attr('class', 'xGridAxis')
-                      .call(xAxisGenerator)
-                      .attr('transform', `translate(${margin},${height-margin})`);
-
-      // Ｙ軸線
-      const yScale = d3.scaleLinear()
-                      .domain([0,100])
-                      .range([height-margin,margin]);
-                      
-
-      const yAxisGenerator = d3.axisLeft(yScale)
-                               .tickSize(15)
-                               .tickPadding(20)
-
-      const yAxis = svg.append('g')
-                      .attr('class', 'yGridAxis')
-                      .call(yAxisGenerator)
-                      .attr('transform', `translate(${margin},0)`);
-
-      //繪製X軸向上的不同色軸線
-      d3.selectAll('.xGridAxis .tick')
-           .append('line')
-           .attr('x1',0)
-           .attr('y1',0)
-           .attr('x2',0)
-           .attr('y2',(-height+margin*2))
-           .attr('stroke','#e4e4e4');
-
-      //繪製Y軸向右的不同色軸線
-      d3.selectAll('.yGridAxis .tick')
-           .append('line')
-           .attr('x1',0)
-           .attr('y1',0)
-           .attr('x2',(currentWidth-margin*2))
-           .attr('y2',0)
-           .attr('stroke','#e4e4e4');
-    }
-
-    generateAxes();
-    generateAxisBottom();
-    adjustNumberTicks();
-    adjustTimeTicks();
-    adjustTickValues();
-    adjustTickFormat();
-    adjustTickSize();
-    adjustTickSizeInner();
-    adjustTickSizeOuter();
-    adjustTickPadding();
-
-    adjustTickStyle();
-    adjustCheckerBoardTicks();
-    adjustWellTicks();
-    drawGridTicks()
-    
+          .attr("transform", `translate(${margin}, ${height - margin})`);
+
+        svg
+          .append("g")
+          .call(yAxisRightGenerator)
+          .attr(
+            "transform",
+            `translate(${currentWidth - margin * 1.5}, ${margin * 1.5})`
+          );
+
+        svg
+          .append("g")
+          .call(yAxisLeftGenerator)
+          .attr("transform", `translate(${margin * 1.5}, ${margin * 1.5})`);
+      };
+
+      // axisBottom
+      const generateAxisBottom = () => {
+        const currentWidth = parseInt(d3.select(".axisBottom").style("width"));
+        const height = 100;
+        const margin = 20;
+
+        const svg = d3
+          .select(".axisBottom")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height)
+          .style("border", "1px solid rgb(96,96,96)");
+
+        const xScale = d3
+          .scaleLinear()
+          .domain([0, 100])
+          .range([0, currentWidth - margin]);
+
+        const xAxisGenerator = d3.axisBottom(xScale);
+        const xAxis = svg
+          .append("g")
+          .call(xAxisGenerator)
+          .attr("transform", `translate(${margin / 2},${height - margin})`);
+      };
+
+      //  number ticks
+      const adjustNumberTicks = () => {
+        const currentWidth = parseInt(d3.select(".numberTicks").style("width"));
+        const height = 100;
+        const margin = 20;
+
+        const svg = d3
+          .select(".numberTicks")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height);
+
+        const xScale = d3
+          .scaleLinear()
+          .domain([0, 100])
+          .range([0, currentWidth - margin * 2])
+          .nice();
+
+        const xAxisGenerator = d3.axisBottom(xScale).ticks(5, ".1f");
+
+        const xAxis = svg
+          .append("g")
+          .call(xAxisGenerator)
+          .attr("transform", `translate(${margin},${margin * 2})`);
+      };
+
+      // time ticks
+      const adjustTimeTicks = () => {
+        const currentWidth = parseInt(d3.select(".timeTicks").style("width"));
+        const height = 100;
+        const margin = 20;
+        const January = new Date("2023/01");
+        const December = new Date("2023/12");
+
+        const svg = d3
+          .select(".timeTicks")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height);
+
+        const xScale = d3
+          .scaleTime()
+          .domain([January, December])
+          .range([0, currentWidth - margin * 2.5])
+          .nice();
+
+        const xAxisGenerator = d3.axisBottom(xScale).ticks(12, "%B");
+        const xAxis = svg
+          .append("g")
+          .call(xAxisGenerator)
+          .attr("transform", `translate(${margin},${height - margin})`);
+      };
+
+      // axis.tickValues
+      const adjustTickValues = () => {
+        const currentWidth = parseInt(d3.select(".tickValues").style("width"));
+        const height = 100;
+        const margin = 20;
+
+        const svg = d3
+          .select(".tickValues")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height);
+        // Linear
+        const xScaleLinear = d3
+          .scaleLinear()
+          .domain([0, 100])
+          .range([0, currentWidth - margin * 2])
+          .nice();
+
+        const xAxisLinearGenerator = d3
+          .axisBottom(xScaleLinear)
+          .tickValues([0, 20, 51, 58, 77, 100]);
+
+        const xAxisLinear = svg
+          .append("g")
+          .call(xAxisLinearGenerator)
+          .attr("transform", `translate(${margin},0)`);
+
+        // Band
+        const data = [
+          "鼠",
+          "牛",
+          "虎",
+          "兔",
+          "龍",
+          "蛇",
+          "馬",
+          "羊",
+          "猴",
+          "雞",
+          "狗",
+          "豬",
+        ];
+        const xScaleBand = d3
+          .scaleBand()
+          .domain(data)
+          .range([0, currentWidth - margin * 2]);
+
+        const xAxisBandGenerator = d3
+          .axisBottom(xScaleBand)
+          .tickValues(xScaleBand.domain().filter((i, idx) => idx % 2 === 0));
+
+        const xAxisBand = svg
+          .append("g")
+          .call(xAxisBandGenerator)
+          .attr("transform", `translate(${margin},${height * 0.75})`);
+      };
+
+      // axis.tickFormat
+      const adjustTickFormat = () => {
+        const currentWidth = parseInt(d3.select(".tickFormat").style("width"));
+        const height = 100;
+        const margin = 20;
+
+        const svg = d3
+          .select(".tickFormat")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height);
+
+        const xScale = d3
+          .scaleLinear()
+          .domain([0, 100])
+          .range([0, currentWidth - margin * 2])
+          .nice();
+
+        const xAxisGenerator = d3
+          .axisBottom(xScale)
+          .tickFormat((d) => `${d}元`);
+
+        const xAxis = svg
+          .append("g")
+          .call(xAxisGenerator)
+          .attr("transform", `translate(${margin},${margin})`);
+
+        const xAxisFormatGenerator = d3
+          .axisBottom(xScale)
+          .tickFormat(d3.format(".1f"));
+
+        const xFormatAxis = svg
+          .append("g")
+          .call(xAxisFormatGenerator)
+          .attr("transform", `translate(${margin},${height * 0.75})`);
+      };
+
+      // axis.tickSize
+      const adjustTickSize = () => {
+        const currentWidth = parseInt(d3.select(".tickSize").style("width"));
+        const height = 150;
+        const margin = 20;
+
+        const svg = d3
+          .select(".tickSize")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height);
+
+        const xScale = d3
+          .scaleLinear()
+          .domain([0, 100])
+          .range([0, currentWidth - margin * 2]);
+
+        const xAxisGeneratorPositive = d3.axisBottom(xScale).tickSize(30);
+        const xAxisPositive = svg
+          .append("g")
+          .call(xAxisGeneratorPositive)
+          .attr("transform", `translate(${margin},0)`);
+
+        const xAxisGeneratorNegative = d3.axisBottom(xScale).tickSize(-30);
+        const xAxisNegative = svg
+          .append("g")
+          .call(xAxisGeneratorNegative)
+          .attr("transform", `translate(${margin},${height - margin})`);
+      };
+
+      // axis.tickSizeInner
+      const adjustTickSizeInner = () => {
+        const currentWidth = parseInt(
+          d3.select(".tickSizeInner").style("width")
+        );
+        const height = 100;
+        const margin = 20;
+
+        const svg = d3
+          .select(".tickSizeInner")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height);
+
+        const data = [
+          "鼠",
+          "牛",
+          "虎",
+          "兔",
+          "龍",
+          "蛇",
+          "馬",
+          "羊",
+          "猴",
+          "雞",
+          "狗",
+          "豬",
+        ];
+        const xScale = d3
+          .scaleBand()
+          .domain(data)
+          .range([0, currentWidth - margin * 2]);
+
+        const xAxisGenerator = d3.axisBottom(xScale).tickSizeInner(30);
+        const xAxis = svg
+          .append("g")
+          .call(xAxisGenerator)
+          .attr("transform", `translate(${margin},${margin})`);
+      };
+
+      // axis.tickSizeOuter
+      const adjustTickSizeOuter = () => {
+        const currentWidth = parseInt(
+          d3.select(".tickSizeOuter").style("width")
+        );
+        const height = 100;
+        const margin = 20;
+
+        const svg = d3
+          .select(".tickSizeOuter")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height);
+
+        const xScale = d3
+          .scaleLinear()
+          .domain([0, 100])
+          .range([0, currentWidth - margin * 2]);
+
+        const xAxisGenerator = d3.axisBottom(xScale).tickSizeOuter(30);
+
+        const xAxis = svg
+          .append("g")
+          .call(xAxisGenerator)
+          .attr("transform", `translate(${margin},${margin})`);
+      };
+
+      // axis.tickPadding
+      const adjustTickPadding = () => {
+        const currentWidth = parseInt(d3.select(".tickPadding").style("width"));
+        const height = 100;
+        const margin = 20;
+
+        const svg = d3
+          .select(".tickPadding")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height);
+
+        const xScale = d3
+          .scaleLinear()
+          .domain([0, 100])
+          .range([0, currentWidth - margin * 2]);
+
+        const xAxisGenerator = d3.axisBottom(xScale).tickPadding(60);
+
+        const xAxis = svg
+          .append("g")
+          .call(xAxisGenerator)
+          .attr("transform", `translate(${margin},${margin})`);
+      };
+
+      // 繪製x、y軸線
+      const drawXYAxes = () => {
+        const currentWidth = parseInt(d3.select(".xyAxes").style("width"));
+        const height = 400;
+        const margin = 40;
+
+        const svg = d3
+          .select(".xyAxes")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height)
+          .style("border", "1px solid rgb(96,96,96)");
+
+        const data = [
+          { x: 100, y: 20 },
+          { x: 18, y: 30 },
+          { x: 90, y: 150 },
+        ];
+
+        // 抓出xy軸需要用的資料
+        const xData = data.map((i) => i.x); // 得到 [100, 18, 90] 陣列
+        const yData = data.map((i) => i.y); // 得到 [20, 30, 150] 陣列
+
+        // x軸比例尺與軸線
+        const xScale = d3
+          .scaleLinear()
+          .domain([0, d3.max(xData)])
+          .range([0, currentWidth - margin * 2]);
+
+        const xAxisGenerator = d3.axisBottom(xScale);
+        const xAxis = svg
+          .append("g")
+          .call(xAxisGenerator)
+          .attr("transform", `translate(${margin},${height - margin})`);
+
+        // y軸比例尺與軸線
+        const yScale = d3
+          .scaleLinear()
+          .domain([0, d3.max(yData)])
+          .range([height - margin * 2, 0])
+          .nice();
+
+        const yAxisGenerator = d3.axisLeft(yScale);
+        const yAxis = svg
+          .append("g")
+          .call(yAxisGenerator)
+          .attr("transform", `translate(${margin},${margin})`);
+      };
+
+      // 軸線樣式調整
+      const adjustTickStyle = () => {
+        const currentWidth = parseInt(d3.select(".tickStyle").style("width"));
+        const height = 300;
+        const margin = 20;
+
+        const svg = d3
+          .select(".tickStyle")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height);
+
+        const xScale = d3
+          .scaleLinear()
+          .domain([0, 100])
+          .range([0, currentWidth - margin * 2]);
+
+        const xAxisGenerator = d3
+          .axisBottom(xScale)
+          .tickSize(`${-height + margin * 2}`)
+          .tickSizeOuter(0)
+          .tickPadding(10);
+
+        const xAxis = svg
+          .append("g")
+          .call(xAxisGenerator)
+          .attr("class", "xStyleAxis")
+          .attr("transform", `translate(${margin},${height - margin})`);
+        // 設定軸線樣式
+        d3.selectAll(".xStyleAxis line")
+          .style("stroke-dasharray", "2 10 5")
+          .style("stroke", "#f68b47")
+          .style("stroke-width", "2");
+      };
+
+      // 棋盤軸線樣式
+      const adjustCheckerBoardTicks = () => {
+        const currentWidth = parseInt(
+          d3.select(".checkerboardTicks").style("width")
+        );
+        const height = 400;
+        const margin = 40;
+
+        const svg = d3
+          .select(".checkerboardTicks")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height);
+
+        // X軸線
+        const xScale = d3
+          .scaleLinear()
+          .domain([0, 100])
+          .range([0, currentWidth - margin * 2]);
+
+        const xAxisGenerator = d3
+          .axisBottom(xScale)
+          .tickSize(`${-height + margin * 2}`)
+          .tickSizeOuter(0)
+          .tickPadding(10);
+
+        const xAxis = svg
+          .append("g")
+          .call(xAxisGenerator)
+          .attr("transform", `translate(${margin},${height - margin})`);
+
+        // Ｙ軸線
+        const yScale = d3
+          .scaleLinear()
+          .domain([0, 100])
+          .range([height - margin, margin]);
+
+        const yAxisGenerator = d3
+          .axisLeft(yScale)
+          .tickSize(`${-currentWidth + margin * 2}`)
+          .tickSizeOuter(0)
+          .tickPadding(10);
+
+        const yAxis = svg
+          .append("g")
+          .call(yAxisGenerator)
+          .attr("transform", `translate(${margin},0)`);
+      };
+
+      // 井字軸線樣式
+      const adjustWellTicks = () => {
+        const currentWidth = parseInt(d3.select(".wellTicks").style("width"));
+        const height = 400;
+        const margin = 60;
+
+        const svg = d3
+          .select(".wellTicks")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height);
+
+        // X軸線
+        const xScale = d3
+          .scaleLinear()
+          .domain([0, 100])
+          .range([0, currentWidth - margin * 2]);
+
+        const xAxisGenerator = d3
+          .axisBottom(xScale)
+          .tickSize(`${-height + margin}`)
+          .tickSizeOuter(0)
+          .tickPadding(40);
+
+        const xAxis = svg
+          .append("g")
+          .attr("class", "xCheckerboardAxis")
+          .call(xAxisGenerator)
+          .attr("transform", `translate(${margin},${height - margin})`);
+
+        // Ｙ軸線
+        const yScale = d3
+          .scaleLinear()
+          .domain([0, 100])
+          .range([height - margin, margin]);
+
+        const yAxisGenerator = d3
+          .axisLeft(yScale)
+          .tickSize(`${-currentWidth + margin}`)
+          .tickSizeOuter(0)
+          .tickPadding(40);
+
+        const yAxis = svg
+          .append("g")
+          .attr("class", "yCheckerboardAxis")
+          .call(yAxisGenerator)
+          .attr("transform", `translate(${margin},0)`);
+
+        // 調整tick特殊樣式
+        d3.selectAll(".xCheckerboardAxis line").attr(
+          "transform",
+          `translate(0,${margin / 2})`
+        );
+
+        d3.selectAll(".yCheckerboardAxis line").attr(
+          "transform",
+          `translate(${-margin / 2},0)`
+        );
+      };
+
+      // Grid軸線樣式
+      const drawGridTicks = () => {
+        const currentWidth = parseInt(d3.select(".gridTicks").style("width"));
+        const height = 400;
+        const margin = 35;
+
+        const svg = d3
+          .select(".gridTicks")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height);
+
+        // X軸線
+        const xScale = d3
+          .scaleLinear()
+          .domain([0, 100])
+          .range([0, currentWidth - margin * 2]);
+
+        const xAxisGenerator = d3
+          .axisBottom(xScale)
+          .tickSize(15)
+          .tickPadding(5);
+
+        const xAxis = svg
+          .append("g")
+          .attr("class", "xGridAxis")
+          .call(xAxisGenerator)
+          .attr("transform", `translate(${margin},${height - margin})`);
+
+        // Ｙ軸線
+        const yScale = d3
+          .scaleLinear()
+          .domain([0, 100])
+          .range([height - margin, margin]);
+
+        const yAxisGenerator = d3.axisLeft(yScale).tickSize(15).tickPadding(5);
+
+        const yAxis = svg
+          .append("g")
+          .attr("class", "yGridAxis")
+          .call(yAxisGenerator)
+          .attr("transform", `translate(${margin},0)`);
+
+        //繪製X軸向上的不同色軸線
+        d3.selectAll(".xGridAxis .tick")
+          .append("line")
+          .attr("x1", 0)
+          .attr("y1", 0)
+          .attr("x2", 0)
+          .attr("y2", -height + margin * 2)
+          .attr("stroke", "#e4e4e4");
+
+        //繪製Y軸向右的不同色軸線
+        d3.selectAll(".yGridAxis .tick")
+          .filter((d, i) => i !== 0) // 不繪製第一條與x軸重疊的y軸線
+          .append("line")
+          .attr("x1", 0)
+          .attr("y1", 0)
+          .attr("x2", currentWidth - margin * 2)
+          .attr("y2", 0)
+          .attr("stroke", "#e4e4e4");
+      };
+
+      // textLabelRotate
+      const setTextLabelRotate = () => {
+        const currentWidth = parseInt(
+          d3.select(".textLabelRotate").style("width")
+        );
+        const height = 400;
+        const margin = 35;
+        const marginBottom = 60;
+
+        const svg = d3
+          .select(".textLabelRotate")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height);
+
+        // date
+        const currentYear = new Date("2023-01-01");
+        const nextYear = new Date("2024-01-01");
+
+        // X軸線
+        const xScale = d3
+          .scaleTime()
+          .domain([currentYear, nextYear])
+          .nice()
+          .range([0, currentWidth - margin * 2]);
+
+        const xAxisGenerator = d3
+          .axisBottom(xScale)
+          .tickSize(15)
+          .tickPadding(35)
+          .tickFormat(d3.timeFormat("%Y-%m-%d"));
+
+        const xAxis = svg
+          .append("g")
+          .attr("class", "x-axis")
+          .call(xAxisGenerator)
+          .attr("transform", `translate(${margin},${height - marginBottom})`);
+
+        // 選取
+        d3.selectAll(".x-axis text").attr(
+          "transform",
+          "translate(-50, 0) rotate(-45)"
+        );
+
+        // Ｙ軸線
+        const yScale = d3
+          .scaleLinear()
+          .domain([0, 100])
+          .range([height - marginBottom, margin]);
+
+        const yAxisGenerator = d3.axisLeft(yScale).tickSize(15).tickPadding(5);
+
+        const yAxis = svg
+          .append("g")
+          .call(yAxisGenerator)
+          .attr("transform", `translate(${margin},0)`);
+      };
+
+      // textLabelCenter
+      const setTextLabelCenter = () => {
+        const currentWidth = parseInt(
+          d3.select(".textLabelCenter").style("width")
+        );
+        const height = 400;
+        const margin = 35;
+        const marginBottom = 60;
+
+        const svg = d3
+          .select(".textLabelCenter")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height);
+
+        // date
+        const currentYear = new Date("2023-01-01");
+        const nextYear = new Date("2024-01-01");
+
+        // X軸線
+        const xScale = d3
+          .scaleTime()
+          .domain([currentYear, nextYear])
+          .nice()
+          .range([0, currentWidth - margin * 2]);
+
+        // x 軸-文字標籤
+        const xAxisTicksGenerator = d3
+          .axisBottom(xScale)
+          .tickSize(15)
+          .tickFormat("");
+
+        const xTicksAxis = svg
+          .append("g")
+          .attr("class", "")
+          .call(xAxisTicksGenerator)
+          .attr("transform", `translate(${margin},${height - marginBottom})`);
+
+        // x 軸-文字標籤
+        const xAxisLabelsGenerator = d3
+          .axisBottom(xScale)
+          .tickSize(0)
+          .tickPadding(25)
+          .tickFormat(d3.timeFormat("%B"));
+
+        //取得刻度間距
+        const getTicksDistance = (scale) => {
+          const ticks = scale.ticks();
+          const distance = parseInt(scale(ticks[1]) - scale(ticks[0]));
+          return distance;
+        };
+
+        // 調整x文字標籤軸位置
+        const xLabelsAxis = svg
+          .append("g")
+          .attr("class", "xLabelsAxis")
+          .call(xAxisLabelsGenerator)
+          .attr(
+            "transform",
+            `translate(${margin + getTicksDistance(xScale) / 2},${
+              height - marginBottom
+            })`
+          );
+
+        // Ｙ軸線
+        const yScale = d3
+          .scaleLinear()
+          .domain([0, 100])
+          .range([height - marginBottom, margin]);
+
+        const yAxisGenerator = d3.axisLeft(yScale).tickSize(15).tickPadding(5);
+
+        const yAxis = svg
+          .append("g")
+          .call(yAxisGenerator)
+          .attr("transform", `translate(${margin},0)`);
+      };
+
+      generateAxes();
+      generateAxisBottom();
+      adjustNumberTicks();
+      adjustTimeTicks();
+      adjustTickValues();
+      adjustTickFormat();
+      adjustTickSize();
+      adjustTickSizeInner();
+      adjustTickSizeOuter();
+      adjustTickPadding();
+      drawXYAxes();
+
+      adjustTickStyle();
+      adjustCheckerBoardTicks();
+      adjustWellTicks();
+      drawGridTicks();
+
+      setTextLabelRotate();
+      setTextLabelCenter();
     </script>
   </body>
 </html>
