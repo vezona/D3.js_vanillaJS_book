@@ -1569,10 +1569,16 @@
 
       // clock axis
       const drawClockAxis = ()=>{
-        const clockRadius = parseInt(d3.select(".clockAxis").style("width"))/2;
+
+        const currentWidth = parseInt(d3.select(".clockAxis").style("width"));
+        const clockRadius = currentWidth/2;
+        const height = 400;
         const margin = 30;
 
         const svg = d3.select(".clockAxis")
+                      .append('svg')
+                      .attr("width", currentWidth)
+                      .attr("height", height);
 
         // 小時比例尺
         const hourScale =d3.scaleLinear().domain([0,12]).range([0,360])
@@ -1582,15 +1588,15 @@
 
         const clock = svg.append("g").attr('id', 'clock')
 
-        clock.selectAll('.secondTicks')
+        clock.selectAll('line')
             .data(d3.range(0,60))
             .join()
             .append('line')
-            .attr('class', '.secondTicks')
+            .attr('class', 'secondTicks')
             .attr('x1', '0')
             .attr('x2', '0')
-            .attr('y1', '0')
-            .attr('y2', '0')
+            .attr('y1', clockRadius)
+            .attr('y2', clockRadius-10)
             // .attr('', '')
             // .attr('', '')
         
