@@ -26,7 +26,7 @@
       </div>
     </nav>
 
-    <div class="container">
+    < class="container">
       <h3 class="mt-6 fw-bold">軸線、刻度、工具提示框</h3>
 
       <!-- Axes -->
@@ -730,6 +730,9 @@
         <p class="mt-4 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
+            //html
+            &lt;div class=&quot;textLabelCenter&quot;&gt;&lt;/div&gt;
+            //js
             const currentWidth = 500;
             const height = 400;
             const margin = 35;
@@ -745,7 +748,7 @@
             const currentYear = new Date("2023-01-01");
             const nextYear = new Date("2024-01-01");
     
-            // X軸線
+            // X軸比例尺
             const xScale = d3
               .scaleTime()
               .domain([currentYear, nextYear])
@@ -801,6 +804,19 @@
               .append("g")
               .call(yAxisGenerator)
               .attr("transform", `translate(${margin},0)`);
+          </code>
+        </pre>
+      </div>
+
+      <!-- 時鐘軸線-->
+      <div>
+        <h5 class="mt-6"><mark>時鐘軸線</mark></h5>
+
+        <div class="clockAxis"></div>
+        <p class="mt-4 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+
           </code>
         </pre>
       </div>
@@ -1490,9 +1506,9 @@
 
         // date
         const currentYear = new Date("2023-01-01");
-        const nextYear = new Date("2024-01-01");
+        const nextYear = new Date("2023-11-01");
 
-        // X軸線
+        // X軸比例尺
         const xScale = d3
           .scaleTime()
           .domain([currentYear, nextYear])
@@ -1551,6 +1567,35 @@
           .attr("transform", `translate(${margin},0)`);
       };
 
+      // clock axis
+      const drawClockAxis = ()=>{
+        const clockRadius = parseInt(d3.select(".clockAxis").style("width"))/2;
+        const margin = 30;
+
+        const svg = d3.select(".clockAxis")
+
+        // 小時比例尺
+        const hourScale =d3.scaleLinear().domain([0,12]).range([0,360])
+
+        // 分鐘比例尺
+        const minuteScale =d3.scaleLinear().domain([0,60]).range([0,360])
+
+        const clock = svg.append("g").attr('id', 'clock')
+
+        clock.selectAll('.secondTicks')
+            .data(d3.range(0,60))
+            .join()
+            .append('line')
+            .attr('class', '.secondTicks')
+            .attr('x1', '0')
+            .attr('x2', '0')
+            .attr('y1', '0')
+            .attr('y2', '0')
+            // .attr('', '')
+            // .attr('', '')
+        
+
+      }
       generateAxes();
       generateAxisBottom();
       adjustNumberTicks();
@@ -1570,6 +1615,7 @@
 
       setTextLabelRotate();
       setTextLabelCenter();
+      drawClockAxis();
     </script>
   </body>
 </html>
