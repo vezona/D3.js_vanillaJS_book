@@ -119,10 +119,10 @@
             const December = new Date('2023/12');
       
             const svg = d3.select('.timeTicks')
-                                  .append('svg')
-                                  .attr('width',currentWidth)
-                                  .attr('height',height)
-                                  .style('border', '1px solid rgb(96,96,96)')
+                          .append('svg')
+                          .attr('width',currentWidth)
+                          .attr('height',height)
+                          .style('border', '1px solid rgb(96,96,96)')
       
             const xScale = d3.scaleTime()
                             .domain([January,December])
@@ -406,12 +406,12 @@
             // X比例尺與軸線
             const xScale = d3.scaleLinear()
                             .domain([0, d3.max(xData)])
-                            .range([0, currentWidth - margin * 2]);
+                            .range([margin, currentWidth - margin]);
     
             const xAxisGenerator = d3.axisBottom(xScale);
             const xAxis = svg.append("g")
                       .call(xAxisGenerator)
-                      .attr("transform", `translate(${margin},${height - margin})`);
+                      .attr("transform", `translate(0,${height - margin})`);
     
             // Y比例尺與軸線
             const yScale = d3.scaleLinear()
@@ -476,7 +476,45 @@
         <p class="mt-2 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
-
+            // html 
+            &lt;div class=&quot;checkerboardTicks&quot;&gt;&lt;/div&gt;
+            // js
+            const currentWidth = 500
+            const height = 400;
+            const margin = 40;
+    
+            const svg = d3.select(".checkerboardTicks")
+                          .append("svg")
+                          .attr("width", currentWidth)
+                          .attr("height", height);
+    
+            // x軸線
+            const xScale = d3.scaleLinear()
+                          .domain([0, 100])
+                          .range([margin, currentWidth - margin]);
+    
+            const xAxisGenerator = d3.axisBottom(xScale)
+                              .tickSize(`${-height + margin * 2}`)
+                              .tickSizeOuter(0)
+                              .tickPadding(10);
+    
+            const xAxis = svg.append("g")
+                  .call(xAxisGenerator)
+                  .attr("transform", `translate(0,${height - margin})`);
+    
+            // y軸線
+            const yScale = d3.scaleLinear()
+                        .domain([0, 100])
+                        .range([height - margin, margin]);
+    
+            const yAxisGenerator = d3.axisLeft(yScale)
+                      .tickSize(`${-currentWidth + margin * 2}`)
+                      .tickSizeOuter(0)
+                      .tickPadding(10);
+    
+            const yAxis = svg.append("g")
+                      .call(yAxisGenerator)
+                      .attr("transform", `translate(${margin},0)`);
           </code>
         </pre>
       </div>
@@ -489,7 +527,59 @@
         <p class="mt-2 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
+            // html 
+            &lt;div class=&quot;wellTicks&quot;&gt;&lt;/div&gt;
 
+            // js
+            const currentWidth = 500;
+            const height = 400;
+            const margin = 60;
+    
+            const svg = d3.select(".wellTicks")
+                  .append("svg")
+                  .attr("width", currentWidth)
+                  .attr("height", height);
+    
+            // X軸線
+            const xScale = d3.scaleLinear()
+                  .domain([0, 100])
+                  .range([margin, currentWidth - margin]);
+    
+            const xAxisGenerator = d3.axisBottom(xScale)
+                  .tickSize(`${-height + margin}`)
+                  .tickSizeOuter(0)
+                  .tickPadding(40);
+    
+            const xAxis = svg.append("g")
+                  .attr("class", "xCheckerboardAxis")
+                  .call(xAxisGenerator)
+                  .attr("transform", `translate(0,${height - margin})`);
+    
+            // Ｙ軸線
+            const yScale = d3.scaleLinear()
+                    .domain([0, 100])
+                    .range([height - margin, margin]);
+    
+            const yAxisGenerator = d3.axisLeft(yScale)
+                    .tickSize(`${-currentWidth + margin}`)
+                    .tickSizeOuter(0)
+                    .tickPadding(40);
+    
+            const yAxis = svg.append("g")
+                    .attr("class", "yCheckerboardAxis")
+                    .call(yAxisGenerator)
+                    .attr("transform", `translate(${margin},0)`);
+    
+            // 調整tick特殊樣式
+            d3.selectAll(".xCheckerboardAxis line").attr(
+              "transform",
+              `translate(0,${margin / 2})`
+            );
+    
+            d3.selectAll(".yCheckerboardAxis line").attr(
+              "transform",
+              `translate(${-margin / 2},0)`
+            );
           </code>
         </pre>
       </div>
@@ -502,7 +592,68 @@
         <p class="mt-2 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
-
+            const currentWidth = parseInt(d3.select(".gridTicks").style("width"));
+            const height = 400;
+            const margin = 35;
+    
+            const svg = d3
+              .select(".gridTicks")
+              .append("svg")
+              .attr("width", currentWidth)
+              .attr("height", height);
+    
+            // X軸線
+            const xScale = d3
+              .scaleLinear()
+              .domain([0, 100])
+              .range([margin, currentWidth - margin]);
+    
+            const xAxisGenerator = d3
+              .axisBottom(xScale)
+              .tickSize(15)
+              .tickPadding(5);
+    
+            const xAxis = svg
+              .append("g")
+              .attr("class", "xGridAxis")
+              .call(xAxisGenerator)
+              .attr("transform", `translate(0,${height - margin})`);
+    
+            // Ｙ軸線
+            const yScale = d3
+              .scaleLinear()
+              .domain([0, 100])
+              .range([height - margin, margin]);
+    
+            const yAxisGenerator = d3.axisLeft(yScale)
+                                     .tickSize(15)
+                                     .tickPadding(5);
+    
+            const yAxis = svg
+              .append("g")
+              .attr("class", "yGridAxis")
+              .call(yAxisGenerator)
+              .attr("transform", `translate(${margin},0)`);
+    
+            //繪製 X 軸向上的不同色軸線
+            d3.selectAll(".xGridAxis .tick")
+              .append("line")
+              .attr("x1", 0)
+              .attr("y1", 0)
+              .attr("x2", 0)
+              .attr("y2", -height + margin * 2)
+              .attr("stroke", "#e4e4e4");
+    
+            //繪製 Y 軸向右的不同色軸線
+            d3.selectAll(".yGridAxis .tick")
+               // 不繪製第一條與 x 軸重疊的 y 軸線
+              .filter((d, i) => i !== 0)
+              .append("line")
+              .attr("x1", 0)
+              .attr("y1", 0)
+              .attr("x2", currentWidth - margin * 2)
+              .attr("y2", 0)
+              .attr("stroke", "#e4e4e4");
           </code>
         </pre>
       </div>
@@ -515,7 +666,58 @@
         <p class="mt-4 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
-
+            const currentWidth = 500;
+            const height = 400;
+            const margin = 35;
+            const marginBottom = 60;
+    
+            const svg = d3
+              .select(".textLabelRotate")
+              .append("svg")
+              .attr("width", currentWidth)
+              .attr("height", height);
+    
+            // date
+            const currentYear = new Date("2023-01-01");
+            const nextYear = new Date("2024-01-01");
+    
+            // X軸線
+            const xScale = d3
+              .scaleTime()
+              .domain([currentYear, nextYear])
+              .nice()
+              .range([margin, currentWidth - margin]);
+    
+            const xAxisGenerator = d3
+              .axisBottom(xScale)
+              .tickSize(15)
+              .tickPadding(35)
+              .tickFormat(d3.timeFormat("%Y-%m-%d"));
+    
+            const xAxis = svg
+              .append("g")
+              .attr("class", "x-axis")
+              .call(xAxisGenerator)
+              .attr("transform", `translate(0,${height - marginBottom})`);
+    
+            // 旋轉文字標籤
+            d3.selectAll(".x-axis text").attr(
+              "transform",
+              "translate(-50, 0) rotate(-45)"
+            );
+    
+            // Ｙ軸線
+            const yScale = d3
+              .scaleLinear()
+              .domain([0, 100])
+              .range([height - marginBottom, margin]);
+    
+            const yAxisGenerator = d3.axisLeft(yScale).tickSize(15).tickPadding(5);
+    
+            const yAxis = svg
+              .append("g")
+              .call(yAxisGenerator)
+              .attr("transform", `translate(${margin},0)`);
           </code>
         </pre>
       </div>
@@ -528,7 +730,77 @@
         <p class="mt-4 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
+            const currentWidth = 500;
+            const height = 400;
+            const margin = 35;
+            const marginBottom = 60;
+    
+            const svg = d3
+              .select(".textLabelCenter")
+              .append("svg")
+              .attr("width", currentWidth)
+              .attr("height", height);
+    
+            // date
+            const currentYear = new Date("2023-01-01");
+            const nextYear = new Date("2024-01-01");
+    
+            // X軸線
+            const xScale = d3
+              .scaleTime()
+              .domain([currentYear, nextYear])
+              .nice()
+              .range([margin, currentWidth - margin]);
+    
+            // x 軸-刻度線
+            const xAxisTicksGenerator = d3
+              .axisBottom(xScale)
+              .tickSize(15)
+              .tickFormat("");
+    
+            const xTicksAxis = svg
+              .append("g")
+              .call(xAxisTicksGenerator)
+              .attr("transform", `translate(0,${height - marginBottom})`);
 
+            // 取得刻度間距
+              const getTicksDistance = (scale) => {
+                const ticks = scale.ticks();
+                const distance = parseInt(scale(ticks[1]) - scale(ticks[0]));
+                return distance;
+              };
+    
+            // x 軸-文字標籤
+            const xAxisLabelsGenerator = d3
+              .axisBottom(xScale)
+              .tickSize(0)
+              .tickPadding(25)
+              .tickFormat(d3.timeFormat("%B"));
+    
+            // 調整 x 文字標籤軸位置
+            const xLabelsAxis = svg
+              .append("g")
+              .attr("class", "xLabelsAxis")
+              .call(xAxisLabelsGenerator)
+              .attr(
+                "transform",
+                `translate(${getTicksDistance(xScale) / 2},${
+                  height - marginBottom
+                })`
+              );
+    
+            // Ｙ軸線
+            const yScale = d3
+              .scaleLinear()
+              .domain([0, 100])
+              .range([height - marginBottom, margin]);
+    
+            const yAxisGenerator = d3.axisLeft(yScale).tickSize(15).tickPadding(5);
+    
+            const yAxis = svg
+              .append("g")
+              .call(yAxisGenerator)
+              .attr("transform", `translate(${margin},0)`);
           </code>
         </pre>
       </div>
@@ -914,13 +1186,13 @@
         const xScale = d3
           .scaleLinear()
           .domain([0, d3.max(xData)])
-          .range([0, currentWidth - margin * 2]);
+          .range([margin, currentWidth - margin]);
 
         const xAxisGenerator = d3.axisBottom(xScale);
         const xAxis = svg
           .append("g")
           .call(xAxisGenerator)
-          .attr("transform", `translate(${margin},${height - margin})`);
+          .attr("transform", `translate(0,${height - margin})`);
 
         // y軸比例尺與軸線
         const yScale = d3
@@ -985,11 +1257,11 @@
           .attr("width", currentWidth)
           .attr("height", height);
 
-        // X軸線
+        // x軸線
         const xScale = d3
           .scaleLinear()
           .domain([0, 100])
-          .range([0, currentWidth - margin * 2]);
+          .range([margin, currentWidth - margin]);
 
         const xAxisGenerator = d3
           .axisBottom(xScale)
@@ -1000,9 +1272,9 @@
         const xAxis = svg
           .append("g")
           .call(xAxisGenerator)
-          .attr("transform", `translate(${margin},${height - margin})`);
+          .attr("transform", `translate(0,${height - margin})`);
 
-        // Ｙ軸線
+        // y軸線
         const yScale = d3
           .scaleLinear()
           .domain([0, 100])
@@ -1036,7 +1308,7 @@
         const xScale = d3
           .scaleLinear()
           .domain([0, 100])
-          .range([0, currentWidth - margin * 2]);
+          .range([margin, currentWidth - margin]);
 
         const xAxisGenerator = d3
           .axisBottom(xScale)
@@ -1048,7 +1320,7 @@
           .append("g")
           .attr("class", "xCheckerboardAxis")
           .call(xAxisGenerator)
-          .attr("transform", `translate(${margin},${height - margin})`);
+          .attr("transform", `translate(0,${height - margin})`);
 
         // Ｙ軸線
         const yScale = d3
@@ -1083,7 +1355,7 @@
       // Grid軸線樣式
       const drawGridTicks = () => {
         const currentWidth = parseInt(d3.select(".gridTicks").style("width"));
-        const height = 400;
+        const height = 300;
         const margin = 35;
 
         const svg = d3
@@ -1096,7 +1368,7 @@
         const xScale = d3
           .scaleLinear()
           .domain([0, 100])
-          .range([0, currentWidth - margin * 2]);
+          .range([margin, currentWidth - margin]);
 
         const xAxisGenerator = d3
           .axisBottom(xScale)
@@ -1107,7 +1379,7 @@
           .append("g")
           .attr("class", "xGridAxis")
           .call(xAxisGenerator)
-          .attr("transform", `translate(${margin},${height - margin})`);
+          .attr("transform", `translate(0,${height - margin})`);
 
         // Ｙ軸線
         const yScale = d3
@@ -1167,7 +1439,7 @@
           .scaleTime()
           .domain([currentYear, nextYear])
           .nice()
-          .range([0, currentWidth - margin * 2]);
+          .range([margin, currentWidth - margin]);
 
         const xAxisGenerator = d3
           .axisBottom(xScale)
@@ -1179,9 +1451,9 @@
           .append("g")
           .attr("class", "x-axis")
           .call(xAxisGenerator)
-          .attr("transform", `translate(${margin},${height - marginBottom})`);
+          .attr("transform", `translate(0,${height - marginBottom})`);
 
-        // 選取
+        // 旋轉文字標籤
         d3.selectAll(".x-axis text").attr(
           "transform",
           "translate(-50, 0) rotate(-45)"
@@ -1225,9 +1497,9 @@
           .scaleTime()
           .domain([currentYear, nextYear])
           .nice()
-          .range([0, currentWidth - margin * 2]);
+          .range([margin, currentWidth - margin]);
 
-        // x 軸-文字標籤
+        // x 軸-刻度線
         const xAxisTicksGenerator = d3
           .axisBottom(xScale)
           .tickSize(15)
@@ -1237,14 +1509,7 @@
           .append("g")
           .attr("class", "")
           .call(xAxisTicksGenerator)
-          .attr("transform", `translate(${margin},${height - marginBottom})`);
-
-        // x 軸-文字標籤
-        const xAxisLabelsGenerator = d3
-          .axisBottom(xScale)
-          .tickSize(0)
-          .tickPadding(25)
-          .tickFormat(d3.timeFormat("%B"));
+          .attr("transform", `translate(0,${height - marginBottom})`);
 
         //取得刻度間距
         const getTicksDistance = (scale) => {
@@ -1253,6 +1518,13 @@
           return distance;
         };
 
+        // x 軸-文字標籤
+        const xAxisLabelsGenerator = d3
+          .axisBottom(xScale)
+          .tickSize(0)
+          .tickPadding(25)
+          .tickFormat(d3.timeFormat("%B"));
+
         // 調整x文字標籤軸位置
         const xLabelsAxis = svg
           .append("g")
@@ -1260,7 +1532,7 @@
           .call(xAxisLabelsGenerator)
           .attr(
             "transform",
-            `translate(${margin + getTicksDistance(xScale) / 2},${
+            `translate(${getTicksDistance(xScale) / 2},${
               height - marginBottom
             })`
           );
