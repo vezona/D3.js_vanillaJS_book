@@ -202,8 +202,92 @@
           .attr("stroke-width", 1.5);
       };
 
+      const drawRWDLineChart = async () => {
+        // 設定 RWD svg 寬高
+        const containerWidth = parseInt(
+            d3.select(".basicLineChart").style("width")
+          ),
+          rwdSvgWidth = containerWidth > 600 ? 700 : containerWidth,
+          rwdSvgHeight = rwdSvgWidth < 600 ? 300 : 400,
+          margin = { top: 20, bottom: 70, ight: 20, left: 40 };
+
+        // chart SVG
+        const svg = d3
+          .select(".basicLineChart")
+          .append("svg")
+          .attr("width", rwdSvgWidth)
+          .attr("height", rwdSvgHeight);
+
+        // map 資料集
+        const xData = data.map((i) => i["時間"]);
+        const yData = data.map((i) => +i["買賣契約價格平均總價(不分建物類別)"]);
+
+        // 設定要給 X 軸用的 scale 跟 axis
+        const xScale = d3
+          .scaleTime()
+          .domain(d3.extent(xData))
+          .range([marginLeft, rwdSvgWidth - marginRight]) // 長度、高度
+          .nice();
+
+        // rwd X軸的刻度
+        let tickNumber = window.innerWidth > 900 ? xData.length / 3 : 10;
+        const xAxis = d3
+          .axisBottom(xScale)
+          .ticks(tickNumber)
+          .tickFormat((d) => {
+            return dayjs(d).format("YYYY/MM/DD");
+          });
+
+        // 呼叫繪製x軸、調整x軸位置
+        const xAxisGroup = svg
+          .append("g")
+          .call(xAxis)
+          .attr("transform", `translate(0,${rwdSvgHeight - marginBottom})`);
+
+        // X軸刻度位置調整
+        xAxisGroup.call((g) =>
+          g
+            .selectAll(".tick text")
+            .style("transform", "rotate(-48deg)")
+            .attr("x", -30)
+            .attr("y", 10)
+        );
+
+        // 設定要給 Y 軸用的 scale 跟 axis
+        const yScale = d3
+          .scaleLinear()
+          .domain(d3.extent(yData)) //[0, d3.max(yData)]
+          .range([rwdSvgHeight - marginBottom, marginTop]) // 數值要顛倒，才會從低往高排
+          .nice();
+
+        const yAxis = d3.axisLeft(yScale).tickFormat((d) => `${d}萬`);
+
+        // 呼叫繪製y軸、調整y軸位置
+        const yAxisGroup = svg
+          .append("g")
+          .call(yAxis)
+          .attr("transform", `translate(${marginLeft},0)`);
+
+        // 設定 path 的 d
+        const lineChart = d3
+          .line()
+          .x((d) => xScale(d["時間"]))
+          .y((d) => yScale(+d["買賣契約價格平均總價(不分建物類別)"]));
+
+        // 建立折線圖
+        svg
+          .append("path")
+          .data(data)
+          .attr("d", lineChart(data))
+          .attr("fill", "none")
+          .attr("stroke", "#f68b47")
+          .attr("stroke-width", 1.5);
+      };
+
       getData();
-      d3.select(window).on("resize", drawLineChart);
+      // d3.select(window).on("resize", drawLineChart);
+
+      drawRWDLineChart();
     </script>
   </body>
 </html>

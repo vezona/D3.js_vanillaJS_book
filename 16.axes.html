@@ -816,7 +816,112 @@
         <p class="mt-4 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
-
+            const currentWidth = parseInt(d3.select(".clockAxis").style("width")),
+            height = 500,
+            clockRadius = height / 3,
+            minuteTickLength = clockRadius - 10,
+            hourTickLength = clockRadius - 18,
+            radians = Math.PI / 180, //弧度
+            minuteLabelRadius = clockRadius + 15, // 分鐘半徑
+            minuteLabelYOffset = 5,
+            hourLabelRadius = clockRadius - 35, // 小時半徑
+            hourLabelYOffset = 10;
+  
+          const svg = d3
+            .select(".clockAxis")
+            .append("svg")
+            .attr("width", currentWidth)
+            .attr("height", height);
+  
+          // 小時比例尺(12小時映射到360度)
+          const hourScale = d3.scaleLinear().domain([0, 12]).range([0, 360]);
+  
+          // 分鐘比例尺(60分鐘映射到360度)
+          const minuteScale = d3.scaleLinear().domain([0, 60]).range([0, 360]);
+  
+          const clock = svg
+            .append("g")
+            .attr("id", "clock")
+            // 繪製起始點移動到svg中央
+            .attr(
+              "transform",
+              `translate(${[parseInt(currentWidth / 2), height / 2]})`
+            );
+  
+          // 分鐘刻度
+          clock
+            .selectAll(".minuteTicks")
+            .data(d3.range(0, 60))
+            .enter()
+            .append("line")
+            .attr("class", "minuteTicks")
+            .attr("x1", "0")
+            .attr("x2", "0")
+            .attr("y1", clockRadius)
+            .attr("y2", minuteTickLength)
+            .attr("stroke-width", "3")
+            .attr("stroke", "black")
+            .attr("transform", (d) => `rotate(${minuteScale(d)})`);
+  
+          // 分鐘數字標籤
+          clock
+            .selectAll("minuteLabels")
+            .data(d3.range(5, 61, 5)) //5到61，間格5
+            .enter()
+            .append("text")
+            .attr("class", "minuteLabels")
+            .attr("text-anchor", "middle")
+            .attr("x", (d) => {
+              // 標籤的半徑乘以角度(比例尺承弧度)的正弦值(Math.sin)
+              return minuteLabelRadius * Math.sin(minuteScale(d) * radians);
+            })
+            .attr("y", (d) => {
+              //標籤的半徑乘以角度(比例尺承弧度)的餘弦函數
+              return (
+                -minuteLabelRadius * Math.cos(minuteScale(d) * radians) +
+                minuteLabelYOffset
+              );
+            })
+            .text((d) => d)
+            .style("stroke", "#A0A0A0");
+  
+          // 小時刻度
+          clock
+            .selectAll(".hourTick")
+            .data(d3.range(0, 12))
+            .enter()
+            .append("line")
+            .attr("class", "hourTicks")
+            .attr("x1", "0")
+            .attr("x2", "0")
+            .attr("y1", clockRadius)
+            .attr("y2", hourTickLength)
+            .attr("stroke-width", "6")
+            .attr("stroke", "black")
+            .attr("transform", (d) => `rotate(${hourScale(d)})`);
+  
+          // 小時數字標籤
+          clock
+            .selectAll(".hourLabels")
+            .data(d3.range(3, 13, 3))
+            .enter()
+            .append("text")
+            .attr("class", "hourLabels")
+            .attr("text-anchor", "middle")
+            .attr("x", (d) => {
+              // 標籤的半徑乘以角度(比例尺承弧度)的正弦值(Math.sin)
+              return hourLabelRadius * Math.sin(hourScale(d) * radians);
+            })
+            .attr("y", (d) => {
+              //標籤的半徑乘以角度(比例尺承弧度)的餘弦函數
+              return (
+                -hourLabelRadius * Math.cos(hourScale(d) * radians) +
+                hourLabelYOffset
+              );
+            })
+            .text((d) => d)
+            .style("font-size", "24px")
+            .style("font-weight", "bolder");
           </code>
         </pre>
       </div>
@@ -1568,43 +1673,114 @@
       };
 
       // clock axis
-      const drawClockAxis = ()=>{
-        const currentWidth = parseInt(d3.select(".clockAxis").style("width"));
-        const clockRadius = currentWidth/3;
-        const height = 500;
-        const margin = 30;
+      const drawClockAxis = () => {
+        const currentWidth = parseInt(d3.select(".clockAxis").style("width")),
+          height = 500,
+          clockRadius = height / 3,
+          minuteTickLength = clockRadius - 10,
+          hourTickLength = clockRadius - 18,
+          radians = Math.PI / 180, //弧度
+          minuteLabelRadius = clockRadius + 15, // 分鐘半徑
+          minuteLabelYOffset = 5,
+          hourLabelRadius = clockRadius - 35, // 小時半徑
+          hourLabelYOffset = 10;
 
-        const svg = d3.select(".clockAxis")
-                      .append('svg')
-                      .attr("width", currentWidth)
-                      .attr("height", height);
+        const svg = d3
+          .select(".clockAxis")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height);
 
-        // 小時比例尺
-        const hourScale = d3.scaleLinear().domain([0,12]).range([0,360])
+        // 小時比例尺(12小時映射到360度)
+        const hourScale = d3.scaleLinear().domain([0, 12]).range([0, 360]);
 
-        // 分鐘比例尺
-        const minuteScale =d3.scaleLinear().domain([0,60]).range([0,360])
+        // 分鐘比例尺(60分鐘映射到360度)
+        const minuteScale = d3.scaleLinear().domain([0, 60]).range([0, 360]);
 
-        const clock = svg.append("g").attr('id', 'clock')
-        .attr("transform", `translate(${[parseInt(currentWidth / 2), height / 2]})`)
-
+        const clock = svg
+          .append("g")
+          .attr("id", "clock")
+          // 繪製起始點移動到svg中央
+          .attr(
+            "transform",
+            `translate(${[parseInt(currentWidth / 2), height / 2]})`
+          );
 
         // 分鐘刻度
-        clock.selectAll('line')
-            .data(d3.range(0,60))
-            .enter()
-            .append('line')
-            .attr('class', 'secondTicks')
-            .attr('x1', '0')
-            .attr('x2', '0')
-            .attr('y1', clockRadius)
-            .attr('y2', clockRadius-10)
-            .attr('stroke-width', '3')
-            .attr('stroke', 'black')
-            .attr("transform", d => `rotate(${minuteScale(d)})`);
-        
+        clock
+          .selectAll(".minuteTicks")
+          .data(d3.range(0, 60))
+          .enter()
+          .append("line")
+          .attr("class", "minuteTicks")
+          .attr("x1", "0")
+          .attr("x2", "0")
+          .attr("y1", clockRadius)
+          .attr("y2", minuteTickLength)
+          .attr("stroke-width", "3")
+          .attr("stroke", "black")
+          .attr("transform", (d) => `rotate(${minuteScale(d)})`);
 
-      }
+        // 分鐘數字標籤
+        clock
+          .selectAll("minuteLabels")
+          .data(d3.range(5, 61, 5)) //5到61，間格5
+          .enter()
+          .append("text")
+          .attr("class", "minuteLabels")
+          .attr("text-anchor", "middle")
+          .attr("x", (d) => {
+            // 標籤的半徑乘以角度(比例尺承弧度)的正弦值(Math.sin)
+            return minuteLabelRadius * Math.sin(minuteScale(d) * radians);
+          })
+          .attr("y", (d) => {
+            //標籤的半徑乘以角度(比例尺承弧度)的餘弦函數
+            return (
+              -minuteLabelRadius * Math.cos(minuteScale(d) * radians) +
+              minuteLabelYOffset
+            );
+          })
+          .text((d) => d)
+          .style("stroke", "#A0A0A0");
+
+        // 小時刻度
+        clock
+          .selectAll(".hourTick")
+          .data(d3.range(0, 12))
+          .enter()
+          .append("line")
+          .attr("class", "hourTicks")
+          .attr("x1", "0")
+          .attr("x2", "0")
+          .attr("y1", clockRadius)
+          .attr("y2", hourTickLength)
+          .attr("stroke-width", "6")
+          .attr("stroke", "black")
+          .attr("transform", (d) => `rotate(${hourScale(d)})`);
+
+        // 小時數字標籤
+        clock
+          .selectAll(".hourLabels")
+          .data(d3.range(3, 13, 3))
+          .enter()
+          .append("text")
+          .attr("class", "hourLabels")
+          .attr("text-anchor", "middle")
+          .attr("x", (d) => {
+            // 標籤的半徑乘以角度(比例尺承弧度)的正弦值(Math.sin)
+            return hourLabelRadius * Math.sin(hourScale(d) * radians);
+          })
+          .attr("y", (d) => {
+            //標籤的半徑乘以角度(比例尺承弧度)的餘弦函數
+            return (
+              -hourLabelRadius * Math.cos(hourScale(d) * radians) +
+              hourLabelYOffset
+            );
+          })
+          .text((d) => d)
+          .style("font-size", "24px")
+          .style("font-weight", "bolder");
+      };
       generateAxes();
       generateAxisBottom();
       adjustNumberTicks();
