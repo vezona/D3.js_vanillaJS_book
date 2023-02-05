@@ -28,6 +28,11 @@
 
     <div class="container">
       <h3 class="mt-6 fw-bold">圓餅圖 Pie Chart</h3>
+      <div>
+        <h5>記帳</h5>
+        <div class="expensesChart"></div>
+      </div>
+
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -36,6 +41,92 @@
     ></script>
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script></script>
+    <script>
+      const drawExpensesChart = ()=>{
+        const data = [{item:'交通', data:3000},
+                      {item:'房租', data:12000},
+                      {item:'日常用品', data:1400},
+                      {item:'吃飯', data:4000},
+                      {item:'交際應酬', data:2400}
+                      ]; 
+
+        // svg
+        const currentWidth = parseInt(d3.select(".expensesChart").style("width")),
+              height = 400,
+              margin = 40;
+
+        // 先設定 svg 大小
+        const svg = d3.select(".expensesChart")
+                        .append("svg")
+                        .attr("width", currentWidth)
+                        .attr("height", height);
+
+        // 圓餅集合標籤<g>
+        svg.append("g")
+          .attr("class", "slices")
+          .attr('transform', `translate(${currentWidth / 2}, ${height / 2})`);
+
+        // 設定顏色
+        const color = d3.scaleOrdinal().range(d3.schemeSet2);
+            
+
+        // 設定圓餅半徑
+        const radius = Math.min(currentWidth, height)/2 - margin
+
+        // 將資料綁定到圓餅圖上:
+        const piechartGenerator = d3.pie()
+                          .value(d => d.data);
+
+        // innerRadius 跟 outerRadius 設定圓餅內圈外圈的大小 radius
+        const arc = d3.arc()
+                      .innerRadius(0)
+                      .outerRadius(radius)
+                      .padAngle(0), // 圓餅間距
+              outerArc = d3.arc()
+                          .outerRadius(radius * 0.9)
+                          .innerRadius(radius * 0.9);
+
+        // 圓餅圖建構函式帶入資料 
+        const pieChartData = piechartGenerator(data);
+
+        // 建立pie
+        const expensesChart = svg.select('.slices')
+                .selectAll('path')
+                .data(pieChartData)
+                .enter()
+        
+       // 綁定圓弧路徑
+        expensesChart.append('path')
+                  .attr('d', arc)
+                  .attr('class', 'arc')
+                  .attr('fill', color)
+                  .attr("stroke", "#fff")
+                  .style("stroke-width", "3px")
+                  .style("opacity", 1);
+
+        // 加上每個區塊的數字標示 =========================
+        // 計算每塊資料的百分占比，先用 d3.sum 加總全部資料，再將資料一一除上總數
+        const total = d3.sum(data, d => d.data);
+        data.forEach(i => {
+          i.percentage = Math.round((i.data/total)*100)
+        })
+
+        // 調整數字標示的位置
+        const textArc = d3.arc()
+                          .innerRadius(radius)
+                          .outerRadius(radius - 10)
+        
+        // 綁定數字標籤位置
+        expensesChart.append('text')
+            .attr('transform', d => `translate(${textArc.centroid(d)})`)
+            .text(d => d.data.item +d.data.percentage + '%')
+            .style('text-anchor', 'middle')
+            .style('font-size', 16)
+            .style('fill', 'black')
+
+      };
+
+      drawExpensesChart()
+    </script>
   </body>
 </html>
