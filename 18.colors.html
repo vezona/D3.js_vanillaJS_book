@@ -29,13 +29,136 @@
     <div class="container">
       <h3 class="mt-6 fw-bold">色彩 Colors</h3>
 
+      <!-- d3.color -->
       <div>
-        <h5 class="mt-4"><mark>d3.( )</mark></h5>
-        <svg class="mt-4 stack" style="border: 1px solid rgb(96, 96, 96)"></svg>
+        <h5 class="mt-4"><mark>d3.color(specifier)</mark></h5>
+        <div class="my-4 colorPurple"></div>
+        <div class="my-4 colorBlack"></div>
 
         <p class="mt-2 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
+            d3.color("red");
+            // return {
+            //     "r": 255,
+            //     "g": 0,
+            //     "b": 0,
+            //     "opacity": 1
+            // }
+      
+            d3.color("#000");
+            // return {
+            //     "r": 0,
+            //     "g": 0,
+            //     "b": 0,
+            //     "opacity": 1
+            // }
+          </code>
+        </pre>
+      </div>
+
+      <!-- color.formatXX -->
+      <div>
+        <h5 class="mt-5">
+          <mark>color.formatRgb( )、color.formatHsl( )</mark>
+        </h5>
+        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+          const purpleFormatRgb = d3.color("purple").formatRgb();
+          //rgb(128, 0, 128)
+    
+          const purpleFormatHsl = d3.color("purple").formatHsl();
+          // hsl(300, 100%, 25.098039215686274%)
+        </code>
+      </pre>
+      </div>
+
+      <!-- d3.opacity -->
+      <div>
+        <h5 class="mt-5"><mark>color.opacity</mark></h5>
+        <div class="opacity my-3"></div>
+
+        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+            d3.color("rgba(0,0,0,0.5)").opacity; // 0.5
+          </code>
+        </pre>
+      </div>
+
+      <!-- d3.brighter -->
+      <div>
+        <h5 class="mt-5"><mark>color.brighter([k])</mark></h5>
+        <div class="my-3 brighter"></div>
+
+        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+            d3.color("purple").brighter(0.8);
+              // return {
+              //     "r": 170.26741304591317,
+              //     "g": 0,
+              //     "b": 170.26741304591317,
+              //     "opacity": 1
+              // }
+          </code>
+        </pre>
+      </div>
+
+      <!-- d3.darker -->
+      <div>
+        <h5 class="mt-5"><mark>color.darker([k])</mark></h5>
+        <div class="my-4 darker"></div>
+
+        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+            d3.color("purple").darker(0.5);
+              // return {
+              //     "r": 107.09248339636167,
+              //     "g": 0,
+              //     "b": 107.09248339636167,
+              //     "opacity": 1
+              // }
+          </code>
+        </pre>
+      </div>
+
+      <!-- d3.rgb -->
+      <div>
+        <h5 class="mt-5"><mark>d3.rgb(r, g, b[, opacity])</mark></h5>
+        <div class="my-3 rgb"></div>
+
+        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+            // 數字參數
+            d3.rgb(255, 0, 0);
+
+            // 文字參數
+            d3.rgb("red");
+
+          </code>
+        </pre>
+      </div>
+
+      <!-- d3.hsl -->
+      <div class="mb-5">
+        <h5 class="mt-5"><mark>d3.hsl(h, s, l[, opacity])</mark></h5>
+        <div class="my-3 hsl"></div>
+
+        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+            // 文字參數
+            d3.hsl("red");
+            // return {
+            //     "h": 0,
+            //     "s": 1,
+            //     "l": 0.5,
+            //     "opacity": 1
+            // }
           </code>
         </pre>
       </div>
@@ -47,6 +170,98 @@
     ></script>
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script></script>
+    <script>
+      const purple = d3.color("purple");
+      // return {
+      //     "r": 128,
+      //     "g": 0,
+      //     "b": 128,
+      //     "opacity": 1
+      // }
+
+      d3.select(".colorPurple")
+        .style("width", "200px")
+        .style("height", "20px")
+        .style("background", purple);
+
+      const black = d3.color("#000");
+      // return {
+      //     "r": 0,
+      //     "g": 0,
+      //     "b": 0,
+      //     "opacity": 1
+      // }
+
+      d3.select(".colorBlack")
+        .style("width", "200px")
+        .style("height", "20px")
+        .style("background", black);
+
+      // formatXXX =================================
+      const purpleFormatRgb = d3.color("purple").formatRgb();
+      //return rgb(128, 0, 128)
+
+      const purpleFormatHsl = d3.color("purple").formatHsl();
+      // return hsl(300, 100%, 25.098039215686274%)
+
+      // opacity =================================
+      const opacity = d3.color("rgba(0,0,0,0.5)").opacity; // 0.5
+
+      d3.select(".opacity")
+        .style("width", "200px")
+        .style("height", "20px")
+        .style("background", black)
+        .style("opacity", opacity);
+
+      // brighter =================================
+      const brighter = d3.color("purple").brighter(0.8);
+      // return {
+      //     "r": 170.26741304591317,
+      //     "g": 0,
+      //     "b": 170.26741304591317,
+      //     "opacity": 1
+      // }
+
+      d3.select(".brighter")
+        .style("width", "200px")
+        .style("height", "20px")
+        .style("background", brighter);
+
+      // darker =================================
+      const darker = d3.color("purple").darker(0.5);
+      // return {
+      //     "r": 107.09248339636167,
+      //     "g": 0,
+      //     "b": 107.09248339636167,
+      //     "opacity": 1
+      // }
+
+      d3.select(".darker")
+        .style("width", "200px")
+        .style("height", "20px")
+        .style("background", darker);
+
+      // d3.rgb() ===============================
+      const rgb = d3.rgb(255, 0, 0);
+
+      d3.select(".rgb")
+        .style("width", "200px")
+        .style("height", "20px")
+        .style("background", rgb);
+
+      // d3.rgb() ===============================
+      const hsl = d3.hsl("red");
+      // return {
+      //     "h": 0,
+      //     "s": 1,
+      //     "l": 0.5,
+      //     "opacity": 1
+      // }
+
+      d3.select(".hsl")
+        .style("width", "200px")
+        .style("height", "20px")
+        .style("background", hsl);
+    </script>
   </body>
 </html>

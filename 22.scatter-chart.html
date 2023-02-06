@@ -28,6 +28,9 @@
 
     <div class="container">
       <h3 class="mt-6 fw-bold">散點圖 scatter chart</h3>
+      <div>
+        <div class="xyAxes"></div>
+      </div>
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -36,6 +39,57 @@
     ></script>
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script></script>
+    <script>
+      // 繪製x、y軸線
+      const drawXYAxes = (className) => {
+        const currentWidth = parseInt(d3.select(className).style("width"));
+        const height = 400;
+        const margin = 40;
+
+        const svg = d3
+          .select(className)
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height)
+          .style("border", "1px solid rgb(96,96,96)");
+
+        const data = [
+          { x: 100, y: 20 },
+          { x: 18, y: 30 },
+          { x: 90, y: 150 },
+        ];
+
+        // 抓出xy軸需要用的資料
+        const xData = data.map((i) => i.x); // 得到 [100, 18, 90] 陣列
+        const yData = data.map((i) => i.y); // 得到 [20, 30, 150] 陣列
+
+        // x軸比例尺與軸線
+        const xScale = d3
+          .scaleLinear()
+          .domain([0, d3.max(xData)])
+          .range([margin, currentWidth - margin]);
+
+        const xAxisGenerator = d3.axisBottom(xScale);
+        const xAxis = svg
+          .append("g")
+          .call(xAxisGenerator)
+          .attr("transform", `translate(0,${height - margin})`);
+
+        // y軸比例尺與軸線
+        const yScale = d3
+          .scaleLinear()
+          .domain([0, d3.max(yData)])
+          .range([height - margin * 2, 0])
+          .nice();
+
+        const yAxisGenerator = d3.axisLeft(yScale);
+        const yAxis = svg
+          .append("g")
+          .call(yAxisGenerator)
+          .attr("transform", `translate(${margin},${margin})`);
+      };
+
+      drawXYAxes(".xyAxes");
+    </script>
   </body>
 </html>
