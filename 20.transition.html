@@ -27,17 +27,336 @@
     </nav>
 
     <div class="container">
-      <h3 class="mt-6 fw-bold">動畫 transition</h3>
+      <h3 class="mt-6 fw-bold">動畫 Transitions</h3>
 
+      <!-- 一般改變位置 -->
       <div>
-        <h5>Pie Chart</h5>
-        <div class="d-flex justify-content-center">
-          <button class="btn btn-warning me-2 px-4" onclick="updatePieData(pieDataJanuary)">1月</button>
-          <button class="btn btn-warning ms-2 px-4" onclick="updatePieData(pieDataFeburary)">2月</button>
+        <h5 class="mt-5">
+          <mark>一般改變位置</mark>
+        </h5>
+        <div class="my-4">
+          <svg class="move" style="border: 1px solid rgb(103, 102, 102)"></svg>
+          <button type="button" class="mt-3 btn d-block btn-primary moveBtn">
+            移動
+          </button>
         </div>
-        <div class="pieChart"></div>
+
+        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-html line-numbers remove-initial-line-feed">
+            // html
+            &lt;svg class=&quot;move&quot; 
+                 style=&quot;border: 1px solid rgb(103, 102, 102)&quot;&gt;
+            &lt;/svg&gt;
+            &lt;button type=&quot;button&quot; class=&quot;moveBtn&quot;&gt;
+              移動
+            &lt;/button&gt;
+          </code>
+        </pre>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+            // js
+            const moveRect = d3
+            .select(".move")
+            .append("rect")
+            .attr("width", 40)
+            .attr("height", 40)
+            .attr("fill", "#f68b47")
+            .attr("stroke", "#f68b47");
+    
+          document.querySelector(".moveBtn")
+              .addEventListener("click", ()=> {
+                  moveRect.attr("transform", "translate(140, 60)");
+                });
+          </code>
+        </pre>
       </div>
+
+      <!-- transition -->
+      <div>
+        <h5 class="mt-5">
+          <mark>selection.transition( )</mark>
+        </h5>
+        <div class="my-4">
+          <svg
+            class="transition"
+            style="border: 1px solid rgb(103, 102, 102)"
+          ></svg>
+          <button
+            type="button"
+            class="mt-3 btn d-block btn-primary transitionBtn"
+          >
+            平滑移動
+          </button>
+        </div>
+
+        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+            const transitionRect = d3
+              .select(".transition")
+              .append("rect")
+              .attr("width", 40)
+              .attr("height", 40)
+              .attr("fill", "#f68b47")
+              .attr("stroke", "#f68b47");
+    
+            document
+              .querySelector(".transitionBtn")
+              .addEventListener("click", ()=> {
+                transitionRect.transition()
+                            .attr("transform", "translate(140, 60)");
+              });
+          </code>
+        </pre>
+      </div>
+
+      <!-- duration -->
+      <div>
+        <h5 class="mt-5">
+          <mark>transition.duration( )</mark>
+        </h5>
+        <div class="my-4">
+          <svg
+            class="duration"
+            style="border: 1px solid rgb(103, 102, 102)"
+          ></svg>
+          <button
+            type="button"
+            class="mt-3 btn d-block btn-primary durationBtn"
+          >
+            延長移動
+          </button>
+        </div>
+        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+          const durationRect = d3
+            .select(".duration")
+            .append("rect")
+            .attr("width", 40)
+            .attr("height", 40)
+            .attr("fill", "#f68b47")
+            .attr("stroke", "#f68b47");
+    
+          document.querySelector(".moveBtn")
+                  .addEventListener("click", () => {
+                    moveRect
+                      .transition()
+                      .duration(5000) // 設定動畫時間持續5秒鐘
+                      .attr("transform", "translate(140, 60)");
+                  });
+          </code>
+        </pre>
+      </div>
+
+      <!-- duration color -->
+      <div>
+        <h5 class="mt-5">
+          <mark>transition 改變顏色、邊框粗細</mark>
+        </h5>
+        <div class="my-4">
+          <svg
+            class="transitionColor"
+            style="border: 1px solid rgb(103, 102, 102)"
+          ></svg>
+          <button
+            type="button"
+            class="mt-3 btn d-block btn-primary transitionColorBtn"
+          >
+            改變
+          </button>
+        </div>
+        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-html line-numbers remove-initial-line-feed">
+            // html
+            &lt;svg class=&quot;transitionColor&quot;
+                 style=&quot;border: 1px solid rgb(103, 102, 102)&quot;&gt;&lt;/svg&gt;
+            &lt;button type=&quot;button&quot; class=&quot;transitionColorBtn&quot;&gt;
+              改變
+            &lt;/button&gt;
+          </code>
+        </pre>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+            // js
+          const transitionColor = d3
+            .select(".transitionColor")
+            .append("rect")
+            .attr("width", 40)
+            .attr("height", 40)
+            .attr("fill", "#f68b47")
+            .attr("stroke", "#f68b47")
+            .attr("transform", "translate(120, 50)");
+    
+          document
+            .querySelector(".transitionColorBtn")
+            .addEventListener("click", () => {
+              transitionColor
+                .transition()
+                .duration(1000)
+                .attr("fill", "green")
+                .attr("stroke-width", "6px")
+                .attr("stroke", "red");
+            });
+          </code>
+        </pre>
+      </div>
+
+      <!-- delay -->
+      <div>
+        <h5 class="mt-5">
+          <mark>transition.delay( )</mark>
+        </h5>
+        <div class="my-4">
+          <svg class="delay" style="border: 1px solid rgb(103, 102, 102)"></svg>
+          <button type="button" class="mt-3 btn d-block btn-primary delayBtn">
+            delay
+          </button>
+        </div>
+        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-html line-numbers remove-initial-line-feed">
+            //html 
+            &lt;svg class=&quot;delay&quot; style=&quot;border: 1px solid rgb(103, 102, 102)&quot;&gt;&lt;/svg&gt;
+            &lt;button type=&quot;button&quot; class=&quot;mt-3 btn d-block btn-primary delayBtn&quot;&gt;
+              delay
+            &lt;/button&gt;
+          </code>
+        </pre>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+            // js
+            const dataDelay = [160, 140, 120, 100, 80, 60, 40, 20];
+            const delay = d3
+              .select(".delay")
+              .selectAll("circle")
+              .data(dataDelay)
+              .enter()
+              .append("circle")
+              .attr("cx", (d) => d)
+              .attr("cy", 30)
+              .attr("r", 15)
+              .attr("fill", "blue")
+              .attr("opacity", "0.5");
       
+            document.querySelector(".delayBtn").addEventListener("click", () => {
+              delay
+                .transition()
+                .delay((d, i) => i * 200) // 分別延遲
+                .attr("cx", (d) => d + 120); // 位移距離
+            });
+          </code>
+        </pre>
+      </div>
+
+      <!-- ease -->
+      <div>
+        <h5 class="mt-5">
+          <mark>transition.ease( )</mark>
+        </h5>
+        <div class="my-4">
+          <svg class="ease" style="border: 1px solid rgb(103, 102, 102)"></svg>
+          <div class="d-flex align-items-baseline">
+            <select name="ease" id="ease" class="m-3">
+              <option value=""></option>
+            </select>
+            <button
+              type="button"
+              class="mt-3 btn btn-primary easeBtn"
+              onClick="updateEast()"
+            >
+              Ease開始
+            </button>
+          </div>
+        </div>
+        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+
+          </code>
+        </pre>
+      </div>
+
+      <!-- transition.on 無限循環動畫 -->
+      <div>
+        <h5 class="mt-5">
+          <mark>transition.on( ) 無限循環動畫</mark>
+        </h5>
+        <div class="my-4">
+          <svg
+            class="loopAnimation"
+            style="border: 1px solid rgb(103, 102, 102)"
+          ></svg>
+        </div>
+        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+
+          </code>
+        </pre>
+      </div>
+
+      <!-- 圖表動畫 -->
+      <div>
+        <h5 class="mt-5">
+          <mark>圖表動畫</mark>
+        </h5>
+        <div class="my-4 chartAnimation"></div>
+        <button type="button" class="mb-4 btn btn-primary chartAnimationBtn">
+          動畫開始
+        </button>
+        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-html line-numbers remove-initial-line-feed">
+            // html
+            &lt;div class=&quot;chartAnimation&quot;&gt;&lt;/div&gt;
+            &lt;button type=&quot;button&quot; class=&quot;chartAnimationBtn&quot;&gt;
+              動畫開始
+            &lt;/button&gt;
+          </code>
+        </pre>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+            // js
+            //定義兩個資料，都是Y值，x值就用陣列索引即可
+            let data1 = [150, 122, 133, 161, 116, 139, 143, 115, 193, 137, 122, 141];
+            let data2 = [180, 146, 180, 172, 133, 149, 152, 138, 188, 192, 117, 146];
+            let n = data1.length, //資料點的數量
+              mx = d3.max(d3.merge([data1, data2])); //抓兩個陣列的最大值
+      
+            // svg
+            const svg = d3.select(".chartAnimation").append("svg");
+            svg.attr("width", 500).attr("height", 300);
+      
+            svg
+              .selectAll("rect")
+              .data(data1)
+              .enter()
+              .append("rect")
+              .attr("x", 0)
+              .attr("y", (d, i) => i * 30)
+              .attr("width", (d, i) => d)
+              .attr("height", 20)
+              .attr("fill", "#f68b47");
+      
+            // 動畫開始
+            d3.select(".chartAnimationBtn").on("click", () => {
+              svg
+                .selectAll("rect")
+                .data(data2) // 資料變化
+                .transition() // 加上動畫
+                .duration(1000) // 點擊之後每條長柱會在1秒內到達更新位置
+                // 每條長柱各自delay後開始動畫，
+                // delay 時間乘上index，產生從上至下更新的動畫效果
+                .delay((d, i) => 200 * i)
+                .attr("width", (d, i) => d)
+                .attr("fill", "#66f9ff");
+            });
+          </code>
+        </pre>
+      </div>
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -47,109 +366,176 @@
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
-      const pieDataJanuary = [{item:'交通', data:3000},
-                {item:'房租', data:12000},
-                {item:'日常用品', data:1400},
-                {item:'吃飯', data:4000},
-                {item:'交際應酬', data:2400}
-                ]; 
+      // move ====================================
+      const moveRect = d3
+        .select(".move")
+        .append("rect")
+        .attr("width", 40)
+        .attr("height", 40)
+        .attr("fill", "#f68b47")
+        .attr("stroke", "#f68b47");
 
-      const pieDataFeburary = [{item:'交通', data:2000},
-                      {item:'房租', data:12000},
-                      {item:'日常用品', data:2100},
-                      {item:'吃飯', data:6000},
-                      {item:'交際應酬', data:1200}
-           ]; 
+      document.querySelector(".moveBtn").addEventListener("click", function () {
+        moveRect.attr("transform", "translate(140, 60)");
+      });
 
+      // transition ====================================
+      const transitionRect = d3
+        .select(".transition")
+        .append("rect")
+        .attr("width", 40)
+        .attr("height", 40)
+        .attr("fill", "#f68b47")
+        .attr("stroke", "#f68b47");
 
-      // pie svg
-      const pieWidth = parseInt(d3.select(".pieChart").style("width")),
-      pieHeight = 400,
-      pieMargin = 40;
+      document.querySelector(".transitionBtn").addEventListener("click", () => {
+        transitionRect.transition().attr("transform", "translate(140, 60)");
+      });
 
-      // 先設定 svg 大小
-      const pieSvg = d3.select(".pieChart")
-                      .append("svg")
-                      .attr("width", pieWidth)
-                      .attr("height", pieHeight);
+      // duration ====================================
+      const durationRect = d3
+        .select(".duration")
+        .append("rect")
+        .attr("width", 40)
+        .attr("height", 40)
+        .attr("fill", "#f68b47")
+        .attr("stroke", "#f68b47");
 
-      // 圓餅集合標籤<g>
-      const pie = pieSvg.append("g")
-        .attr('transform', `translate(${pieWidth / 2}, ${pieHeight / 2})`);
-
-      // 設定顏色
-      const pieColor = d3.scaleOrdinal()
-                        .domain(["交通", "房租", "日常用品", "吃飯", "交際應酬"])
-                        .range(d3.schemeSet2);
-
-      // 設定圓餅半徑
-      const radius = Math.min(pieWidth, pieHeight)/2 - pieMargin;
-
-      const updatePieData = (data)=>{
-        // 將資料綁定到圓餅圖上:
-        const piechartGenerator = d3.pie()
-                        .value(d => d.data)
-                        // 固定圓餅圖的項目排序，確保資料抽換時群組順序保持一致
-                        .sort((a,b)=>d3.ascending(a.key, b.key));
-
-        // innerRadius 跟 outerRadius 設定圓餅內圈外圈的大小 radius
-        const arc = d3.arc()
-                      .innerRadius(0)
-                      .outerRadius(radius)
-                      .padAngle(0), // 圓餅間距
-              outerArc = d3.arc()
-                          .outerRadius(radius * 0.9)
-                          .innerRadius(radius * 0.9);
-
-        // 圓餅圖建構函式帶入資料 
-        const pieChartData = piechartGenerator(data);
-
-        // 建立pie
-        const expensesChart = pie.selectAll('path')
-                                 .data(pieChartData)
-        
-       // 將每個 arc <g> 綁定圓弧路徑
-        expensesChart.join('path')
-                 // 資料變化動畫
-                  .transition()
-                  .duration(1000)
-                  .attr('class', 'slice')
-                  .attr('d', arc)
-                  .attr('fill', d=>pieColor(d.data.item))
-                  .attr("stroke", "#fff")
-                  .style("stroke-width", "3px")
-                  .style("opacity", 1);
-
-        // 加上每個區塊的數字標示 =========================
-        // 計算每塊資料的百分占比，先用 d3.sum 加總全部資料，再將資料一一除上總數
-        const total = d3.sum(data, d => d.data);
-        data.forEach(i => {
-          i.percentage = Math.round((i.data/total)*100)
-        })
-
-        // 調整數字標示的位置
-        const textArc = d3.arc()
-                          .innerRadius(radius)
-                          .outerRadius(radius + 20)
-        
-        // 將每個 arc <g> 綁定數字標籤位置
-
-        const textLabel = pie
-          .selectAll("text")
-          .data(pieChartData)
-          .join('text')
-          .text(d => d.data.item +d.data.percentage + '%')
+      document.querySelector(".durationBtn").addEventListener("click", () => {
+        durationRect
           .transition()
-          .duration(1000)
-          .attr('transform', d => `translate(${textArc.centroid(d)})`)
-          .style('text-anchor', 'middle')
-          .style('font-size', 16)
-          .style('fill', 'black')
+          .duration(5000) // 設定動畫時間持續5秒鐘
+          .attr("transform", "translate(140, 60)");
+      });
+
+      // transition color ====================================
+      const transitionColor = d3
+        .select(".transitionColor")
+        .append("rect")
+        .attr("width", 40)
+        .attr("height", 40)
+        .attr("fill", "#f68b47")
+        .attr("stroke", "#f68b47")
+        .attr("transform", "translate(120, 50)");
+
+      document
+        .querySelector(".transitionColorBtn")
+        .addEventListener("click", () => {
+          transitionColor
+            .transition()
+            .duration(1000)
+            .attr("fill", "green")
+            .attr("stroke-width", "6px")
+            .attr("stroke", "red");
+        });
+
+      // delay ====================================
+      const dataDelay = [160, 140, 120, 100, 80, 60, 40, 20];
+      const delay = d3
+        .select(".delay")
+        .selectAll("circle")
+        .data(dataDelay)
+        .enter()
+        .append("circle")
+        .attr("cx", (d) => d)
+        .attr("cy", 30)
+        .attr("r", 15)
+        .attr("fill", "#f68b47")
+        .attr("opacity", "0.5");
+
+      document.querySelector(".delayBtn").addEventListener("click", () => {
+        delay
+          .transition()
+          .delay((d, i) => i * 200) // 分別延遲
+          .attr("cx", (d) => d + 120); // 位移距離
+      });
+
+      // ease ====================================
+      const easeDot = d3
+        .select(".ease")
+        .append("circle")
+        .attr("cx", 40)
+        .attr("cy", 40)
+        .attr("r", 30)
+        .attr("fill", "#f68b47");
+
+      // 抓出 d3.js 所有API中，名稱有ease的API
+      const easeNames = Object.keys(d3).filter((d) => d.slice(0, 4) === "ease");
+
+      console.log(easeNames);
+
+      d3.select("#ease")
+        .selectAll("option")
+        .data(easeNames)
+        .join("option")
+        .attr("value", (d) => d)
+        .text((d) => `d3.${d}`);
+
+      const updateEast = () => {
+        const easeName = d3.select("#ease").node().value;
+        easeDot
+          // 回原點
+          .attr("cx", 40)
+          .transition()
+          // 設定動畫效果
+          .ease(d3[easeName])
+          .attr("cx", 200);
       };
 
-      updatePieData(pieDataJanuary);
+      // loopAnimation
+      const loop = d3
+        .select(".loopAnimation")
+        .append("circle")
+        .attr("cx", 50)
+        .attr("cy", 50)
+        .attr("r", 25)
+        .attr("fill", "#f68b47")
+        .transition()
+        .duration(2000)
+        .on("start", goRight);
 
-     
+      function goRight() {
+        d3.active(this).attr("cx", 200).transition().on("start", goLeft);
+      }
+
+      function goLeft() {
+        d3.active(this).attr("cx", 50).transition().on("start", goRight);
+      }
+
+      // chart animation ====================================
+      //定義兩個資料，都是Y值，x值就用陣列索引即可
+      let data1 = [150, 122, 133, 161, 116, 139, 143, 115, 193, 137, 122, 141];
+      let data2 = [180, 146, 180, 172, 133, 149, 152, 138, 188, 192, 117, 146];
+      let n = data1.length, //資料點的數量
+        mx = d3.max(d3.merge([data1, data2])); //抓兩個陣列的最大值
+
+      // svg
+      const svg = d3.select(".chartAnimation").append("svg");
+      svg.attr("width", 500).attr("height", 300);
+
+      svg
+        .selectAll("rect")
+        .data(data1)
+        .enter()
+        .append("rect")
+        .attr("x", 0)
+        .attr("y", (d, i) => i * 30)
+        .attr("width", (d, i) => d)
+        .attr("height", 20)
+        .attr("fill", "#f68b47");
+
+      // 動畫開始
+      d3.select(".chartAnimationBtn").on("click", () => {
+        svg
+          .selectAll("rect")
+          .data(data2) // 資料變化
+          .transition() // 加上動畫
+          .duration(1000) //點擊之後每個 bar 會在1秒內到達更新位置
+          .delay((d, i) => 200 * i) //每個bar在分別delay後才開始動畫，
+          // delay 時間乘上index，做出從上至下更新的動畫效果
+          .attr("width", (d, i) => d)
+          .attr("fill", "#66f9ff");
+      });
     </script>
   </body>
 </html>
