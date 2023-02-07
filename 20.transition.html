@@ -219,8 +219,11 @@
         <pre>
           <code class="language-html line-numbers remove-initial-line-feed">
             //html 
-            &lt;svg class=&quot;delay&quot; style=&quot;border: 1px solid rgb(103, 102, 102)&quot;&gt;&lt;/svg&gt;
-            &lt;button type=&quot;button&quot; class=&quot;mt-3 btn d-block btn-primary delayBtn&quot;&gt;
+            &lt;svg class=&quot;delay&quot;
+                 style=&quot;border: 1px solid rgb(103, 102, 102)&quot;&gt;
+            &lt;/svg&gt;
+            &lt;button type=&quot;button&quot; 
+                    class=&quot;mt-3 btn d-block btn-primary delayBtn&quot;&gt;
               delay
             &lt;/button&gt;
           </code>
@@ -241,12 +244,13 @@
               .attr("fill", "blue")
               .attr("opacity", "0.5");
       
-            document.querySelector(".delayBtn").addEventListener("click", () => {
-              delay
-                .transition()
-                .delay((d, i) => i * 200) // 分別延遲
-                .attr("cx", (d) => d + 120); // 位移距離
-            });
+            document.querySelector(".delayBtn")
+                    .addEventListener("click", () => {
+                      delay
+                        .transition()
+                        .delay((d, i) => i * 200) // 分別延遲
+                        .attr("cx", (d) => d + 120); // 位移距離
+                    });
           </code>
         </pre>
       </div>
@@ -273,8 +277,58 @@
         </div>
         <p class="mt-1 mb-1 fs-6">程式碼</p>
         <pre>
+          <code class="language-html line-numbers remove-initial-line-feed">
+            // html
+            &lt;svg class=&quot;ease&quot; 
+                 style=&quot;border: 1px solid rgb(103, 102, 102)&quot;&gt;&lt;/svg&gt;
+            &lt;div class=&quot;d-flex align-items-baseline&quot;&gt;
+              &lt;select name=&quot;ease&quot; id=&quot;ease&quot; class=&quot;m-3&quot;&gt;
+                &lt;option value=&quot;&quot;&gt;&lt;/option&gt;
+              &lt;/select&gt;
+              &lt;button
+                type=&quot;button&quot;
+                class=&quot;mt-3 btn btn-primary easeBtn&quot;
+                onClick=&quot;updateEast()&quot;
+              &gt;
+                Ease開始
+              &lt;/button&gt;
+            &lt;/div&gt;
+          </code>
+        </pre>
+        <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
-
+            // js
+            const easeDot = d3
+                  .select(".ease")
+                  .append("circle")
+                  .attr("cx", 40)
+                  .attr("cy", 40)
+                  .attr("r", 30)
+                  .attr("fill", "#f68b47");
+      
+            // 抓出 d3.js 所有API中，名稱帶有ease的API
+            const easeNames = Object
+                    .keys(d3)
+                    .filter((d) => d.slice(0, 4) === "ease");
+      
+            d3.select("#ease")
+              .selectAll("option")
+              .data(easeNames)
+              .join("option")
+              .attr("value", (d) => d)
+              .text((d) => `d3.${d}`);
+      
+            const updateEast = () => {
+              const easeName = d3.select("#ease").node().value;
+              easeDot
+                // 回原點
+                .attr("cx", 40)
+                .transition()
+                // 設定動畫效果
+                .ease(d3[easeName])
+                .attr("cx", 200);
+            };
+    
           </code>
         </pre>
       </div>
@@ -292,8 +346,41 @@
         </div>
         <p class="mt-1 mb-1 fs-6">程式碼</p>
         <pre>
+          <code class="language-html line-numbers remove-initial-line-feed">
+            // html
+            &lt;svg
+              class=&quot;loopAnimation&quot;
+              style=&quot;border: 1px solid rgb(103, 102, 102)&quot;&gt;
+            &lt;/svg&gt;
+          </code>
+        </pre>
+        <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
-
+            // js
+            const loop = d3
+              .select(".loopAnimation")
+              .append("circle")
+              .attr("cx", 50)
+              .attr("cy", 50)
+              .attr("r", 25)
+              .attr("fill", "#f68b47")
+              .transition()
+              .duration(2000)
+              .on("start", goRight);
+      
+            function goRight() {
+              d3.active(this)
+                .attr("cx", 200)
+                .transition()
+                .on("start", goLeft);
+            }
+      
+            function goLeft() {
+              d3.active(this)
+                .attr("cx", 50)
+                .transition()
+                .on("start", goRight);
+            }
           </code>
         </pre>
       </div>
@@ -321,14 +408,19 @@
           <code class="language-js line-numbers remove-initial-line-feed">
             // js
             //定義兩個資料，都是Y值，x值就用陣列索引即可
-            let data1 = [150, 122, 133, 161, 116, 139, 143, 115, 193, 137, 122, 141];
-            let data2 = [180, 146, 180, 172, 133, 149, 152, 138, 188, 192, 117, 146];
-            let n = data1.length, //資料點的數量
-              mx = d3.max(d3.merge([data1, data2])); //抓兩個陣列的最大值
+            const data1 = [
+              150, 122, 133, 161, 116, 139, 143, 115, 193, 137, 122, 141,
+            ];
+            const data2 = [
+              180, 146, 180, 172, 133, 149, 152, 138, 188, 192, 117, 146,
+            ];
       
             // svg
-            const svg = d3.select(".chartAnimation").append("svg");
-            svg.attr("width", 500).attr("height", 300);
+            const svg = d3
+              .select(".chartAnimation")
+              .append("svg")
+              .attr("width", 500)
+              .attr("height", 300);
       
             svg
               .selectAll("rect")
@@ -504,14 +596,19 @@
 
       // chart animation ====================================
       //定義兩個資料，都是Y值，x值就用陣列索引即可
-      let data1 = [150, 122, 133, 161, 116, 139, 143, 115, 193, 137, 122, 141];
-      let data2 = [180, 146, 180, 172, 133, 149, 152, 138, 188, 192, 117, 146];
-      let n = data1.length, //資料點的數量
-        mx = d3.max(d3.merge([data1, data2])); //抓兩個陣列的最大值
+      const data1 = [
+        150, 122, 133, 161, 116, 139, 143, 115, 193, 137, 122, 141,
+      ];
+      const data2 = [
+        180, 146, 180, 172, 133, 149, 152, 138, 188, 192, 117, 146,
+      ];
 
       // svg
-      const svg = d3.select(".chartAnimation").append("svg");
-      svg.attr("width", 500).attr("height", 300);
+      const svg = d3
+        .select(".chartAnimation")
+        .append("svg")
+        .attr("width", 500)
+        .attr("height", 300);
 
       svg
         .selectAll("rect")
