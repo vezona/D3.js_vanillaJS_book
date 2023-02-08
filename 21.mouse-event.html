@@ -130,9 +130,26 @@
         <pre>
             <code class="language-js line-numbers remove-initial-line-feed">
               // html 
-            &lt;svgclass=&quot;pointerSVG&quot;&gt;&lt;/svg&gt;
+            &lt;svg class=&quot;pointerSVG&quot;&gt;&lt;/svg&gt;
             
             // js
+            const pointerSvg = d3
+                  .select(".pointerSvg")
+                  .attr("width", 500)
+                  .attr("height", 300)
+                  .attr("cursor", "pointer");
+      
+            let txt = pointerSvg.append("text");
+      
+            pointerSvg.on("mousemove", (e) => {
+              let position = d3.pointer(e, pointerSvg.node());
+              
+              txt
+                .attr("x", position[0]) //取[x]
+                .attr("y", position[1]) //取[Y]
+                .text(`X：${parseInt(position[0])} ， Y：${parseInt(position[1])}`);
+            });
+    
             </code>
           </pre>
       </div>
