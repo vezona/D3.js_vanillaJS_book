@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selection</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./extension/prism.css" />
+    <link rel="stylesheet" href="./css/utils.css" />
+    <style>
+      @media (max-width: 576px) {
+        .wrapper {
+          width: 100%;
+        }
+      }
+      @media (min-width: 577px) {
+        .wrapper {
+          width: 80%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="bg-orange navbar">
+      <div class="container-fluid">
+        <a
+          class="text-decoration-none fw-bold navbar-brand"
+          href="./index.html"
+        >
+          <span class="nav-title"> D3.js 圖表繪製教學</span>
+        </a>
+      </div>
+    </nav>
+    <!-- Canvas -->
+    <div class="container">
+      <div>
+        <h5 class="mt-6"><mark>Canvas</mark></h5>
+
+        <div class="canvas"></div>
+        <p class="mt-4 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+  
+          </code>
+        </pre>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./extension/prism.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+      const numPoints = 7000;
+      const colorScale = d3
+        .scaleSequential(d3.interpolateViridis)
+        .domain([numPoints - 1, 0]);
+
+      // generate the array of points with a unique ID and color
+      const points = d3.range(numPoints).map((index) => ({
+        id: index,
+        color: colorScale(index),
+      }));
+
+      function gridLayout(points, pointWidth, gridWidth) {
+        const pointHeight = pointWidth;
+        const pointsPerRow = Math.floor(gridWidth / pointWidth);
+        const numRows = points.length / pointsPerRow;
+
+        points.forEach((point, i) => {
+          point.x = pointWidth * (i % pointsPerRow);
+          point.y = pointHeight * Math.floor(i / pointsPerRow);
+        });
+
+        return points;
+      }
+
+      // draw the points based on their current layout
+      function draw() {
+        const ctx = canvas.node().getContext("2d");
+        ctx.save();
+
+        // erase what is on the canvas currently
+        ctx.clearRect(0, 0, width, height);
+
+        // draw each point as a rectangle
+        for (let i = 0; i < points.length; ++i) {
+          const point = points[i];
+          ctx.fillStyle = point.color;
+          ctx.fillRect(point.x, point.y, pointWidth, pointWidth);
+        }
+
+        ctx.restore();
+      }
+
+      // 建立 canvas
+      const width = 600;
+      const height = 600;
+
+      const screenScale = window.devicePixelRatio || 1;
+      const canvas = d3
+        .select(".canvas")
+        .append("canvas")
+        .attr("width", width * screenScale)
+        .attr("height", height * screenScale)
+        .style("width", `${width}px`)
+        .style("height", `${height}px`)
+        .on("click", (e) => {
+          //   d3.select(".play-control").style("display", "");
+          //   timer.stop();
+        });
+
+      //   設定點點大小
+      const pointWidth = 4;
+      const pointMargin = 3;
+
+      gridLayout(points, pointWidth + pointMargin, width);
+      draw();
+    </script>
+  </body>
+</html>

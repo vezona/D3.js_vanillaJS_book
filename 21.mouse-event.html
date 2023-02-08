@@ -31,29 +31,198 @@
 
       <!-- selection.on( ) -->
       <h5 class="mt-5">
-        <mark>selection.on( )</mark>
+        <mark>selection.on(typenames[, listener[, options]])</mark>
       </h5>
-      <div class="mt-3">
-        <h6 class="">click Event</h6>
-        <p class="mt-1 mb-1 fs-6">程式碼</p>
+      <!-- click -->
+      <div class="mt-4 mb-5">
+        <h6 class="fw-bold" style="color: #ff3864">▲ click Event</h6>
+        <svg
+          class="clickSvg"
+          style="border: 1px solid rgb(103, 102, 102)"
+        ></svg>
+        <p class="mt-2 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
+            // html 
+            &lt;svgclass=&quot;clickSvg&quot;&gt;&lt;/svg&gt;
+            
+            // js
+            const clickRect = d3
+                    .select(".clickSvg")
+                    .append("circle")
+                    .attr("r", 20)
+                    .attr("cx", 20)
+                    .attr("cy", 20)
+                    .attr("fill", "rgb(246, 139, 71)")
+                    .attr("cursor", "pointer");
+      
+            clickRect.on("click", (e) => {
+              if (e.target.getAttribute("fill") === "rgb(246, 139, 71)") {
+                d3.select(e.target)
+                      .transition()
+                      .ease(d3.easeBack)
+                      .duration(1000)
+                      .attr("fill", "blue")
+                      .attr("transform", "translate(250, 0)");
+              } else {
+                d3.select(e.target)
+                      .transition()
+                      .ease(d3.easeBack)
+                      .duration(1000)
+                      .attr("fill", "rgb(246, 139, 71)")
+                      .attr("transform", "translate(0, 0)");
+              }
+            });
+          </code>
+        </pre>
+      </div>
 
+      <!-- mouseover / mouseleave -->
+      <div class="mt-5">
+        <h6 class="fw-bold" style="color: #ff3864">
+          ▲ mouseover Event、mouseleave Event、mouseleave
+        </h6>
+        <svg
+          class="mouseoverSvg"
+          style="border: 1px solid rgb(103, 102, 102)"
+        ></svg>
+        <p class="mt-2 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+            // html 
+            &lt;svgclass=&quot;mouseoverSvg&quot;&gt;&lt;/svg&gt;
+
+            // js
+            const mouseoverCircle = d3
+              .select(".mouseoverSvg")
+              .append("circle")
+              .attr("r", 50)
+              .attr("cx", 20)
+              .attr("cy", 20)
+              .attr("cursor", "pointer")
+              .attr("fill", "rgb(246, 139, 71)")
+              .attr("transform", "translate(130, 50)");
+      
+            mouseoverCircle
+              .on("mouseover", (e) => {
+                d3.select(e.target).transition().duration(2000).attr("fill", "blue");
+              })
+              .on("mouseleave", (e) => {
+                d3.select(e.target)
+                  .transition()
+                  .duration(2000)
+                  .attr("fill", "rgb(246, 139, 71)");
+              });
           </code>
         </pre>
       </div>
 
       <!-- d3.pointer(事件, target) -->
-      <div>
-        <h5 class="mt-5">
+      <div class="my-5">
+        <h5 class="my-3">
           <mark>d3.pointer(event[, target])</mark>
         </h5>
-        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <svg
+          class="pointerSvg"
+          style="border: 1px solid rgb(103, 102, 102)"
+        ></svg>
+        <p class="mt-2 mb-1 fs-6">程式碼</p>
         <pre>
             <code class="language-js line-numbers remove-initial-line-feed">
-  
+              // html 
+            &lt;svgclass=&quot;pointerSVG&quot;&gt;&lt;/svg&gt;
+            
+            // js
             </code>
           </pre>
+      </div>
+
+      <!-- points -->
+      <div class="my-5">
+        <h5 class="my-3">
+          <mark>points</mark>
+        </h5>
+        <svg
+          class="pointsSvg"
+          style="border: 1px solid rgb(103, 102, 102)"
+        ></svg>
+        <button class="my-3 d-block btn btn-primary" onclick="resetGrid()">
+          Reset
+        </button>
+        <p class="mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-html line-numbers remove-initial-line-feed">
+            // html 
+            &lt;svg class=&quot;pointsSvg&quot;&gt;&lt;/svg&gt;
+            &lt;button class=&quot;my-3 d-block btn btn-primary&quot; onclick=&quot;resetGrid()&quot;&gt;
+              Reset
+            &lt;/button&gt;
+          </code>
+        </pre>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+          // js
+          const pointsSvg = d3
+            .select(".pointsSvg")
+            .attr("width", 500)
+            .attr("height", 380)
+            .attr("cursor", "pointer");
+    
+          //   設定點點數量、大小、顏色
+          const numPoints = 300;
+          const pointWidth = 4;
+          const pointMargin = 20;
+          const colorScale = d3
+            .scaleSequential(d3.interpolateViridis)
+            .domain([numPoints - 1, 0]);
+    
+          // 建立 array of points，包含各自ID與色彩
+          const points = d3.range(numPoints).map((index) => ({
+            id: index,
+            color: colorScale(index),
+          }));
+    
+          // 建立每個點點在畫布的位置
+          const gridLayout = (points, pointWidth, gridWidth) => {
+            const pointHeight = pointWidth;
+            const pointsPerRow = Math.floor(gridWidth / pointWidth);
+            const numRows = points.length / pointsPerRow;
+    
+            points.forEach((point, i) => {
+              point.x = pointWidth * (i % pointsPerRow);
+              point.y = pointHeight * Math.floor(i / pointsPerRow);
+            });
+    
+            return points;
+          };
+    
+          // 繪製點點
+          const draw = () => {
+            pointsSvg
+              .selectAll("circle")
+              .data(points)
+              .enter()
+              .append("circle")
+              .attr("r", 10)
+              .attr("cx", (d) => d.x + 20)
+              .attr("cy", (d) => d.y + 20)
+              .attr("fill", (d) => d.color)
+              .on("mouseover", (e) => {
+                const currentX = +e.target.getAttribute("cx");
+                d3.select(e.target).remove();
+              });
+          };
+    
+          // 重設
+          const resetGrid = () => {
+            pointsSvg.selectAll("circle").remove();
+            draw();
+          };
+    
+          gridLayout(points, pointWidth + pointMargin, 500);
+          draw();
+          </code>
+        </pre>
       </div>
     </div>
     <script
@@ -63,6 +232,135 @@
     ></script>
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script></script>
+    <script>
+      // click
+      const clickCircle = d3
+        .select(".clickSvg")
+        .append("circle")
+        .attr("r", 20)
+        .attr("cx", 20)
+        .attr("cy", 20)
+        .attr("fill", "rgb(246, 139, 71)")
+        .attr("cursor", "pointer");
+
+      clickCircle.on("click", (e) => {
+        if (e.target.getAttribute("fill") === "rgb(246, 139, 71)") {
+          d3.select(e.target)
+            .transition()
+            .ease(d3.easeBack)
+            .duration(1000)
+            .attr("fill", "blue")
+            .attr("transform", "translate(250, 0)");
+        } else {
+          d3.select(e.target)
+            .transition()
+            .ease(d3.easeBack)
+            .duration(1000)
+            .attr("fill", "rgb(246, 139, 71)")
+            .attr("transform", "translate(0, 0)");
+        }
+      });
+
+      // mouseover, mouseleave
+      const mouseoverCircle = d3
+        .select(".mouseoverSvg")
+        .append("circle")
+        .attr("r", 50)
+        .attr("cx", 20)
+        .attr("cy", 20)
+        .attr("cursor", "pointer")
+        .attr("fill", "rgb(246, 139, 71)")
+        .attr("transform", "translate(130, 50)");
+
+      mouseoverCircle
+        .on("mouseover", (e) => {
+          d3.select(e.target).transition().duration(2000).attr("fill", "blue");
+        })
+        .on("mouseleave", (e) => {
+          d3.select(e.target)
+            .transition()
+            .duration(2000)
+            .attr("fill", "rgb(246, 139, 71)");
+        });
+
+      // pointer
+      const pointerSvg = d3
+        .select(".pointerSvg")
+        .attr("width", 500)
+        .attr("height", 300)
+        .attr("cursor", "pointer");
+
+      let txt = pointerSvg.append("text");
+
+      pointerSvg.on("mousemove", (e) => {
+        let position = d3.pointer(e, pointerSvg.node());
+        console.log(position);
+        txt
+          .attr("x", position[0]) //取[x]
+          .attr("y", position[1]) //取[Y]
+          .text(`X：${parseInt(position[0])} ， Y：${parseInt(position[1])}`);
+      });
+
+      // pointsSvg
+      const pointsSvg = d3
+        .select(".pointsSvg")
+        .attr("width", 500)
+        .attr("height", 380)
+        .attr("cursor", "pointer");
+
+      //   設定點點數量、大小、顏色
+      const numPoints = 300;
+      const pointWidth = 4;
+      const pointMargin = 20;
+      const colorScale = d3
+        .scaleSequential(d3.interpolateViridis)
+        .domain([numPoints - 1, 0]);
+
+      // 建立 array of points，包含各自ID與色彩
+      const points = d3.range(numPoints).map((index) => ({
+        id: index,
+        color: colorScale(index),
+      }));
+
+      // 建立每個點點在畫布的位置
+      const gridLayout = (points, pointWidth, gridWidth) => {
+        const pointHeight = pointWidth;
+        const pointsPerRow = Math.floor(gridWidth / pointWidth);
+        const numRows = points.length / pointsPerRow;
+
+        points.forEach((point, i) => {
+          point.x = pointWidth * (i % pointsPerRow);
+          point.y = pointHeight * Math.floor(i / pointsPerRow);
+        });
+
+        return points;
+      };
+
+      // 繪製點點
+      const draw = () => {
+        pointsSvg
+          .selectAll("circle")
+          .data(points)
+          .enter()
+          .append("circle")
+          .attr("r", 10)
+          .attr("cx", (d) => d.x + 20)
+          .attr("cy", (d) => d.y + 20)
+          .attr("fill", (d) => d.color)
+          .on("mouseover", (e) => {
+            const currentX = +e.target.getAttribute("cx");
+            d3.select(e.target).remove();
+          });
+      };
+
+      // 重設
+      const resetGrid = () => {
+        pointsSvg.selectAll("circle").remove();
+        draw();
+      };
+
+      gridLayout(points, pointWidth + pointMargin, 500);
+      draw();
+    </script>
   </body>
 </html>
