@@ -29,17 +29,82 @@
     <div class="container">
       <h3 class="mt-6 fw-bold">拖曳 Drag</h3>
 
-      <!--  -->
+      <!-- d3.drag -->
       <div>
-        <h5 class="mt-5">
-          <mark>API</mark>
-        </h5>
-        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <h5 class="mt-6"><mark>d3.drag( )</mark></h5>
+        <div class=""></div>
+        <p class="mt-4 mb-1 fs-6">程式碼</p>
         <pre>
-              <code class="language-js line-numbers remove-initial-line-feed">
-    
-              </code>
-            </pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+
+          </code>
+        </pre>
+      </div>
+
+      <!-- drag.on(事件, 方法) -->
+      <div>
+        <h5 class="mt-6"><mark>drag.on(typenames, [listener])</mark></h5>
+        <div class="dragContainer"></div>
+        <p class="mt-4 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+            const data = [
+              { name: "A", x: 200, y: 340 },
+              { name: "B", x: 220, y: 300 },
+              { name: "C", x: 250, y: 198 },
+              { name: "D", x: 360, y: 296 },
+              { name: "E", x: 160, y: 150 },
+              { name: "F", x: 370, y: 360 },
+              { name: "G", x: 187, y: 250 },
+            ];
+      
+            const currentWidth = parseInt(d3.select(".dragContainer").style("width"));
+            const heigth = 400;
+            
+            const svg = d3
+              .select(".dragContainer")
+              .append("svg")
+              .attr("width", currentWidth)
+              .attr("height", heigth);
+      
+            // 建立圓點
+            const dots = svg
+              .append("g")
+              .selectAll("circle")
+              .data(data)
+              .join("circle")
+              .attr("r", 25)
+              .attr("cx", (d) => d.x)
+              .attr("cy", (d) => d.y)
+              .style("fill", "#19d3a2")
+              .style("fill-opacity", 0.3)
+              .attr("stroke", "#b3a2c8")
+              .style("stroke-width", 4)
+              .style("cursor", "pointer");
+      
+            // 建立拖曳方法
+            const drag = d3
+              .drag()
+              .on("start", dragStart)
+              .on("drag", dragging)
+              .on("end", dragEnd);
+      
+            function dragStart() {
+              d3.select(this).style("stroke", "blue");
+            }
+      
+            function dragging() {
+              let pt = d3.pointer(event, this);
+              d3.select(this).attr("cx", pt[0]).attr("cy", pt[1]);
+            }
+            function dragEnd() {
+              d3.select(this).style("stroke", "#b3a2c8");
+            }
+      
+            // 呼叫拖曳方法
+            dots.call(drag);
+          </code>
+        </pre>
       </div>
     </div>
     <script
@@ -49,6 +114,62 @@
     ></script>
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script></script>
+    <script>
+      const currentWidth = parseInt(d3.select(".dragContainer").style("width"));
+      const heigth = 400;
+
+      const data = [
+        { name: "A", x: 200, y: 340 },
+        { name: "B", x: 220, y: 300 },
+        { name: "C", x: 250, y: 198 },
+        { name: "D", x: 360, y: 296 },
+        { name: "E", x: 160, y: 150 },
+        { name: "F", x: 370, y: 360 },
+        { name: "G", x: 187, y: 250 },
+      ];
+
+      const svg = d3
+        .select(".dragContainer")
+        .append("svg")
+        .attr("width", currentWidth)
+        .attr("height", heigth);
+
+      // 建立圓點
+      const dots = svg
+        .append("g")
+        .selectAll("circle")
+        .data(data)
+        .join("circle")
+        .attr("r", 25)
+        .attr("cx", (d) => d.x)
+        .attr("cy", (d) => d.y)
+        .style("fill", "#19d3a2")
+        .style("fill-opacity", 0.3)
+        .attr("stroke", "#b3a2c8")
+        .style("stroke-width", 4)
+        .style("cursor", "pointer");
+
+      // 建立拖曳方法
+      const drag = d3
+        .drag()
+        .on("start", dragStart)
+        .on("drag", dragging)
+        .on("end", dragEnd);
+
+      function dragStart() {
+        d3.select(this).style("stroke", "blue");
+      }
+
+      function dragging() {
+        let pt = d3.pointer(event, this);
+        d3.select(this).attr("cx", pt[0]).attr("cy", pt[1]);
+      }
+      function dragEnd() {
+        d3.select(this).style("stroke", "#b3a2c8");
+      }
+
+      // 呼叫拖曳方法
+      dots.call(drag);
+    </script>
   </body>
 </html>
