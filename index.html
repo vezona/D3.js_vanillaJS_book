@@ -104,7 +104,7 @@
       </section>
 
       <!-- 匯入檔案 -->
-      <section class="container pt-5">
+      <section class="container py-5">
         <h2 class="text-center text-darkOrange mb-4 fw-bold">
           匯入不同格式的檔案
         </h2>
@@ -114,9 +114,9 @@
             target="_blank"
             class="text-center p-2 col-6 dark-link"
           >
-            <img class="rounded w-100" src="./img/index/import-data.jpg" />
+            <img class="rounded w-80" src="./img/index/import-data.jpg" />
           </a>
-          <div class="p-2 col-6">
+          <div class="flex-column p-2 col-6 justify-content-center d-flex fs-4">
             <p class="">JSON</p>
             <p class="">csv/tsv/dsv</p>
             <p class="">blob</p>
@@ -162,18 +162,15 @@
 
       <!-- D3 三大繪製形狀的 Helper Functions -->
       <section
-        class="container-fluid bg-orange h-60vh position-relative overflow-hidden"
+        class="container-fluid bg-orange position-relative overflow-hidden"
       >
-        <p class="bg-white z-0 position-absolute bubble-lg"></p>
         <p class="bg-white bubble-md"></p>
         <p class="bubble-sm"></p>
-        <h2
-          class="text-center text-darkOrange pt-3 w-100 fw-bold position-absolute"
-        >
+        <h2 class="text-center text-darkOrange pt-3 w-100 fw-bold">
           繪製形狀三大 Helper Functions
         </h2>
         <div
-          class="flex-wrap text-center top-20 w-100 d-flex justify-content-around position-absolute"
+          class="flex-wrap text-center top-20 w-100 d-flex justify-content-around"
         >
           <div class="p-3 col-lg-4 col-md-4 col-sm-12">
             <p class="text-center">Generator</p>
@@ -196,7 +193,7 @@
         </div>
       </section>
 
-      <!-- XY 軸 -->
+      <!-- 比例尺與軸線 -->
       <section class="container pt-5 z-5 position-relative">
         <div
           class="flex-wrap h-100 text-center py-3 w-100 d-md-flex justify-content-around align-items-center"
@@ -220,9 +217,9 @@
       </section>
 
       <!-- 插補、色彩、RWD-->
-      <section class="container pt-5 z-5 position-relative">
+      <section class="bg-orange pt-5 z-5 position-relative">
         <div
-          class="flex-wrap h-100 text-center py-3 w-100 d-md-flex justify-content-around align-items-center"
+          class="container flex-wrap h-100 text-center py-3 w-100 d-md-flex justify-content-around align-items-center"
         >
           <div class="mb-3 col-12">
             <h2 class="text-darkOrange fw-bold">插補、色彩、RWD</h2>
@@ -249,7 +246,7 @@
       </section>
 
       <!-- 動畫與事件 -->
-      <section class="container-fluid bg-orange py-3">
+      <section class="container py-3">
         <h2 class="text-center text-darkOrange w-100 fw-bold">動畫與事件</h2>
         <div
           class="flex-wrap text-center top-20 w-100 d-flex justify-content-around"
@@ -278,6 +275,44 @@
         </div>
       </section>
 
+      <!-- 進階互動事件 -->
+      <section class="container-fluid bg-orange py-3">
+        <h2 class="text-center text-darkOrange w-100 fw-bold">進階互動事件</h2>
+        <div
+          class="flex-wrap text-center top-20 w-100 d-flex justify-content-around"
+        >
+          <div class="p-3 col-md-3 col-12">
+            <p class="mb-1">拖曳</p>
+            <p class="text-center">Drag</p>
+            <a href="./23.drag.html" target="_blank">
+              <img class="w-80" src="https://fakeimg.pl/300x300/?text=Hello" />
+            </a>
+          </div>
+          <div class="p-3 col-md-3 col-12">
+            <p class="mb-1">縮放</p>
+            <p class="text-center">Zoom</p>
+            <a href="./24.zoom.html" target="_blank">
+              <img class="w-80" src="https://fakeimg.pl/300x300/?text=Hello" />
+            </a>
+          </div>
+
+          <div class="p-3 col-md-3 col-12">
+            <p class="mb-1">選取刷</p>
+            <p class="text-center">Brush</p>
+            <a href="./25.brush.html" target="_blank">
+              <img class="w-80" src="https://fakeimg.pl/300x300/?text=Hello" />
+            </a>
+          </div>
+          <div class="p-3 col-md-3 col-12">
+            <p class="mb-1">原力</p>
+            <p class="text-center">Force</p>
+            <a href="./26.force.html" target="_blank">
+              <img class="w-80" src="https://fakeimg.pl/300x300/?text=Hello" />
+            </a>
+          </div>
+        </div>
+      </section>
+
       <!-- 基礎圖表 -->
       <section class="container pt-5">
         <h2 class="text-center text-darkOrange mb-4 fw-bold">基礎圖表</h2>
@@ -285,77 +320,77 @@
           <div class="text-center mb-5 px-2 col-12 col-sm-8 col-md-6 col-lg-4">
             <p class="mb-1">圓餅圖</p>
             <p>pie chart</p>
-            <a href="./23.pie-chart.html" target="_blank">
+            <a href="./27.pie-chart.html" target="_blank">
               <img class="w-80" src="./img/index/pie.png" />
             </a>
           </div>
           <div class="text-center mb-5 px-2 col-12 col-sm-8 col-md-6 col-lg-4">
             <p class="mb-1">甜甜圈圖</p>
             <p>donut chart</p>
-            <a href="./24.donut-chart.html" target="_blank">
+            <a href="./28.donut-chart.html" target="_blank">
               <img class="w-80" src="./img/index/donut-chart.png" />
             </a>
           </div>
           <div class="text-center mb-5 px-2 col-12 col-sm-8 col-md-6 col-lg-4">
             <p class="mb-1">散點圖</p>
             <p>scatter chart</p>
-            <a href="./25.scatter-chart.html" target="_blank">
+            <a href="./29.scatter-chart.html" target="_blank">
               <img class="w-80" src="./img/index/scatter-plot.png" />
             </a>
           </div>
           <div class="text-center mb-5 px-2 col-12 col-sm-8 col-md-6 col-lg-4">
             <p class="mb-1">氣泡圖</p>
             <p>bubble chart</p>
-            <a href="./26.bubble-chart.html" target="_blank">
+            <a href="./30.bubble-chart.html" target="_blank">
               <img class="w-80" src="https://fakeimg.pl/300x300/?text=Hello" />
             </a>
           </div>
           <div class="text-center mb-5 px-2 col-12 col-sm-8 col-md-6 col-lg-4">
             <p class="mb-1">長條圖</p>
             <p>bar chart</p>
-            <a href="./27.bar-chart.html" target="_blank">
+            <a href="./31.bar-chart.html" target="_blank">
               <img class="w-80" src="https://fakeimg.pl/300x300/?text=Hello" />
             </a>
           </div>
           <div class="text-center mb-5 px-2 col-12 col-sm-8 col-md-6 col-lg-4">
             <p class="mb-1">複數長條圖</p>
             <p>multiple bar chart</p>
-            <a href="./28.multiple-bar-chart.html" target="_blank">
+            <a href="./32.multiple-bar-chart.html" target="_blank">
               <img class="w-80" src="https://fakeimg.pl/300x300/?text=Hello" />
             </a>
           </div>
           <div class="text-center mb-5 px-2 col-12 col-sm-8 col-md-6 col-lg-4">
             <p class="mb-1">堆積長條圖</p>
             <p>stacked bar chart</p>
-            <a href="./29.stacked-bar-chart.html" target="_blank">
+            <a href="./33.stacked-bar-chart.html" target="_blank">
               <img class="w-80" src="https://fakeimg.pl/300x300/?text=Hello" />
             </a>
           </div>
           <div class="text-center mb-5 px-2 col-12 col-sm-8 col-md-6 col-lg-4">
             <p class="mb-1">折線圖</p>
             <p>line chart</p>
-            <a href="./30.line-chart.html" target="_blank">
+            <a href="./34.line-chart.html" target="_blank">
               <img class="w-80" src="./img/index/line-chart.jpg" />
             </a>
           </div>
           <div class="text-center mb-5 px-2 col-12 col-sm-8 col-md-6 col-lg-4">
             <p class="mb-1">多線折線圖</p>
             <p>multiple line chart</p>
-            <a href="./31.multiple-line-chart.html" target="_blank">
+            <a href="./35.multiple-line-chart.html" target="_blank">
               <img class="w-80" src="./img/index/multi-linechart.png" />
             </a>
           </div>
           <div class="text-center mb-5 px-2 col-12 col-sm-8 col-md-6 col-lg-4">
             <p class="mb-1">區域圖</p>
             <p>Area chart</p>
-            <a href="./32.area-chart.html" target="_blank">
+            <a href="./36.area-chart.html" target="_blank">
               <img class="w-80" src="https://fakeimg.pl/300x300/?text=Hello" />
             </a>
           </div>
           <div class="text-center mb-5 px-2 col-12 col-sm-8 col-md-6 col-lg-4">
             <p class="mb-1">多線區域圖</p>
             <p>multiple area chart</p>
-            <a href="./33.multiple-area-chart.html" target="_blank">
+            <a href="./37.multiple-area-chart.html" target="_blank">
               <img class="w-80" src="https://fakeimg.pl/300x300/?text=Hello" />
             </a>
           </div>
@@ -365,81 +400,44 @@
         </div>
       </section>
 
-      <!-- 進階互動事件 -->
-      <section class="container-fluid bg-orange py-3">
-        <h2 class="text-center text-darkOrange w-100 fw-bold">進階互動事件</h2>
-        <div
-          class="flex-wrap text-center top-20 w-100 d-flex justify-content-around"
-        >
-          <div class="p-3 col-md-3 col-12">
-            <p class="mb-1">縮放</p>
-            <p class="text-center">Zoom</p>
-            <a href="./34.zoom.html" target="_blank">
-              <img class="w-80" src="https://fakeimg.pl/300x300/?text=Hello" />
-            </a>
-          </div>
-          <div class="p-3 col-md-3 col-12">
-            <p class="mb-1">拖曳</p>
-            <p class="text-center">Drag</p>
-            <a href="./35.drag.html" target="_blank">
-              <img class="w-80" src="https://fakeimg.pl/300x300/?text=Hello" />
-            </a>
-          </div>
-          <div class="p-3 col-md-3 col-12">
-            <p class="mb-1">選取刷</p>
-            <p class="text-center">Brush</p>
-            <a href="./36.brush.html" target="_blank">
-              <img class="w-80" src="https://fakeimg.pl/300x300/?text=Hello" />
-            </a>
-          </div>
-          <div class="p-3 col-md-3 col-12">
-            <p class="mb-1">原力</p>
-            <p class="text-center">Force</p>
-            <a href="./37.force.html" target="_blank">
-              <img class="w-80" src="https://fakeimg.pl/300x300/?text=Hello" />
-            </a>
-          </div>
-        </div>
-      </section>
-
       <!-- 進階圖表 -->
-      <section class="container pt-5">
+      <section class="bg-orange pt-5">
         <h2 class="text-center text-darkOrange fw-bold">進階圖表</h2>
-        <div class="flex-wrap d-flex justify-content-center">
+        <div class="container flex-wrap d-flex justify-content-center">
           <div class="text-center mb-5 px-2 col-12 col-sm-8 col-md-6 col-lg-4">
             <p>line chart</p>
             <a href="">
-              <img class="w-100" src="https://fakeimg.pl/300x300/?text=Hello" />
+              <img class="w-80" src="https://fakeimg.pl/300x300/?text=Hello" />
             </a>
           </div>
           <div class="text-center mb-5 px-2 col-12 col-sm-8 col-md-6 col-lg-4">
             <p>pie chart</p>
             <a href="">
-              <img class="w-100" src="https://fakeimg.pl/300x300/?text=Hello" />
+              <img class="w-80" src="https://fakeimg.pl/300x300/?text=Hello" />
             </a>
           </div>
           <div class="text-center mb-5 px-2 col-12 col-sm-8 col-md-6 col-lg-4">
             <p>pie chart</p>
             <a href="">
-              <img class="w-100" src="https://fakeimg.pl/300x300/?text=Hello" />
+              <img class="w-80" src="https://fakeimg.pl/300x300/?text=Hello" />
             </a>
           </div>
           <div class="text-center mb-5 px-2 col-12 col-sm-8 col-md-6 col-lg-4">
             <p>pie chart</p>
             <a href="">
-              <img class="w-100" src="https://fakeimg.pl/300x300/?text=Hello" />
+              <img class="w-80" src="https://fakeimg.pl/300x300/?text=Hello" />
             </a>
           </div>
           <div class="text-center mb-5 px-2 col-12 col-sm-8 col-md-6 col-lg-4">
             <p>pie chart</p>
             <a href="">
-              <img class="w-100" src="https://fakeimg.pl/300x300/?text=Hello" />
+              <img class="w-80" src="https://fakeimg.pl/300x300/?text=Hello" />
             </a>
           </div>
           <div class="text-center mb-5 px-2 col-12 col-sm-8 col-md-6 col-lg-4">
             <p>pie chart</p>
             <a href="">
-              <img class="w-100" src="https://fakeimg.pl/300x300/?text=Hello" />
+              <img class="w-80" src="https://fakeimg.pl/300x300/?text=Hello" />
             </a>
           </div>
         </div>

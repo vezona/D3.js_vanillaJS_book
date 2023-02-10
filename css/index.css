@@ -29,35 +29,12 @@
     }
  }
 
-
-.bubble-lg{
-    border-radius: 50%;
-}
-
-@media(max-width:576px){
-    .bubble-lg{
-        width: 300px;
-    height: 300px;
-        top: -50%;
-        right: 0%
-    }
- }
-
- @media(min-width: 577px ){
-    .bubble-lg{
-        width: 600px;
-    height: 600px;
-        top: -90%;
-        left: 25%;
-    }
- }
-
 .bubble-md{
     position: absolute;
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    bottom:20%;
+    top:-15%;
     right:10%;
 }
 
@@ -67,8 +44,8 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    bottom:10%;
-    right:20%;
+    top:10%;
+    right:5%;
 }
 
 .main-title{
