@@ -1,0 +1,79 @@
+{
+  "code": 200,
+  "msg": "success",
+  "list": [
+    {
+      "date": "110-5",
+      "domesticBagPrice": 0.0,
+      "dealCount": 3,
+      "foreignBagPrice": 60.47
+    },
+    {
+      "date": "110-4",
+      "domesticBagPrice": 0.0,
+      "dealCount": 2,
+      "foreignBagPrice": 105.2008
+    },
+    {
+      "date": "110-3",
+      "domesticBagPrice": 0.0,
+      "dealCount": 0,
+      "foreignBagPrice": 0
+    },
+    {
+      "date": "110-2",
+      "domesticBagPrice": 58.7133,
+      "dealCount": 1,
+      "foreignBagPrice": 87.0078
+    },
+    {
+      "date": "110-1",
+      "domesticBagPrice": 0,
+      "dealCount": 1,
+      "foreignBagPrice": 103.5544
+    },
+    {
+      "date": "109-12",
+      "domesticBagPrice": 63.3333,
+      "dealCount": 3,
+      "foreignBagPrice": 100.3663
+    },
+    {
+      "date": "109-11",
+      "domesticBagPrice": 60.6288,
+      "dealCount": 2,
+      "foreignBagPrice": 95.2126
+    },
+    {
+      "date": "109-10",
+      "domesticBagPrice": 86.84,
+      "dealCount": 2,
+      "foreignBagPrice": 60.3163
+    },
+    {
+      "date": "109-9",
+      "domesticBagPrice": 70.3163,
+      "dealCount": 4,
+      "foreignBagPrice": 52.0291
+    },
+    {
+      "date": "109-8",
+      "domesticBagPrice": 77.85,
+      "dealCount": 1,
+      "foreignBagPrice": 0
+    },
+    {
+      "date": "109-7",
+      "domesticBagPrice": 64.4367,
+      "dealCount": 2,
+      "foreignBagPrice": 70.38
+    },
+    {
+      "date": "109-6",
+      "domesticBagPrice": 74.152,
+      "dealCount": 4,
+      "foreignBagPrice": 61.8809
+    }
+  ],
+  "type": "電梯大樓"
+}

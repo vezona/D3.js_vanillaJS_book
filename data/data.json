@@ -1,0 +1,78 @@
+{
+    "code": 200,
+    "msg": "success",
+    "list": [{
+            "date": "110-5",
+            "domesticBagPrice": 0.0000,
+            "dealCount": 0,
+            "foreignBagPrice": 70.4700
+        },
+        {
+            "date": "110-4",
+            "domesticBagPrice": 0.0000,
+            "dealCount": 0,
+            "foreignBagPrice": 87.0078
+        },
+        {
+            "date": "110-3",
+            "domesticBagPrice": 0.0000,
+            "dealCount": 0,
+            "foreignBagPrice": 0
+        },
+        {
+            "date": "110-2",
+            "domesticBagPrice": 60.3050,
+            "dealCount": 2,
+            "foreignBagPrice": 105.2008
+        },
+        {
+            "date": "110-1",
+            "domesticBagPrice": 0,
+            "dealCount": 2,
+            "foreignBagPrice": 103.5544
+        },
+        {
+            "date": "109-12",
+            "domesticBagPrice": 58.7133,
+            "dealCount": 3,
+            "foreignBagPrice": 100.3663
+        },
+        {
+            "date": "109-11",
+            "domesticBagPrice": 60.6288,
+            "dealCount": 8,
+            "foreignBagPrice": 85.5546
+        },
+        {
+            "date": "109-10",
+            "domesticBagPrice": 56.8400,
+            "dealCount": 4,
+            "foreignBagPrice": 94.7130
+        },
+        {
+            "date": "109-9",
+            "domesticBagPrice": 54.7029,
+            "dealCount": 7,
+            "foreignBagPrice": 0
+        },
+        {
+            "date": "109-8",
+            "domesticBagPrice": 65.8500,
+            "dealCount": 2,
+            "foreignBagPrice": 92.0291
+        },
+        {
+            "date": "109-7",
+            "domesticBagPrice": 54.4367,
+            "dealCount": 3,
+            "foreignBagPrice": 80.3800
+        },
+        {
+            "date": "109-6",
+            "domesticBagPrice": 54.1520,
+            "dealCount": 5,
+            "foreignBagPrice": 81.9309
+        }
+    ],
+    "type": "電梯大樓"
+}
