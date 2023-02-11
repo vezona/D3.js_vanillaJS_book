@@ -38,10 +38,21 @@
           </code>
         </pre>
       </div>
-      <!-- interactScatter -->
+      <!-- interactScatter- hover -->
       <div class="my-5">
-        <h5 class="text-center fw-bold">基本散點圖</h5>
-        <div class="interactScatter m-auto"></div>
+        <h5 class="text-center fw-bold">互動散點圖-hover</h5>
+        <div class=hoverScatter m-auto"></div>
+        <pre>
+          <code class="language-html line-numbers remove-initial-line-feed">
+            
+          </code>
+        </pre>
+      </div>
+
+      <!-- interactScatter-add point -->
+      <div class="my-5">
+        <h5 class="text-center fw-bold">互動散點圖-畫布上新增點點</h5>
+        <div class="addPointScatter m-auto"></div>
         <pre>
           <code class="language-html line-numbers remove-initial-line-feed">
             
@@ -114,10 +125,10 @@
 
       basicScatter();
 
-      // interactScatter
-      const interactScatter = ()=>{
+      // interactScatter - hover
+      const hoverScatter = ()=>{
         // 建立svg
-        const width = parseInt(d3.select(".interactScatter").style("width")),
+        const width = parseInt(d3.select(".hoverScatter").style("width")),
             height = 500,
             margin = {
                   top: 40,
@@ -127,7 +138,7 @@
                 },
             radius = 5;
 
-        const svg = d3.select(".interactScatter")
+        const svg = d3.select(".hoverScatter")
                       .append("svg")
                       .attr('width', width)
                       .attr('height', height);
@@ -236,6 +247,104 @@
                 .attr('fill', 'black')
                 .attr('r', radius)
         }
+      };
+
+      hoverScatter();
+
+      // interactScatter - add point
+      const addPointScatter = ()=>{
+        // 建立svg
+        const width = parseInt(d3.select(".addPointScatter").style("width")),
+            height = 500,
+            margin = {
+                  top: 40,
+                  right: 20,
+                  bottom: 20,
+                  left: 40
+                },
+            radius = 5;
+
+        const svg = d3.select(".addPointScatter")
+                      .append("svg")
+                      .attr('width', width)
+                      .attr('height', height)
+                      .style('cursor', 'pointer');
+
+        const dataset = [
+            { x: 100,
+              y: 110 },
+            { x: 83,
+              y: 43 },
+            { x: 92,
+              y: 28 },
+            { x: 49,
+              y: 74 },
+            { x: 51,
+              y: 10 },
+            { x: 25,
+              y: 98 },
+            { x: 77,
+              y: 30},
+            { x: 20,
+              y: 83 },
+            { x: 11,
+              y: 63 },
+            { x: 4,
+              y: 55 },
+            { x: 0,
+              y: 0 },
+            { x: 85,
+              y: 100 },
+            { x: 60,
+              y: 40 },
+            { x: 70,
+              y: 80 },
+            { x: 10,
+              y: 20 },
+            { x: 40,
+              y: 50 },
+            { x: 25,
+              y: 31 }
+        ];
+
+        // 建立Ｘ比例尺與軸線
+        const xScale = d3.scaleLinear()
+            .domain([0, d3.max(dataset, (d) => d.x + 10)])
+            .range([margin.left, width - margin.right]);
+
+        const xAxisGenerator = d3
+                .axisBottom()
+                .scale(xScale)
+
+        const xAxis = svg.append('g')
+            .attr('class', 'xAxis')
+            .attr('transform', `translate(0, ${height - margin.bottom})`)
+            .call(xAxisGenerator)
+        
+        // 建立Ｙ比例尺與軸線
+        const yScale = d3
+              .scaleLinear()
+              .domain([d3.max(dataset, (d)=> d.y + 10), 0])
+              .range([margin.top, height - margin.bottom])
+
+        const yAxisGenerator = d3
+                  .axisLeft()
+                  .scale(yScale)
+
+        const yAxis = svg
+              .append('g')
+              .attr('class', 'yAxis')
+              .attr('transform', `translate(${margin.left}, 0)`)
+              .call(yAxisGenerator)
+
+        // 綁定資料並建立圓點
+        svg.selectAll("circle")
+            .data(dataset)
+            .join("circle")
+            .attr('cx', d => xScale(d.x))
+            .attr('cy', d => yScale(d.y))
+            .attr('r', 5)
+            .attr('fill', '#000')
 
         // 滑鼠click的時候增加一個點
         svg.on("click", (e) => {
@@ -258,11 +367,9 @@
               .attr('cy', d => yScale(d.y))
               .attr('r', 5)
               .attr('fill', '#000')
-              .on("mouseover", handleMouseOver)
-              .on("mouseout", handleMouseOut);
           })
       }
-      interactScatter();
+      addPointScatter();
     </script>
   </body>
 </html>
