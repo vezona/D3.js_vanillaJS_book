@@ -28,6 +28,16 @@
 
     <div class="container">
       <h3 class="mt-6 fw-bold">複數長條圖 multiple bar chart</h3>
+
+      <div class="my-5">
+        <h5 class="text-center fw-bold"></h5>
+        <div class="multiBarChart" m-auto"></div>
+        <pre>
+          <code class="language-html line-numbers remove-initial-line-feed">
+            
+          </code>
+        </pre>
+      </div>
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -36,6 +46,147 @@
     ></script>
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script></script>
+    <script>
+      const drawBarChart = async()=>{
+        const data = await d3.csv('./data/tainan_labor_force_population.csv')
+
+        const rwdSvgWidth = parseInt(d3.select('.multiBarChart').style('width')),
+              rwdSvgHeight = 500,
+              margin = 20,
+              marginBottom = 100
+
+        const svg = d3.select('.multiBarChart')
+                      .append('svg')
+                      .attr('width', rwdSvgWidth)
+                      .attr('height', rwdSvgHeight);
+
+        // map 資料集
+        const xData = data.map((i) => i['年度']);
+        const subgroups =  Object.keys(data[0]).slice(1)
+        console.log(subgroups)
+
+        // 設定要給 X 軸用的 scale 跟 axis
+        const xScale = d3.scaleBand()
+                        .domain(xData)
+                        .range([margin*2, rwdSvgWidth - margin]) // 寬度
+                        .padding(0.2)
+
+        const xAxis = d3.axisBottom(xScale)
+
+        // 呼叫繪製x軸、調整x軸位置
+        const xAxisGroup = svg.append("g")
+                              .call(xAxis)
+                              .attr("transform", `translate(0,${rwdSvgHeight - marginBottom})`)
+
+        // 設定要給 Y 軸用的 scale 跟 axis
+        const yScale = d3.scaleLinear()
+                        .domain([0, 600])
+                        .range([rwdSvgHeight - marginBottom, margin]) // 數值要顛倒，才會從低往高排
+                        .nice() // 補上終點值
+
+        const yAxis = d3.axisLeft(yScale)
+                        .ticks(5)
+                        .tickSize(3)
+
+        // 呼叫繪製y軸、調整y軸位置
+        const yAxisGroup = svg.append("g")
+                              .call(yAxis)
+                              .attr("transform", `translate(${margin*2},0)`)
+        
+        // 第二條X軸的比例尺，用來設定多條bar的位置
+        const xSubgroup = d3.scaleBand()
+                            .domain(subgroups)
+                            .range([0, xScale.bandwidth()])
+                            .padding([0.05])                       
+
+        // 設定不同 subgorup bar的顏色
+        const color = d3
+              .scaleOrdinal()
+              .domain(subgroups)
+              .range(['#d4be92','#c2cccd','#b2c2e3', '#ead0d1']) 
+          
+          
+        // 開始建立長條圖
+        const bar = svg.append('g')
+                      .selectAll('g')
+                      .data(data)
+                      .join('g')
+                        .attr('transform',  d => `translate(${xScale(d['年度'])}, 0)`)
+                      .selectAll('rect')
+                      .data(d => 
+                             subgroups.map(key=> {return {key:key, value:d[key]}}))
+                      .join('rect')
+                      .attr('x', d => xSubgroup(d.key))
+                      .attr("y", d => yScale(d.value))
+                      .attr("width", xSubgroup.bandwidth())
+                      .attr("height", d => 
+                            (rwdSvgHeight-marginBottom) - yScale(d.value))
+                      .attr("fill", d => color(d.key))
+                      .style('cursor', 'pointer')
+                      .on("mouseover", handleMouseOver)
+                      .on("mouseleave", handleMouseLeave)
+
+        function handleMouseOver(d, i){
+          const pt = d3.pointer(event, svg.node())
+
+          // 加上文字標籤
+          svg.append('text')
+            .attr('class', 'infoText')
+            .attr('y', yScale(d.target.__data__['value']))
+            .attr("x", margin*2)
+            .style('fill', '#000')
+            .style('font-size', '18px')
+            .style('font-weight', 'bold')
+            .style("text-anchor", 'middle')
+            .text(d.target.__data__['value'] + '千人')
+        
+          // 加上軸線
+          svg.append('line')
+            .attr('class', 'dashed-Y')
+            .attr('x1', margin*2)
+            .attr('y1', yScale(d.target.__data__['value']))
+            .attr('x2', pt[0])
+            .attr('y2', yScale(d.target.__data__['value']))
+            .style('stroke', 'black')
+            .style('stroke-dasharray', '3' )
+        }
+
+        function handleMouseLeave(){
+          // 移除文字、軸線標籤
+          svg.select('.infoText').remove()
+          svg.select('.dashed-Y').remove()
+        }
+
+        // 加上辨識標籤
+        const tagsWrap =  svg.append('g')
+            .selectAll('g')
+            .attr('class', 'tags')
+            .data(subgroups)
+            .enter()
+            .append('g')
+            
+        if( window.innerWidth < 780){
+          tagsWrap.attr('transform', "translate(-70,0)")
+        }
+            
+        tagsWrap.append('rect')
+            .attr('x', (d,i)=> (i+1)*marginBottom*1.3)
+            .attr('y', rwdSvgHeight-marginBottom/2)
+            .attr('width', 20)
+            .attr('height', 20)
+            .attr('fill', d => color(d))
+
+        tagsWrap.append('text')
+                .attr('x', (d,i)=> (i+1)*marginBottom*1.3)
+                .attr('y', rwdSvgHeight-10)
+                .style('fill', '#000')
+                .style('font-size', '12px')
+                .style('font-weight', 'bold')
+                .style("text-anchor", 'middle')
+                .text(d=>d)
+      };
+
+      drawBarChart();
+    </script>
   </body>
 </html>
