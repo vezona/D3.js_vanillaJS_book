@@ -150,58 +150,58 @@
           textTag.style('opacity', '0')
         }
 
-        // 加上tags標籤
-      const tagsWrap =  svg.append('g')
-          .selectAll('g')
-          .attr('class', 'tags')
-          .data(subgroups)
-          .join('g')
+          // 加上tags標籤
+        const tagsWrap =  svg.append('g')
+            .selectAll('g')
+            .attr('class', 'tags')
+            .data(subgroups)
+            .join('g')
 
-      if(window.innerWidth < 600){
-        tagsWrap.append('rect')
-          .attr('x',  margin*3)
-          .attr('y', (d,i)=>{
-            const unit = marginBottom/5
-            return (height-margin)-unit*i
-          })
-          .attr('width', 20)
-          .attr('height', 20)
-          .attr('fill', d => color(d))
+        if(window.innerWidth < 600){
+          tagsWrap.append('rect')
+            .attr('x',  margin*3)
+            .attr('y', (d,i)=>{
+              const unit = marginBottom/5
+              return (height-margin)-unit*i
+            })
+            .attr('width', 20)
+            .attr('height', 20)
+            .attr('fill', d => color(d))
 
-      tagsWrap.append('text')
-              .attr('x', margin*7)
-              .attr('y', (d,i)=>{
-                const unit = marginBottom/5
-                return (height-margin)-unit*i +15
-              })
-              .style('fill', '#000')
-              .style('font-size', '12px')
-              .style('font-weight', 'bold')
-              .style("text-anchor", 'middle')
-              .text(d=>d)
-      } else {
-        tagsWrap.append('rect')
-          .attr('x', (d,i)=> {
-            const unit = (width-margin*2)/5;
-            return (i+1)*unit;
-          })
-          .attr('y', height-marginBottom/2)
-          .attr('width', 20)
-          .attr('height', 20)
-          .attr('fill', d => color(d))
+          tagsWrap.append('text')
+                  .attr('x', margin*7)
+                  .attr('y', (d,i)=>{
+                    const unit = marginBottom/5
+                    return (height-margin)-unit*i +15
+                  })
+                  .style('fill', '#000')
+                  .style('font-size', '12px')
+                  .style('font-weight', 'bold')
+                  .style("text-anchor", 'middle')
+                  .text(d=>d)
+        } else {
+          tagsWrap.append('rect')
+            .attr('x', (d,i)=> {
+              const unit = (width-margin*2)/5;
+              return (i+1)*unit;
+            })
+            .attr('y', height-marginBottom/2)
+            .attr('width', 20)
+            .attr('height', 20)
+            .attr('fill', d => color(d))
 
-        tagsWrap.append('text')
-                .attr('x', (d,i)=> {
-                  const unit = (width-margin)/5;
-                  return (i+1)*unit;
-                })
-                .attr('y', height-10)
-                .style('fill', '#000')
-                .style('font-size', '12px')
-                .style('font-weight', 'bold')
-                .style("text-anchor", 'middle')
-                .text(d=>d)
-      }
+          tagsWrap.append('text')
+                  .attr('x', (d,i)=> {
+                    const unit = (width-margin)/5;
+                    return (i+1)*unit;
+                  })
+                  .attr('y', height-10)
+                  .style('fill', '#000')
+                  .style('font-size', '12px')
+                  .style('font-weight', 'bold')
+                  .style("text-anchor", 'middle')
+                  .text(d=>d)
+        }
           
 
       }
