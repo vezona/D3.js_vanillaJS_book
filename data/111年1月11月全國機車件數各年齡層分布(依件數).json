@@ -1,0 +1,38 @@
+﻿[
+    {
+        "name": "成年人(25-64歲)",
+        "deathQty": 27,
+        "hurtQty": 15580,
+        "caseQty": 14795
+    },
+    {
+        "name": "年輕人(18-24歲)",
+        "deathQty": 5,
+        "hurtQty": 6008,
+        "caseQty": 6494
+    },
+    {
+        "name": "高齡者(65歲以上)",
+        "deathQty": 15,
+        "hurtQty": 1519,
+        "caseQty": 1762
+    },
+    {
+        "name": "少年(13-17歲)",
+        "deathQty": 0,
+        "hurtQty": 122,
+        "caseQty": 140
+    },
+    {
+        "name": "不明",
+        "deathQty": 0,
+        "hurtQty": 0,
+        "caseQty": 5
+    },
+    {
+        "name": "兒童(0-12歲)",
+        "deathQty": 0,
+        "hurtQty": 0,
+        "caseQty": 0
+    }
+]

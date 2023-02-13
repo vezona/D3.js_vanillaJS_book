@@ -27,11 +27,10 @@
     </nav>
 
     <div class="container">
-      <h3 class="mt-6 fw-bold">多線折線圖 multiple line chart</h3>
-      <!--  -->
+      <h3 class="mt-6 fw-bold">多線區域圖 multiple area chart</h3>
       <div class="my-5">
         <p class="mt-3 text-center"></p>
-        <div class=""></div>
+        <div class="multiAreaChart"></div>
         <pre>
           <code class="language-html line-numbers remove-initial-line-feed">
             
@@ -46,6 +45,72 @@
     ></script>
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script></script>
+    <script>
+      const drawMultiAreaChart = async()=>{
+        const margin = {top: 10, right: 30, bottom: 30, left: 60},
+            width = parseInt(d3.select('.multiAreaChart').style('width')) - margin.left - margin.right,
+            height = 400 - margin.top - margin.bottom;
+          
+
+      // 建立SVG
+      const svg = d3.select(".multiAreaChart")
+        .append("svg")
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+          .attr("transform",
+                `translate(${margin.left}, ${margin.top})`);
+
+      // 取資料
+      const data = await d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/5_OneCatSevNumOrdered.csv");
+
+      // 資料按照年份分類：X軸
+      const sumstat = d3.group(data, d => d.year);
+
+      // 建立堆疊資料
+      const mygroups = ["Helen", "Amanda", "Ashley"] // list of group names
+      const mygroup = [1,2,3] // list of group names
+      const stackedData = d3.stack()
+        .keys(mygroup)
+        .value((d, key)=>d[1][key].n)(sumstat)
+
+      // 建立Ｘ軸
+      const x = d3.scaleLinear()
+        .domain(d3.extent(data, (d)=>d.year))
+        .range([ 0, width ]);
+      
+      svg.append("g")
+        .attr("transform", `translate(0, ${height})`)
+        .call(d3.axisBottom(x).ticks(5));
+
+      // 建立Ｙ軸
+      const y = d3.scaleLinear()
+        .domain([0, d3.max(data, d=>+d.n) * 1.2])
+        .range([ height, 0 ]);
+
+      svg.append("g")
+        .call(d3.axisLeft(y));
+
+      // 使用先前的分類設定色彩
+      const color = d3.scaleOrdinal()
+        .domain(mygroups)
+        .range(['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#f781bf','#999999'])
+
+      // 建立區域圖
+      svg
+        .selectAll("layers")
+        .data(stackedData)
+        .join("path")
+          .style("fill", function(d) { name = mygroups[d.key-1] ;  return color(name); })
+          .attr("d", d3.area()
+            .x((d, i) =>x(d.data[0]))
+            .y0((d) =>y(d[0]))
+            .y1((d) =>y(d[1]))
+        )
+      };
+
+      drawMultiAreaChart()
+
+    </script>
   </body>
 </html>
