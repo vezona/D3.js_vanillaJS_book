@@ -82,7 +82,7 @@
         <p class="mt-1 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
-            d3.color("rgba(0,0,0,0.5)").opacity; // 0.5
+            d3.color("rgba(0,0,0,0.5)").opacity; // return 0.5
           </code>
         </pre>
       </div>
@@ -138,6 +138,13 @@
 
             // 文字參數
             d3.rgb("red");
+
+            // return {
+            //     "r": 255,
+            //     "g": 0,
+            //     "b": 0,
+            //     "opacity": 1
+            // }
 
           </code>
         </pre>
@@ -248,8 +255,14 @@
         .style("width", "200px")
         .style("height", "20px")
         .style("background", rgb);
+      // return {
+      //     "r": 255,
+      //     "g": 0,
+      //     "b": 0,
+      //     "opacity": 1
+      // }
 
-      // d3.rgb() ===============================
+      // d3.hsl() ===============================
       const hsl = d3.hsl("red");
       // return {
       //     "h": 0,
