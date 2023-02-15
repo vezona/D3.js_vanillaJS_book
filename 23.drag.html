@@ -28,22 +28,7 @@
 
     <div class="container">
       <h3 class="mt-6 fw-bold">拖曳 Drag</h3>
-
-      <!-- d3.drag -->
       <div>
-        <h5 class="mt-6"><mark>d3.drag( )</mark></h5>
-        <div class=""></div>
-        <p class="mt-4 mb-1 fs-6">程式碼</p>
-        <pre>
-          <code class="language-js line-numbers remove-initial-line-feed">
-
-          </code>
-        </pre>
-      </div>
-
-      <!-- drag.on(事件, 方法) -->
-      <div>
-        <h5 class="mt-6"><mark>drag.on(typenames, [listener])</mark></h5>
         <div class="dragContainer"></div>
         <p class="mt-4 mb-1 fs-6">程式碼</p>
         <pre>
@@ -94,7 +79,7 @@
             }
       
             function dragging() {
-              let pt = d3.pointer(event, this);
+              const pt = d3.pointer(event, this);
               d3.select(this).attr("cx", pt[0]).attr("cy", pt[1]);
             }
             function dragEnd() {
@@ -161,7 +146,7 @@
       }
 
       function dragging() {
-        let pt = d3.pointer(event, this);
+        const pt = d3.pointer(event, this);
         d3.select(this).attr("cx", pt[0]).attr("cy", pt[1]);
       }
       function dragEnd() {
