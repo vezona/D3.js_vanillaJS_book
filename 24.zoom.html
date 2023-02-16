@@ -72,6 +72,73 @@
         </pre>
       </div>
 
+      <!-- zoom.transformBy -->
+      <div>
+        <h5 class="mt-5">
+          <mark>zoom.translateBy(selection, x, y)</mark>
+        </h5>
+        <div class="my-3 zoomTranslateBy"></div>
+        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+            const width = parseInt(d3.select(".zoomTranslateBy").style("width"));
+            const height = 300;
+            const svg = d3
+              .select(".zoomTranslateBy")
+              .append("svg")
+              .attr("width", width)
+              .attr("height", height)
+              .style("border", "1px solid gray");
+    
+            // 加個圓點點
+            const circle = svg
+              .append("circle")
+              .attr("id", "dot")
+              .attr("cx", width / 2)
+              .attr("cy", height / 2)
+              .attr("r", 40)
+              .attr("fill", "#69b3a2");
+    
+            const zoom = d3.zoom()
+            .on("zoom", (e)=> circle.attr("transform", e.transform))
+            
+            // 呼叫 Zoom 事件
+            svg.call(zoom);
+    
+            // 將svg網x座標移動-80px、y座標移動80px
+            zoom.translateBy(svg, -80, 80);
+          
+          </code>
+        </pre>
+      </div>
+
+      <!-- zoom.translateTo -->
+      <div>
+        <h5 class="mt-5">
+          <mark>zoom.translateTo(selection, x, y)</mark>
+        </h5>
+        <div class="my-3 translateTo"></div>
+        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+          
+          </code>
+        </pre>
+      </div>
+
+      <!-- zoom.extent -->
+      <div>
+        <h5 class="mt-5">
+          <mark>zoom.extent([x0, y0], [x1, y1])</mark>
+        </h5>
+        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+            const zoom = d3.zoom().extent([[0, 0], [250, 250]])
+          </code>
+        </pre>
+      </div>
+
       <!-- 基本縮放 -->
       <div>
         <h5 class="mt-5">
@@ -144,6 +211,71 @@
       };
 
       zoomTransform();
+
+      // zoomTranslateBy
+      const zoomTranslateBy = () => {
+        const width = parseInt(d3.select(".zoomTranslateBy").style("width"));
+        const height = 300;
+        const svg = d3
+          .select(".zoomTranslateBy")
+          .append("svg")
+          .attr("width", width)
+          .attr("height", height)
+          .style("border", "1px solid gray");
+
+        // 加個圓點點
+        const circle = svg
+          .append("circle")
+          .attr("id", "dot")
+          .attr("cx", width / 2)
+          .attr("cy", height / 2)
+          .attr("r", 40)
+          .attr("fill", "#69b3a2");
+
+        const zoom = d3.zoom()
+        .on("zoom", (e)=> circle.attr("transform", e.transform))
+        
+        // 呼叫 Zoom 事件
+        svg.call(zoom);
+
+        // 將svg網x座標移動-80px、y座標移動80px
+        zoom.translateBy(svg, -80, 80);
+      };
+
+      zoomTranslateBy();
+
+      // zoomTranslateTo
+      const zoomTranslateTo = ()=>{
+        const width = parseInt(d3.select(".translateTo").style("width"));
+        const height = 300;
+        const svg = d3
+          .select(".translateTo")
+          .append("svg")
+          .attr("width", width)
+          .attr("height", height)
+          .style("border", "1px solid gray");
+
+        // 加個圓點點
+        const circle = svg
+          .append("circle")
+          .attr("id", "dot")
+          .attr("cx", width / 2)
+          .attr("cy", height / 2)
+          .attr("r", 40)
+          .attr("fill", "#69b3a2");
+
+        const zoom = d3.zoom()
+        .on("zoom", (e)=> circle.attr("transform", e.transform))
+        
+        // 呼叫 Zoom 事件
+        svg.call(zoom);
+
+        // 移動 svg 到 參考點p乘以...的位置
+        zoom.translateTo(svg, 10, 10, [0,0]);
+        console.log(circle);
+      }
+
+      zoomTranslateTo();
 
       // zoom basic
       const zoomBasic = () => {
