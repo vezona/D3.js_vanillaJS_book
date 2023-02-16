@@ -33,6 +33,13 @@
         <p class="mt-4 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
+            // html 
+            &lt;div class=&quot;dragContainer&quot;&gt;&lt;/div&gt;
+          </code>
+        </pre>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+            // js
             const data = [
               { name: "A", x: 200, y: 340 },
               { name: "B", x: 220, y: 300 },
@@ -43,7 +50,9 @@
               { name: "G", x: 187, y: 250 },
             ];
       
-            const currentWidth = parseInt(d3.select(".dragContainer").style("width"));
+            const currentWidth = parseInt(
+               d3.select(".dragContainer").style("width")
+            );
             const heigth = 400;
             
             const svg = d3

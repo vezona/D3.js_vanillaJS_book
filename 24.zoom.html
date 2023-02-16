@@ -28,12 +28,84 @@
 
     <div class="container">
       <h3 class="mt-6 fw-bold">縮放 Zoom</h3>
+      <!-- 建立縮放方法 -->
+      <div>
+        <h5 class="mt-5">
+          <mark>建立縮放方法</mark>
+        </h5>
+        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+          // 建立 zoom 事件
+          const zoom = d3.zoom();
+          console.log(zoom);
+    
+          // 將選取的DOM元素添加縮放方法
+          selectedDOM.call(zoom);
+          
+          </code>
+        </pre>
+      </div>
+
+      <!-- zoom transform 物件 -->
+      <div>
+        <h5 class="mt-5">
+          <mark>zoom.transform </mark>
+        </h5>
+        <div class="my-3 zoomTransform"></div>
+        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+            const zoomed = (e) => {
+              // 抓出 transform 物件
+              const transform = e.transform;
+              console.log(transform);
+
+              // 設定縮放比例-調整圓形半徑
+              svg.select("#dot").attr("r", (d) => 40 * transform.k);
+            };
+            const zoom = d3.zoom().on("zoom", zoomed);
+    
+            // 呼叫 Zoom 事件
+            svg.call(zoom);
+          </code>
+        </pre>
+      </div>
+
+      <!-- zoom.transformBy -->
+      <div>
+        <h5 class="mt-5">
+          <mark>zoom.translateBy(selection, x, y)</mark>
+        </h5>
+        <div class="my-3 zoomTranslateBy"></div>
+        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+
+          </code>
+        </pre>
+      </div>
+
+      <!--  -->
+
+      <div>
+        <h5 class="mt-5">
+          <mark>zoom.extent([x0, y0], [x1, y1])</mark>
+        </h5>
+        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+            const zoom = d3.zoom().extent([[0, 0], [250, 250]])
+          </code>
+        </pre>
+      </div>
+
       <!-- 基本縮放 -->
       <div>
         <h5 class="mt-5">
           <mark>基本縮放</mark>
         </h5>
-        <div class="zoomBasic my-3"></div>
+        <div class="my-3 zoomBasic"></div>
         <p class="mt-1 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
@@ -47,7 +119,7 @@
         <h5 class="mt-5">
           <mark>自行調整縮放大小</mark>
         </h5>
-        <div class="zoomAdjust my-3"></div>
+        <div class="my-3 zoomAdjust"></div>
         <p class="mt-1 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
@@ -65,8 +137,81 @@
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
+      // zoomTransform
+      const zoomTransform = () => {
+        const width = parseInt(d3.select(".zoomTransform").style("width"));
+        const height = 300;
+        const svg = d3
+          .select(".zoomTransform")
+          .append("svg")
+          .attr("width", width)
+          .attr("height", height)
+          .style("border", "1px solid gray");
+
+        // 加個圓點點
+        const circle = svg
+          .append("circle")
+          .attr("id", "dot")
+          .attr("cx", width / 2)
+          .attr("cy", height / 2)
+          .attr("r", 40)
+          .attr("fill", "#69b3a2");
+
+        const zoomed = (e) => {
+          // 抓出 transform 物件
+          const transform = e.transform;
+          console.log(transform);
+
+          // 設定縮放比例
+          svg.select("#dot").attr("r", (d) => 40 * transform.k);
+        };
+        const zoom = d3.zoom().on("zoom", zoomed);
+
+        // 呼叫 Zoom 事件
+        svg.call(zoom);
+      };
+
+      zoomTransform();
+
+      // zoomTranslateBy
+      const zoomTranslateBy = () => {
+        const width = parseInt(d3.select(".zoomTranslateBy").style("width"));
+        const height = 300;
+        const svg = d3
+          .select(".zoomTranslateBy")
+          .append("svg")
+          .attr("width", width)
+          .attr("height", height)
+          .style("border", "1px solid gray");
+
+        // 加個圓點點
+        const circle = svg
+          .append("circle")
+          .attr("id", "dot")
+          .attr("cx", width / 2)
+          .attr("cy", height / 2)
+          .attr("r", 40)
+          .attr("fill", "#69b3a2");
+
+        const zoomed = (e) => {
+          // 抓出 transform 物件
+          const transform = e.transform;
+
+          // 沿著x軸和y軸平移 30px
+          transform = transform.translateBy(30, 30);
+          circle.attr("transform", transform);
+        };
+        const zoom = d3.zoom().on("zoom", zoomed);
+
+        // 呼叫 Zoom 事件
+        svg.call(zoom);
+      };
+
+      zoomTranslateBy();
+
+      // zoom basic
       const zoomBasic = () => {
-        const width = parseInt(d3.select('.zoomBasic').style('width'));
+        const width = parseInt(d3.select(".zoomBasic").style("width"));
         const height = 300;
         const svg = d3
           .select(".zoomBasic")
@@ -79,8 +224,8 @@
         const circle = svg
           .append("circle")
           .attr("id", "dot")
-          .attr("cx", width/2)
-          .attr("cy", height/2)
+          .attr("cx", width / 2)
+          .attr("cy", height / 2)
           .attr("r", 40)
           .attr("fill", "#69b3a2");
 
@@ -93,21 +238,20 @@
           ])
           .scaleExtent([-5, 5])
           .duration(600)
-          .on("zoom",  (event)=> {
+          .on("zoom", (event) => {
             console.log(event);
             //這邊決定要放大誰
             circle.attr("transform", event.transform);
           });
 
         // 呼叫 Zoom 事件
-        svg.call(zoom)
-        //  .on("wheel.zoom", null);
+        svg.call(zoom);
       };
 
       zoomBasic();
 
       const zoomAdjust = () => {
-        const width = parseInt(d3.select('.zoomAdjust').style('width')),
+        const width = parseInt(d3.select(".zoomAdjust").style("width")),
           height = 400;
 
         const svg = d3
@@ -121,13 +265,13 @@
         const circle = svg
           .append("circle")
           .attr("id", "dot")
-          .attr("cx",  width/2)
-          .attr("cy", height/2)
+          .attr("cx", width / 2)
+          .attr("cy", height / 2)
           .attr("r", 40)
           .attr("fill", "#69b3a2");
 
         // Zoom 事件
-        const zoom = d3.zoom().on("zoom",  (event)=> {
+        const zoom = d3.zoom().on("zoom", (event) => {
           circle.attr("transform", event.transform);
         });
 
@@ -142,7 +286,7 @@
           .text("reset");
 
         // reset 事件
-        resetBtn.on("click",  ()=> {
+        resetBtn.on("click", () => {
           const transform = d3.zoomIdentity.scale(1);
           svg.call(zoom.transform, transform);
         });
@@ -162,7 +306,7 @@
           .text("執行縮放");
 
         // 設定取 value 的值，套用 zoom 的倍數
-        zoomScaleBtn.on("click",  ()=> {
+        zoomScaleBtn.on("click", () => {
           const scaleValue = document.getElementById("zoomscale").value;
           const transform = d3.zoomIdentity.scale(`${scaleValue}`);
           svg.call(zoom.transform, transform);
