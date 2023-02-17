@@ -34,14 +34,77 @@
           <mark>自行調整縮放大小</mark>
         </h5>
         <div class="brush"></div>
-        <p class="mt-1 mb-1 fs-6">程式碼</p>
+        <p class="mt-4 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
+            // html 
+            &lt;div class=&quot;brush&quot;&gt;&lt;/div&gt;
 
+            // js
+            // 建立SVG
+            const width = parseInt(d3.select(".brush").style("width"));
+            const height = 350;
+            const svg = d3
+              .select(".brush")
+              .append("svg")
+              .attr("width", width)
+              .attr("height", height)
+              .style("border", "1px solid gray");
+      
+            const data = [
+              { r: 20, x: 200, y: 120 },
+              { r: 35, x: 350, y: 280 },
+            ];
+      
+            // 加上點點
+            const dots = svg
+              .selectAll("circle")
+              .data(data)
+              .join("circle")
+              .attr("r", (d) => d.r)
+              .attr("cx", (d) => d.x)
+              .attr("cy", (d) => d.y)
+              .style("fill", "#69b3a2");
+      
+            // 設定 brush 的功能
+            // 使用event.selection取得目前selection
+            // selection會產出一個二維陣列，
+            // 分別代表`x0`, `x1`, `y0`, `y1`，左上到右下的位置，
+            // 讓開發者有辦法重新計算目前位置的extent，進而進行其他操作。
+            const brushed = (event) => {
+              const extent = event.selection;
+              dots.style("fill", (d) =>
+                isBrushed(extent, d.x, d.y) ? "blue" : "#69b3a2"
+              );
+            };
+      
+            // 設定圓點是否在brush選到的區塊內
+            const isBrushed = (brush_coors, cx, cy) => {
+              let x0 = brush_coors[0][0],
+                x1 = brush_coors[1][0],
+                y0 = brush_coors[0][1],
+                y1 = brush_coors[1][1];
+      
+              // 如果圓點在brush的範圍內，就會傳true；反之則回傳false
+              return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
+            };
+      
+            // 建立 brush 事件
+            const brushEvent = d3
+                .brush()
+                // extent限制刷子的活動區塊，理想是比SVG畫布稍大
+                .extent([
+                  [0, 0],
+                  [600, 600],
+                ])
+                // 綁定 brush 事件
+                .on("start brush", brushed);
+      
+            // 呼叫 brush 事件
+            svg.call(brushEvent);
           </code>
         </pre>
       </div>
-     
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -51,60 +114,66 @@
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
-      const data = [{r:20, x:200, y:120},{r:35, x:350, y:280}]
-
       // 建立svg
-      const width = parseInt(d3.select('.brush').style('width'));
-      const height = 500
-      const svg = d3.select('.brush')
-              .append('svg')
-              .attr('width', width)
-              .attr('height', height)
-              .style('border', '1px solid gray')
+      const width = parseInt(d3.select(".brush").style("width"));
+      const height = 350;
+      const svg = d3
+        .select(".brush")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .style("border", "1px solid gray");
+
+      const data = [
+        { r: 20, x: 200, y: 120 },
+        { r: 35, x: 350, y: 280 },
+      ];
 
       // 加上點點
-      const dots = svg.selectAll('circle')
-                      .data(data)
-                      .join('circle')
-                      .attr('r', d => d.r)
-                      .attr('cx', d => d.x)
-                      .attr('cy', d => d.y)
-                      .style("fill", "#19d3a2")
+      const dots = svg
+        .selectAll("circle")
+        .data(data)
+        .join("circle")
+        .attr("r", (d) => d.r)
+        .attr("cx", (d) => d.x)
+        .attr("cy", (d) => d.y)
+        .style("fill", "#69b3a2");
 
       // brush 的功能
       // 加上event參數，就能用 event.selection
       // selection會產出一個二維陣列，分別代表`x0`, `x1`, `y0`, `y1`，左上到右下的位置，讓你有辦法重新計算目前位置的extent，進而進行其他操作。
-      const brushed = (event)=>{
-          console.log(event)
-          const extent = event.selection
-          dots.classed('selected', d => {return isBrushed(extent, d.x, d.y)})
-      }
+      const brushed = (event) => {
+        console.log(event);
+        const extent = event.selection;
+        dots.style("fill", (d) =>
+          isBrushed(extent, d.x, d.y) ? "blue" : "#69b3a2"
+        );
+      };
 
       // 設定圓點是否在brush選到的區塊內
-      const isBrushed = (brush_coors, cx, cy)=>{
+      const isBrushed = (brush_coors, cx, cy) => {
         let x0 = brush_coors[0][0],
-            x1 = brush_coors[1][0],
-            y0 = brush_coors[0][1],
-            y1 = brush_coors[1][1]
+          x1 = brush_coors[1][0],
+          y0 = brush_coors[0][1],
+          y1 = brush_coors[1][1];
 
-          // 如果圓點在brush的範圍內，就會傳true；反之則回傳false
-          console.log(x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1)
-          return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1; 
-      }
+        // 如果圓點在brush的範圍內，就會傳true；反之則回傳false
+        console.log(x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1);
+        return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
+      };
+
+      const brushEvent = d3
+        .brush()
+        // extent限制刷子的活動區塊，理想是比SVG畫布稍大
+        .extent([
+          [0, 0],
+          [600, 600],
+        ])
+        // 綁定 brush 事件
+        .on("start brush", brushed);
 
       // 加上brush
-      svg.append("g")
-      .attr("class", "brush")
-      .call(d3.brush()
-            // extent限制刷子的活動區塊，理想是比SVG畫布稍大
-              .extent( [ [0,0], [600,600] ]) 
-              // 綁定 brush 事件
-              .on("start brush", brushed) 
-            )
-
-
-
-
+      svg.call(brushEvent);
     </script>
   </body>
 </html>
