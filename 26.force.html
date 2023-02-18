@@ -32,11 +32,62 @@
       <!-- basic force -->
       <div>
         <h5 class="mt-6"><mark>basic force</mark></h5>
-        <svg class="forceBasic"></svg>
+        <div class="forceBasic"></div>
         <p class="mt-4 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
+            // html 
+            &lt;div class=&quot;forceBasic&quot;&gt;&lt;/div&gt;
 
+            // js 
+            const currentWidth = d3.select(".forceBasic").style("width");
+            const height = 200;
+    
+            const svg = d3
+              .select(".forceBasic")
+              .append('svg')
+              .attr("width", currentWidth)
+              .attr("height", height);
+
+            const data = [
+              { name: "A" },{ name: "B" },{ name: "C" },
+              { name: "D" },{ name: "E" },{ name: "F" },
+              { name: "G" },
+            ];
+    
+            const dots = svg
+              .append("g")
+              .selectAll("circle")
+              .data(data)
+              .enter()
+              .append("circle")
+              .attr("cx", 250)
+              .attr("cy", 150)
+              .attr("r", 15)
+              .style("fill", "green")
+              .style("opacity", 0.4);
+    
+            // 設定力模擬
+            const simulation = d3
+              .forceSimulation()
+              .alphaDecay(0) // 收斂永不停止
+              .velocityDecay(0.2) // 設定摩擦係數
+              .force("x", d3.forceX()) // 設定Ｘ軸平移位置
+              .force("y", d3.forceY()) // 設定Ｙ軸移動位置
+              // 設定中心點位置
+              .force("center", d3.forceCenter().x(250).y(150))
+              // 設定節點間電荷力
+              .force("charge", d3.forceManyBody().strength(1))
+              // 設定節點間彼此的互斥力
+              .force(
+                "collide",
+                d3.forceCollide().strength(0.1).radius(40).iterations(0.2)
+              );
+    
+            // 將力模擬器的節點綁定資料，設定ticks開始時節點的動作
+            simulation.nodes(data).on("tick", (d) => {
+              dots.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+            });
           </code>
         </pre>
       </div>
@@ -44,11 +95,76 @@
       <!--  force group -->
       <div>
         <h5 class="mt-6"><mark>force group</mark></h5>
-        <svg class="forceGroup" style="width: 500; height: 300"></svg>
+        <div class="forceGroup"></div>
         <p class="mt-4 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
+            // html 
+            &lt;div class=&quot;forceGroup&quot;&gt;&lt;/div&gt;
 
+            // js
+            // 建立SVG
+            const currentWidth = d3.select(".forceGroup").style("width");
+            const height = 300;
+    
+            const svg = d3
+              .select(".forceGroup")
+              .append('svg')
+              .attr("width", currentWidth)
+              .attr("height", height);
+    
+            const data = [
+              { name: "A", group: 150 },
+              { name: "B", group: 150 },
+              { name: "C", group: 150 },
+              { name: "D", group: 150 },
+              { name: "E", group: 150 },
+              { name: "F", group: 150 },
+              { name: "G", group: 250 },
+              { name: "H", group: 250 },
+              { name: "I", group: 250 },
+              { name: "J", group: 250 },
+              { name: "K", group: 250 },
+              { name: "L", group: 350 },
+              { name: "M", group: 350 },
+              { name: "N", group: 350 },
+              { name: "O", group: 350 },
+            ];
+    
+            // 設定顏色
+            const colorScale = d3
+              .scaleOrdinal()
+              .domain([150, 250, 350])
+              .range(["red", "blue", "orange"]);
+    
+            // 建立圓點，全都位於正中央
+            const node = svg
+              .append("g")
+              .selectAll("circle")
+              .data(data)
+              .enter()
+              .append("circle")
+              .attr("r", 20)
+              .attr("cx", 250)
+              .attr("cy", 150)
+              .style("fill", (d) => colorScale(d.group))
+              .style("opacity", "0.6");
+    
+            // 設定力模擬器
+            const simulation = d3
+              .forceSimulation()
+              .force("x",d3.forceX().strength(0.5).x((d) => d.group))
+              .force("y", d3.forceY().strength(0.1).y(150))
+              .force("center", d3.forceCenter().x(250).y(150))
+              .force("charge", d3.forceManyBody().strength(1))
+              .force("collide",
+                d3.forceCollide(10).strength(0.1).radius(20).iterations(1)
+              );
+    
+            // 將設定好的力模擬器綁到節點上
+            simulation.nodes(data).on("tick", (d) => {
+              node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+            });
           </code>
         </pre>
       </div>
@@ -56,11 +172,85 @@
       <!--  force link -->
       <div>
         <h5 class="mt-6"><mark>force link</mark></h5>
-        <svg class="forceLink" style="width: 500; height: 300"></svg>
+        <div class="forceLink"></div>
         <p class="mt-4 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
+            // html 
+            &lt;div class=&quot;forceLink&quot;&gt;&lt;/div&gt;
 
+            // js
+            // 建立SVG
+            const currentWidth = d3.select(".forceGroup").style("width");
+            const height = 400;
+    
+            const svg = d3
+              .select(".forceLink")
+              .append("svg")
+              .attr("width", currentWidth)
+              .attr("height", height);
+              
+            const data = {
+              nodes: [
+                { id: 1, name: "A" },
+                { id: 2, name: "B" },
+                { id: 3, name: "C" },
+                { id: 4, name: "D" },
+                { id: 5, name: "E" },
+                { id: 6, name: "F" },
+                { id: 7, name: "G" },
+                { id: 8, name: "H" },
+                { id: 9, name: "I" },
+                { id: 10, name: "J" },
+              ],
+              links: [
+                { source: 1, target: 2 },
+                { source: 1, target: 3 },
+                { source: 1, target: 6 },
+                { source: 2, target: 3 },
+                { source: 2, target: 7 },
+                { source: 3, target: 4 },
+                { source: 8, target: 3 },
+                { source: 4, target: 5 },
+                { source: 4, target: 9 },
+                { source: 5, target: 10 },
+              ],
+            };
+    
+            const dots = svg
+              .append("g")
+              .selectAll("circle")
+              .data(data.nodes)
+              .join("circle")
+              .attr("r", 15)
+              .style("fill", "green")
+              .style("opacity", 0.6)
+              .style("cursor", "pointer");
+    
+            const link = svg
+              .selectAll("line")
+              .data(data.links)
+              .join("line")
+              .style("stroke", "#aaa");
+              
+            // 綁定節點
+            const ticked = (d) => {
+              link
+                .attr("x1", (d) => d.source.x)
+                .attr("y1", (d) => d.source.y)
+                .attr("x2", (d) => d.target.x)
+                .attr("y2", (d) => d.target.y);
+    
+              dots.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+            };
+    
+            // 設定力模擬器
+            const simulation = d3
+              .forceSimulation(data.nodes)
+              .force("link",d3.forceLink().id((d) => d.id).links(data.links))
+              .force("charge", d3.forceManyBody().strength(-300))
+              .force("center", d3.forceCenter(250, 150))
+              .on("tick", ticked);
           </code>
         </pre>
       </div>
@@ -73,7 +263,90 @@
         <p class="mt-4 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
+            // html 
+            &lt;div class=&quot;forceHover&quot;&gt;&lt;/div&gt;
 
+            // js
+            // 建立SVG
+            const currentWidth = d3.select(".forceHover").style("width");
+            const height = 400;
+    
+            const svg = d3
+              .select(".forceHover")
+              .append("svg")
+              .attr("width", currentWidth)
+              .attr("height", height);
+
+            const data = [
+              { r: 13 },{ r: 34 },{ r: 23 },{ r: 33 },
+              { r: 13 },{ r: 22 },{ r: 43 },{ r: 38 },
+            ];
+    
+            const dots = svg
+              .selectAll("circle")
+              .data(data)
+              .join("circle")
+              .attr("r", (d) => d.r)
+              .attr("fill", "blue")
+              .attr("opacity", 0.3);
+    
+            // 設定力模擬器
+            const simulation = d3
+              .forceSimulation()
+              .force("center", d3.forceCenter()
+                        .x(parseInt(currentWidth) / 2)
+                        .y(height / 2)
+              )
+              .force("charge", d3.forceManyBody().strength(0.3))
+              .force("collide",d3.forceCollide().strength(0.1)
+                                  .radius(30).iterations(1)
+              );
+              
+            //綁定
+            simulation.nodes(data).on("tick", (d) => {
+              dots.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+            });
+    
+            // 建立tooltips
+            const tooltips = d3
+              .select(".forceHover")
+              .style("position", "relative")
+              .append("div")
+              .style("display", "none")
+              .style("position", "absolute")
+              .style("background-color", "white")
+              .style("border", "solid")
+              .style("border-width", "2px")
+              .style("border-radius", "5px")
+              .style("padding", "5px");
+    
+            // 建立mouseover/mouseleave的函式
+            const mouseover = (event, d) => {
+              d3.select(event.target)
+                .attr("stroke", "black")
+                .attr("stroke-width", "3px")
+                .attr("opacity", 0.7)
+                .style("cursor", "pointer");
+    
+              const pt = d3.pointer(event, event.target);
+              tooltips
+                .style("display", "block")
+                .style("left", pt[0] + 10 + "px")
+                .style("top", pt[1] + "px")
+                .html(`半徑：${d.r}`);
+            };
+    
+            const mouseleave = (event, d) => {
+              d3.select(event.target)
+                .attr("stroke", "none")
+                .attr("stroke-width", "0")
+                .attr("opacity", 0.3);
+    
+              tooltips.style("display", "none");
+            };
+    
+            // hover
+            dots.on("mouseover", mouseover).on("mouseleave", mouseleave);
           </code>
         </pre>
       </div>
@@ -85,7 +358,82 @@
         <p class="mt-4 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
-
+            // html 
+            &lt;div class=&quot;forceDrag&quot;&gt;&lt;/div&gt;
+            
+            // js
+            // 建立SVG
+            const currentWidth = d3.select(".forceDrag").style("width");
+            const height = 400;
+    
+            const svg = d3
+              .select(".forceDrag")
+              .append("svg")
+              .attr("width", currentWidth)
+              .attr("height", height);
+    
+            // 資料
+            const data = [
+              { name: "A" },{ name: "B" },{ name: "C" },
+              { name: "D" },{ name: "E" },{ name: "F" },
+              { name: "G" },
+            ];
+    
+            // 建立原點，目前全部都在同個位置
+            const dots = svg
+              .selectAll("circle")
+              .data(data)
+              .join("circle")
+              .attr("r", 25)
+              .attr("cx", 50)
+              .attr("cy", 50)
+              .style("fill", "#19d3a2")
+              .style("fill-opacity", 0.3)
+              .attr("stroke", "#b3a2c8")
+              .style("stroke-width", 4)
+              .style("cursor", "pointer");
+    
+            // 建立力模擬圖
+            const simulation = d3
+              .forceSimulation()
+              .force("center", d3.forceCenter().x(200).y(150))
+              .force("charge", d3.forceManyBody().strength(1))
+              .force(
+                "collide",
+                d3.forceCollide().strength(0.1).radius(30).iterations(1)
+              );
+    
+            simulation.nodes(data).on("tick", (d)=> {
+              dots.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+            });
+    
+            // 綁定拖曳事件
+            dots.call(
+              d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended)
+            );
+    
+            // 拖曳開始
+            function dragstarted(event, d) {
+              d3.select(this).style("fill-opacity", 0.6);
+              d.fx = d.x;
+              d.fy = d.y;
+              simulation.alphaTarget(0.03).restart();
+            }
+            // 拖曳期間
+            function dragged(event, d) {
+              d.fx = event.x;
+              d.fy = event.y;
+            }
+            // 拖曳結束
+            function dragended(event, d) {
+              simulation.alphaTarget(0.03);
+              d3.select(this).style("fill-opacity", 0.3);
+              d.fx = null;
+              d.fy = null;
+            }
           </code>
         </pre>
       </div>
@@ -93,11 +441,116 @@
       <!--  force drag and link -->
       <div>
         <h5 class="mt-6"><mark>force drag and link</mark></h5>
-        <svg class="forceDragLink" style="width: 500; height: 300"></svg>
+        <div class="forceDragLink"></div>
         <p class="mt-4 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
+            // html 
+            &lt;div class=&quot;forceDragLink&quot;&gt;&lt;/div&gt;
 
+            // js
+            // 建立SVG
+            const currentWidth = d3.select(".forceDragLink").style("width");
+            const height = 400;
+    
+            const svg = d3
+              .select(".forceDragLink")
+              .append("svg")
+              .attr("width", currentWidth)
+              .attr("height", height);
+              
+            const data = {
+              nodes: [
+                { id: 1, name: "A" },
+                { id: 2, name: "B" },
+                { id: 3, name: "C" },
+                { id: 4, name: "D" },
+                { id: 5, name: "E" },
+                { id: 6, name: "F" },
+                { id: 7, name: "G" },
+                { id: 8, name: "H" },
+                { id: 9, name: "I" },
+                { id: 10, name: "J" },
+              ],
+              links: [
+                { source: 1, target: 2 },
+                { source: 1, target: 3 },
+                { source: 1, target: 6 },
+                { source: 2, target: 3 },
+                { source: 2, target: 7 },
+                { source: 3, target: 4 },
+                { source: 8, target: 3 },
+                { source: 4, target: 5 },
+                { source: 4, target: 9 },
+                { source: 5, target: 10 },
+              ],
+            };
+
+            const dots = d3
+              .select(".forceDragLink")
+              .append("g")
+              .selectAll("circle")
+              .data(data.nodes)
+              .enter()
+              .append("circle")
+              .attr("r", 15)
+              .style("fill", "green")
+              .style("opacity", 0.6)
+              .style("cursor", "pointer");
+    
+            const link = d3
+              .select(".forceDragLink")
+              .selectAll("line")
+              .data(data.links)
+              .join("line")
+              .style("stroke", "#aaa");
+    
+            // 綁定節點
+            const ticked = (d) => {
+              link
+                .attr("x1", (d) => d.source.x)
+                .attr("y1", (d) => d.source.y)
+                .attr("x2", (d) => d.target.x)
+                .attr("y2", (d) => d.target.y);
+    
+              dots.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+            };
+    
+            // 設定力模擬器
+            const simulation = d3
+              .forceSimulation(data.nodes)
+              .force("link",d3.forceLink().id((d) => d.id).links(data.links))
+              .force("charge", d3.forceManyBody().strength(-300))
+              .force("center", d3.forceCenter(250, 150))
+              .on("tick", ticked);
+    
+            // 綁定拖曳事件
+            dots.call(
+              d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended)
+            );
+    
+            function dragstarted(event, d) {
+              d3.select(this).style("fill", "pink");
+              d.fx = d.x;
+              d.fy = d.y;
+              // 停止後需要重新開始
+              simulation.alphaTarget(0.03).restart();
+            }
+    
+            function dragged(event, d) {
+              d.fx = event.x;
+              d.fy = event.y;
+            }
+    
+            function dragended(event, d) {
+              d3.select(this).style("fill", "green").style("opacity", 0.6);
+    
+              d.fx = null;
+              d.fy = null;
+            }
           </code>
         </pre>
       </div>
@@ -127,6 +580,7 @@
 
         const svg = d3
           .select(".forceBasic")
+          .append("svg")
           .attr("width", currentWidth)
           .attr("height", height);
 
@@ -169,6 +623,16 @@
 
       // 原力group
       const forceGroup = () => {
+        // 建立SVG
+        const currentWidth = d3.select(".forceGroup").style("width");
+        const height = 300;
+
+        const svg = d3
+          .select(".forceGroup")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height);
+
         const data = [
           { name: "A", group: 150 },
           { name: "B", group: 150 },
@@ -186,15 +650,6 @@
           { name: "N", group: 350 },
           { name: "O", group: 350 },
         ];
-
-        // 建立SVG
-        const currentWidth = d3.select(".forceGroup").style("width");
-        const height = 400;
-
-        const svg = d3
-          .select(".forceGroup")
-          .attr("width", currentWidth)
-          .attr("height", height);
 
         // 設定顏色
         const colorScale = d3
@@ -243,6 +698,15 @@
 
       // 原力Link
       const forceLink = () => {
+        // 建立SVG
+        const currentWidth = d3.select(".forceGroup").style("width");
+        const height = 400;
+
+        const svg = d3
+          .select(".forceLink")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height);
         const data = {
           nodes: [
             {
@@ -330,21 +794,11 @@
           ],
         };
 
-        // 建立SVG
-        const currentWidth = d3.select(".forceGroup").style("width");
-        const height = 400;
-
-        const svg = d3
-          .select(".forceLink")
-          .attr("width", currentWidth)
-          .attr("height", height);
-
         const dots = svg
           .append("g")
           .selectAll("circle")
           .data(data.nodes)
-          .enter()
-          .append("circle")
+          .join("circle")
           .attr("r", 15)
           .style("fill", "green")
           .style("opacity", 0.4);
@@ -456,7 +910,7 @@
             .attr("opacity", 0.7)
             .style("cursor", "pointer");
 
-          let pt = d3.pointer(event, event.target);
+          const pt = d3.pointer(event, event.target);
           tooltips
             .style("display", "block")
             .style("left", pt[0] + 10 + "px")
@@ -480,6 +934,16 @@
 
       // 原力Drag
       function forceDrag() {
+        // 建立SVG
+        const currentWidth = d3.select(".forceDrag").style("width");
+        const height = 400;
+
+        const svg = d3
+          .select(".forceDrag")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height);
+
         // 資料
         const data = [
           { name: "A" },
@@ -492,13 +956,10 @@
         ];
 
         // 建立原點，目前全部都在同個位置
-        const dots = d3
-          .select(".forceDrag")
-          .append("g")
+        const dots = svg
           .selectAll("circle")
           .data(data)
-          .enter()
-          .append("circle")
+          .join("circle")
           .attr("r", 25)
           .attr("cx", 50)
           .attr("cy", 50)
@@ -518,13 +979,21 @@
             d3.forceCollide().strength(0.1).radius(30).iterations(1)
           );
 
-        simulation.nodes(data).on("tick", function (d) {
+        simulation.nodes(data).on("tick", (d) => {
           dots.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
         });
 
+        // 綁定拖曳事件
+        dots.call(
+          d3
+            .drag()
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended)
+        );
+
         // 拖曳開始
         function dragstarted(event, d) {
-          // console.log(d)
           d3.select(this).style("fill-opacity", 0.6);
           d.fx = d.x;
           d.fy = d.y;
@@ -542,15 +1011,6 @@
           d.fx = null;
           d.fy = null;
         }
-
-        // 綁定拖曳事件
-        dots.call(
-          d3
-            .drag()
-            .on("start", dragstarted)
-            .on("drag", dragged)
-            .on("end", dragended)
-        );
       }
       forceDrag();
 
@@ -643,24 +1103,42 @@
           ],
         };
 
-        const dots = d3
+        // 建立SVG
+        const currentWidth = d3.select(".forceDragLink").style("width");
+        const height = 400;
+
+        const svg = d3
           .select(".forceDragLink")
+          .append("svg")
+          .attr("width", currentWidth)
+          .attr("height", height);
+
+        const dots = svg
           .append("g")
           .selectAll("circle")
           .data(data.nodes)
-          .enter()
-          .append("circle")
+          .join("circle")
           .attr("r", 15)
           .style("fill", "green")
-          .style("opacity", 0.6)
+          .style("opacity", 0.4)
           .style("cursor", "pointer");
 
-        const link = d3
-          .select(".forceDragLink")
+        const link = svg
           .selectAll("line")
           .data(data.links)
           .join("line")
           .style("stroke", "#aaa");
+
+        // 綁定節點
+        const ticked = (d) => {
+          link
+            .attr("x1", (d) => d.source.x)
+            .attr("y1", (d) => d.source.y)
+            .attr("x2", (d) => d.target.x)
+            .attr("y2", (d) => d.target.y);
+
+          dots.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+        };
 
         // 設定力模擬器
         const simulation = d3
@@ -676,25 +1154,6 @@
           .force("center", d3.forceCenter(250, 150))
           .on("tick", ticked);
 
-        // 綁定節點
-        function ticked(d) {
-          link
-            .attr("x1", function (d) {
-              return d.source.x;
-            })
-            .attr("y1", function (d) {
-              return d.source.y;
-            })
-            .attr("x2", function (d) {
-              return d.target.x;
-            })
-            .attr("y2", function (d) {
-              return d.target.y;
-            });
-
-          dots.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
-        }
-
         // 綁定拖曳事件
         dots.call(
           d3
@@ -708,7 +1167,8 @@
           d3.select(this).style("fill", "pink");
           d.fx = d.x;
           d.fy = d.y;
-          simulation.alphaTarget(0.03).restart(); // 停止後需要重新開始
+          // 停止後需要重新開始
+          simulation.alphaTarget(0.03).restart();
         }
 
         function dragged(event, d) {
@@ -718,6 +1178,7 @@
 
         function dragended(event, d) {
           d3.select(this).style("fill", "green").style("opacity", 0.6);
+
           d.fx = null;
           d.fy = null;
         }
