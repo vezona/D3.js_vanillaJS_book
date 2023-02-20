@@ -50,14 +50,135 @@
         <div class="chart"></div>
         <div class="btnWrap">
           <button class="btn btn-primary July"
-              onclick="updateElectricChart('./data/202107_Electric.csv')">2021 7月</button>
+              onclick="updateElectricChart('./data/202211_Electric.csv')">
+              2022 11月
+            </button>
           <button class="btn btn-primary August" 
-              onclick="updateElectricChart('./data/202108_Electric.csv')">2021 8月</button>
+              onclick="updateElectricChart('./data/202212_Electric.csv')">
+              2022 12月
+            </button>
         </div>
 
         <pre>
           <code class="language-html line-numbers remove-initial-line-feed">
-            
+            // html
+            &lt;div class=&quot;chart&quot;&gt;&lt;/div&gt;
+            &lt;div class=&quot;btnWrap&quot;&gt;
+              &lt;button class=&quot;btn btn-primary July&quot;
+                  onclick=&quot;updateElectricChart('./data/202211_Electric.csv')&quot;&gt;
+                  2022 11月
+                &lt;/button&gt;
+              &lt;button class=&quot;btn btn-primary August&quot; 
+                  onclick=&quot;updateElectricChart('./data/202212_Electric.csv')&quot;&gt;
+                  2022 12月
+                &lt;/button&gt;
+            &lt;/div&gt;
+          </code>
+        </pre>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+            // 建立SVG
+            const svgWidth = parseInt(d3.select('.chart').style('width')),
+            svgHeight = 500
+            margin = 40;
+      
+            const svg = d3.select('.chart')
+                          .append('svg')
+                          .attr('width', svgWidth)
+                          .attr('height', svgHeight);
+      
+            // 建立初始Ｘ軸
+            const xScale = d3.scaleBand()
+                      .range([margin*2, svgWidth - margin/2])
+                      .padding(0.2)
+      
+            const xAxisGenerator = d3.axisBottom(xScale);
+            const xAxis = svg
+                .append("g")
+                .attr("transform", `translate(0,${svgHeight - margin})`)
+      
+            // 建立初始Y軸
+            const yScale = d3.scaleLinear()
+                              .range([svgHeight - margin, margin]);
+      
+            const yAxisGenerator = d3.axisLeft(yScale)
+                            .ticks(5)
+                            .tickSize(3)
+      
+            const yAxis = svg
+                .append("g")
+                .attr("transform", `translate(${margin*2},0)`)
+      
+            const updateElectricChart = async (url) => {
+              const data = await d3.csv(url)
+                // map 資料集
+                xData = data.map((i) => i['縣市']);
+                yData = data.map((i) => parseInt(i['A.售電量(度)'].split(',').join('')));
+      
+                // 設定X軸Domain、建立X軸
+                xScale.domain(xData);
+                xAxis.transition().duration(1000).call(xAxisGenerator);
+      
+                // 調整X軸刻度文字標籤傾斜
+                xAxis.selectAll("text") 
+                      .attr("transform", "translate(-10,0)rotate(-45)")
+                      .style("text-anchor", "end");
+      
+                // 設定Y軸Domain、建立Y軸
+                yScale.domain([0, d3.max(yData)]).nice();
+                yAxis.transition().duration(1000).call(yAxisGenerator);
+      
+                // 開始建立長條圖
+                const bar = svg.selectAll("rect")
+                              .data(data)
+                              .join("rect")
+                
+                // 加上漸增動畫
+                // 注意：如果要加動畫，事件要分開寫
+                bar.join("rect")
+                    .transition()
+                    .duration(1000)
+                    .attr("x", d => xScale(d['縣市']))
+                    .attr("y", d => yScale(
+                      parseInt(d['A.售電量(度)'].split(',').join('')))
+                    )
+                    .attr("width", xScale.bandwidth())
+                    .attr("height", d => (svgHeight - margin) - 
+                        yScale(parseInt(d['A.售電量(度)'].split(',').join('')))
+                    )
+                    .attr("fill", "#69b3a2")
+      
+                // 加上滑鼠事件       
+                bar.attr('cursor', 'pointer')
+                    .on("mouseover", handleMouseOver)
+                    .on("mouseleave", handleMouseLeave)
+      
+                function handleMouseOver(d, i){
+                  d3.select(this).attr('fill', '#f68b47')
+                  
+                  // 加上文字標籤
+                  svg.append('text')
+                    .attr('class', 'infoText')
+                    .attr('y', yScale(parseInt(
+                      d.target.__data__['A.售電量(度)'].split(',').join('')))-20
+                    )
+                    .attr("x", xScale(d.target.__data__['縣市']) + 50)
+                    .style('fill', '#000')
+                    .style('font-size', '18px')
+                    .style('font-weight', 'bold')
+                    .style("text-anchor", 'middle')
+                    .text(d.target.__data__['A.售電量(度)'] + '度');
+                }
+      
+                function handleMouseLeave(){
+                  d3.select(this).attr('fill', '#69b3a2')
+      
+                  // 移除文字標籤
+                  svg.select('.infoText').remove()
+                }
+            };
+      
+            updateElectricChart('./data/202211_Electric.csv');
           </code>
         </pre>
       </div>
@@ -73,10 +194,7 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
       const drawSimpleBarchart = () => {
-        const currentWidth = 700;
-        // parseInt(
-        //   d3.select(".simpleBarchart").style("width")
-        // );
+        const currentWidth = parseInt(d3.select(".simpleBarchart").style("width"));
         const height = 400;
         const margin = 40;
 
@@ -155,7 +273,7 @@
 
       // 建立初始Ｘ軸
       const xScale = d3.scaleBand()
-                .range([margin*2, svgWidth - margin/2]) // 寬度
+                .range([margin*2, svgWidth - margin/2])
                 .padding(0.2)
 
       const xAxisGenerator = d3.axisBottom(xScale);
@@ -176,6 +294,7 @@
       const updateElectricChart = async (url) => {
         const data = await d3.csv(url)
           // map 資料集
+          console.log(data);
           xData = data.map((i) => i['縣市']);
           yData = data.map((i) => parseInt(i['A.售電量(度)'].split(',').join('')));
 
@@ -244,7 +363,7 @@
 
       };
 
-      updateElectricChart('./data/202107_Electric.csv');
+      updateElectricChart('./data/202211_Electric.csv');
     </script>
   </body>
 </html>
