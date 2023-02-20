@@ -35,13 +35,14 @@
         <div class="basicDonutChart"></div>
         <p class="mt-1 mb-1 fs-6">程式碼</p>
         <pre>
-          <code class="language-html line-numbers remove-initial-line-feed">
+          <code class="language-js line-numbers remove-initial-line-feed">
             // innerRadius 跟 outerRadius 
             // 設定圓弧內圈與外圈的大小半徑
             const arc = d3
               .arc()
               .innerRadius(radius * 0.3)
               .outerRadius(radius * 0.6);
+              
             outerArc = d3
               .arc()
               .outerRadius(radius * 0.9)
@@ -49,13 +50,13 @@
           </code>
         </pre>
       </div>
-      
+
       <!-- Advanced -->
       <div class="my-5">
         <h5 class="text-center fw-bold">進階甜甜圈圖-加上文字標示與線段</h5>
         <div class="advancedDonutChart"></div>
         <pre>
-          <code class="language-html line-numbers remove-initial-line-feed">
+          <code class="language-js line-numbers remove-initial-line-feed">
             // 建立線段跟標示 =========================
             svg
               .append("g")
@@ -191,29 +192,29 @@
           .style("stroke-width", "3px")
           .style("opacity", 1);
 
-          // 加上每個區塊的數字標示 =========================
-          // 計算每塊資料的百分占比，先用 d3.sum 加總全部資料，再將資料一一除上總數
-          const total = d3.sum(data, (d) => d.data);
-          data.forEach((i) => {
-            i.percentage = Math.round((i.data / total) * 100);
-          });
-          
-          // 調整數字標示的位置
-          const textArc = d3
-            .arc()
-            .innerRadius(radius* 0.7)
-            // 跟 Arc 設定一樣
-            .outerRadius(radius* 0.6);
+        // 加上每個區塊的數字標示 =========================
+        // 計算每塊資料的百分占比，先用 d3.sum 加總全部資料，再將資料一一除上總數
+        const total = d3.sum(data, (d) => d.data);
+        data.forEach((i) => {
+          i.percentage = Math.round((i.data / total) * 100);
+        });
 
-          // 綁定數字標籤並設定位置
-          expensesChart
+        // 調整數字標示的位置
+        const textArc = d3
+          .arc()
+          .innerRadius(radius * 0.7)
+          // 跟 Arc 設定一樣
+          .outerRadius(radius * 0.6);
+
+        // 綁定數字標籤並設定位置
+        expensesChart
           .append("text")
           .attr("transform", (d) => `translate(${textArc.centroid(d)})`)
           .text((d) => d.data.item + d.data.percentage + "%")
           .style("text-anchor", "middle")
           .style("font-size", 16)
           .style("fill", "black");
-      }
+      };
 
       drawBasicDonutChart();
 
@@ -338,7 +339,9 @@
             pos[0] = radius * 0.9 * (midAngle(d) < Math.PI ? 1 : -1);
             return "translate(" + pos + ")";
           })
-          .style("text-anchor", (d) => midAngle(d) < Math.PI ? "start" : "end");
+          .style("text-anchor", (d) =>
+            midAngle(d) < Math.PI ? "start" : "end"
+          );
       };
 
       drawAdvancedDonutChart();
