@@ -34,8 +34,135 @@
         <h5 class="text-center fw-bold"></h5>
         <div class="m-auto bubbleChart"></div>
         <pre>
-          <code class="language-html line-numbers remove-initial-line-feed">
-            
+          <code class="language-js line-numbers remove-initial-line-feed">
+            // html 
+            &lt;div class=&quot;bubbleChart&quot;&gt;&lt;/div&gt;
+
+            // js
+            const drawBubbleChart = async () => {
+              // 建立SVG
+              const margin = { top: 10, right: 20, bottom: 30, left: 50 },
+                svgWidth = parseInt(d3.select(".bubbleChart").style("width")),
+                svgHeight = 500,
+                width = svgWidth - margin.left - margin.right,
+                height = svgHeight - margin.top - margin.bottom;
+      
+              const svg = d3
+                .select(".bubbleChart")
+                .append("svg")
+                .attr("width", svgWidth)
+                .attr("height", svgHeight);
+      
+              const url ="https://raw.githubusercontent.com/holtzy/
+                          data_to_viz/master/Example_dataset/4_ThreeNum.csv";
+              const data = await d3.csv(`${url}`);
+              
+              // 整理xy軸資料、Z的人口數量資料
+              const xData = data.map((i) => parseInt(i.gdpPercap));
+              const yData = data.map((i) => i.lifeExp);
+              const zData = data.map((i) => i.pop);
+      
+              // 建立Ｘ比例尺與軸線
+              const xScale = d3
+                .scaleLinear()
+                .domain([0, d3.max(xData)])
+                .range([margin.left, width])
+                .nice();
+      
+              const xAxisGenerator = d3
+                  .axisBottom(xScale)
+                  .tickFormat((d) => "$" + d);
+      
+              svg
+                .append("g")
+                .attr("transform", `translate(0, ${height})`)
+                .call(xAxisGenerator);
+      
+              // 建立Ｙ比例尺與軸線
+              const yScale = d3
+                .scaleLinear()
+                .domain(d3.extent(yData))
+                .range([height, margin.top])
+                .nice();
+      
+              const yAxisGenerator = d3
+                  .axisLeft(yScale)
+                  .tickFormat((d) => d + "歲");
+      
+              svg
+                .append("g")
+                .attr("transform", `translate(${margin.left}, 0)`)
+                .call(yAxisGenerator);
+      
+              // 按照人口去設定氣泡大小的比例尺
+              const radiusScale = d3
+                .scaleLinear()
+                .domain([d3.min(zData), 1310000000])
+                .range([4, 40]);
+      
+              // 設定氣泡顏色，根據不同洲來設定
+              const bubbleColor = d3
+                .scaleOrdinal()
+                .domain(["Asia", "Europe", "Americas", "Africa", "Oceania"])
+                .range(d3.schemeSet2);
+      
+              // 建立標籤tooltips
+              const tooltip = d3
+                .select(".bubbleChart")
+                .append("div")
+                .style("display", "none")
+                .attr("class", "dotsTooltip")
+                .style("position", "absolute")
+                .style("background-color", "black")
+                .style("border-radius", "5px")
+                .style("padding", "10px")
+                .style("color", "white");
+      
+              // 設定顯示、移動、隱藏tooltips
+              const showTooltip = (event, d) => {
+                // 設定樣式與呈現文字
+                tooltip.style("display", "block")
+                       .html(`<p>國家:${d.country}</p>
+                              <p>人口數:${d.pop}</p>
+                              <p>GDP:${d.gdpPercap}</p>
+                              <p>平均壽命:${d.lifeExp}</p>`)
+                       .style("left", `${event.x}px`)
+                       .style("top", `${event.y}px`);
+      
+                // 圓點強調
+                d3.select(event.target)
+                  .attr("r", radiusScale(d.pop) + 5)
+                  .style("opacity", 0.7);
+              };
+              const moveTooltip = () => 
+                tooltip.style("display", "block");
+              const hideTooltip = (event, d) => {
+                tooltip.style("display", "none");
+      
+                // 圓點復原
+                d3.select(event.target)
+                  .attr("r", radiusScale(d.pop))
+                  .style("opacity", 1);
+              };
+      
+              // 綁定氣泡
+              const bubble = svg
+                .append("g")
+                .selectAll("dot")
+                .data(data)
+                .join("circle")
+                .attr("class", "bubbles")
+                .attr("cx", (d) => xScale(d.gdpPercap))
+                .attr("cy", (d) => yScale(d.lifeExp))
+                .attr("r", (d) => radiusScale(d.pop))
+                .style("fill", (d) => bubbleColor(d.continent))
+                .style("cursor", "pointer")
+                .on("mouseover", showTooltip)
+                .on("mousemove", moveTooltip)
+                .on("mouseleave", hideTooltip);
+            };
+      
+            drawBubbleChart();
           </code>
         </pre>
       </div>
@@ -48,19 +175,13 @@
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
-      // 建立氣泡圖
       const drawBubbleChart = async () => {
-        const url =
-          "https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/4_ThreeNum.csv";
-
-        const data = await d3.csv(`${url}`);
-
-        // 設定長寬
+        // 建立SVG
         const margin = { top: 10, right: 20, bottom: 30, left: 50 },
           svgWidth = parseInt(d3.select(".bubbleChart").style("width")),
-          svgHeight = 500;
-        (width = svgWidth - margin.left - margin.right),
-          (height = svgHeight - margin.top - margin.bottom);
+          svgHeight = 500,
+          width = svgWidth - margin.left - margin.right,
+          height = svgHeight - margin.top - margin.bottom;
 
         // 建立svg
         const svg = d3
@@ -68,10 +189,12 @@
           .append("svg")
           .attr("width", svgWidth)
           .attr("height", svgHeight);
-        // .append("g")
-        // .attr("transform", `translate(${margin.left},${margin.top})`);
 
-        // 整理ＸＹ軸資料、Z的人口數量資料
+        const url =
+          "https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/4_ThreeNum.csv";
+        const data = await d3.csv(`${url}`);
+
+        // 整理xy軸資料、Z的人口數量資料
         const xData = data.map((i) => parseInt(i.gdpPercap));
         const yData = data.map((i) => i.lifeExp);
         const zData = data.map((i) => i.pop);
