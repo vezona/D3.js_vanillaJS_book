@@ -319,9 +319,9 @@
                       .attr('height', svgHeight)
 
         // 取資料
-        const cors = "https://cors-anywhere.herokuapp.com/";
-        const url = 'https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/2_TwoNum.csv'
-        const data = await d3.csv(`${cors}${url}`);
+        // const cors = "https://cors-anywhere.herokuapp.com/";
+        const url = './data/2_TwoNum.csv'
+        const data = await d3.csv(url);
 
         // 建立X軸線
         const xScale = d3.scaleLinear()

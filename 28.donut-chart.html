@@ -36,17 +36,99 @@
         <p class="mt-1 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
-            // innerRadius 跟 outerRadius 
-            // 設定圓弧內圈與外圈的大小半徑
-            const arc = d3
-              .arc()
-              .innerRadius(radius * 0.3)
-              .outerRadius(radius * 0.6);
-              
-            outerArc = d3
-              .arc()
-              .outerRadius(radius * 0.9)
-              .innerRadius(radius * 0.9);
+            const drawBasicDonutChart = () => {
+              const data = [
+                { item: "交通", data: 3000 },
+                { item: "房租", data: 12000 },
+                { item: "日常用品", data: 1400 },
+                { item: "吃飯", data: 4000 },
+                { item: "交際應酬", data: 2400 },
+              ];
+      
+              // 建立svg
+              const currentWidth = parseInt(
+                  d3.select(".basicDonutChart").style("width")
+                ),
+                height = currentWidth < 500 ? 300 : 600,
+                margin = 40;
+      
+              // 先設定 svg 大小
+              const svg = d3
+                .select(".basicDonutChart")
+                .append("svg")
+                .attr("width", currentWidth)
+                .attr("height", height);
+      
+              // 圓餅集合標籤g
+              svg
+                .append("g")
+                .attr("class", "slices")
+                .attr("transform", `translate(${currentWidth / 2}, ${height / 2})`);
+      
+              // 設定顏色
+              const color = d3.scaleOrdinal().range(d3.schemeSet2);
+      
+              // 設定圓餅半徑
+              const radius = Math.min(currentWidth, height) / 2 - margin;
+      
+              // 將資料綁定到圓餅圖上:
+              const piechartGenerator = d3.pie().value((d) => d.data);
+      
+              // innerRadius 跟 outerRadius 設定圓餅內圈外圈的大小 radius
+              const arc = d3
+                .arc()
+                .innerRadius(radius * 0.3)
+                .outerRadius(radius * 0.6);
+              outerArc = d3
+                .arc()
+                .outerRadius(radius * 0.9)
+                .innerRadius(radius * 0.9);
+      
+              // 圓餅圖建構函式帶入資料
+              const pieChartData = piechartGenerator(data);
+      
+              // 建立pie
+              const expensesChart = svg
+                .select(".slices")
+                .selectAll("path")
+                .data(pieChartData)
+                .enter();
+      
+              // 將每個 arc <g> 綁定圓弧路徑
+              expensesChart
+                .append("path")
+                .attr("d", arc)
+                .attr("class", "arc")
+                .attr("fill", color)
+                .attr("stroke", "#fff")
+                .style("stroke-width", "3px")
+                .style("opacity", 1);
+      
+              // 加上每個區塊的數字標示 
+              // 計算每塊資料的百分占比，先用 d3.sum 加總全部資料，再將資料一一除上總數
+              const total = d3.sum(data, (d) => d.data);
+              data.forEach((i) => {
+                i.percentage = Math.round((i.data / total) * 100);
+              });
+      
+              // 調整數字標示的位置
+              const textArc = d3
+                .arc()
+                .innerRadius(radius * 0.7)
+                // 跟 Arc 設定一樣
+                .outerRadius(radius * 0.6);
+      
+              // 綁定數字標籤並設定位置
+              expensesChart
+                .append("text")
+                .attr("transform", (d) => `translate(${textArc.centroid(d)})`)
+                .text((d) => d.data.item + d.data.percentage + "%")
+                .style("text-anchor", "middle")
+                .style("font-size", 16)
+                .style("fill", "black");
+            };
+      
+            drawBasicDonutChart();
           </code>
         </pre>
       </div>
@@ -57,60 +139,132 @@
         <div class="advancedDonutChart"></div>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
-            // 建立線段跟標示 =========================
-            svg
-              .append("g")
-              .attr("class", "labels")
-              .attr("transform", `translate(${currentWidth / 2}, ${height / 2})`);
-    
-            svg
-              .append("g")
-              .attr("class", "lines")
-              .attr("transform", `translate(${currentWidth / 2}, ${height / 2})`);
-    
-            // 角度位置
-            const midAngle = (d) => d.startAngle + (d.endAngle - d.startAngle) / 2;
-    
-            // 設定線段
-            const polyline = svg
-              .select(".lines")
-              .selectAll("polyline")
-              .data(piechartGenerator(data))
-              .enter()
-              .append("polyline")
-              // 關鍵：要根據外弧的位置去調整線段位置
-              .attr("points", (d) => {
-                const pos = outerArc.centroid(d);
-                pos[0] = radius * 0.85 * (midAngle(d) < Math.PI ? 1 : -1);
-                return [arc.centroid(d), outerArc.centroid(d), pos];
-              })
-              .style("opacity", "0.3")
-              .style("stroke", "black")
-              .style("stroke-width", "2px")
-              .style("fill", "none");
-    
-            // 計算每塊資料的百分占比，先用 d3.sum 加總全部資料，再將資料一一除上總數
-            const total = d3.sum(data, (d) => d.data);
-            data.forEach((i) => {
-              i.percentage = Math.round((i.data / total) * 100);
-            });
-    
-            // 設定文字標籤
-            const label = svg
-              .select(".labels")
-              .selectAll("text")
-              .data(piechartGenerator(data))
-              .join("text")
-              .attr("dy", ".35em")
-              .text((d) => d.data.item + d.data.percentage + "%")
-              // 關鍵：要根據外弧的位置去調整標籤位置
-              .attr("transform", (d) => {
-                const pos = outerArc.centroid(d);
-                pos[0] = radius * 0.9 * (midAngle(d) < Math.PI ? 1 : -1);
-                return "translate(" + pos + ")";
-              })
-              .style("text-anchor", (d) => midAngle(d) < Math.PI ? "start" : "end");
-    
+            const drawAdvancedDonutChart = () => {
+              const data = [
+                { item: "交通", data: 3000 },
+                { item: "房租", data: 12000 },
+                { item: "日常用品", data: 1400 },
+                { item: "吃飯", data: 4000 },
+                { item: "交際應酬", data: 2400 },
+              ];
+      
+              // svg
+              const currentWidth = parseInt(
+                  d3.select(".advancedDonutChart").style("width")
+                ),
+                height = currentWidth < 500 ? 300 : 600,
+                margin = 40;
+      
+              // 先設定 svg 大小
+              const svg = d3
+                .select(".advancedDonutChart")
+                .append("svg")
+                .attr("width", currentWidth)
+                .attr("height", height);
+      
+              // 圓餅集合標籤<g>
+              svg
+                .append("g")
+                .attr("class", "slices")
+                .attr("transform", `translate(${currentWidth / 2}, ${height / 2})`);
+      
+              // 設定顏色
+              const color = d3.scaleOrdinal().range(d3.schemeSet2);
+      
+              // 設定圓餅半徑
+              const radius = Math.min(currentWidth, height) / 2 - margin;
+      
+              // 將資料綁定到圓餅圖上:
+              const piechartGenerator = d3.pie().value((d) => d.data);
+      
+              // innerRadius 跟 outerRadius 設定圓餅內圈外圈的大小 radius
+              const arc = d3
+                .arc()
+                .innerRadius(radius * 0.3)
+                .outerRadius(radius * 0.6);
+              outerArc = d3
+                .arc()
+                .outerRadius(radius * 0.9)
+                .innerRadius(radius * 0.9);
+      
+              // 圓餅圖建構函式帶入資料
+              const pieChartData = piechartGenerator(data);
+      
+              // 建立pie
+              const expensesChart = svg
+                .select(".slices")
+                .selectAll("path")
+                .data(pieChartData)
+                .enter();
+      
+              // 將每個 arc <g> 綁定圓弧路徑
+              expensesChart
+                .append("path")
+                .attr("d", arc)
+                .attr("class", "arc")
+                .attr("fill", color)
+                .attr("stroke", "#fff")
+                .style("stroke-width", "3px")
+                .style("opacity", 1);
+      
+              // 建立線段跟標示 =========================
+              svg
+                .append("g")
+                .attr("class", "labels")
+                .attr("transform", `translate(${currentWidth / 2}, ${height / 2})`);
+      
+              svg
+                .append("g")
+                .attr("class", "lines")
+                .attr("transform", `translate(${currentWidth / 2}, ${height / 2})`);
+      
+              // 角度位置
+              const midAngle = (d) => d.startAngle + (d.endAngle - d.startAngle) / 2;
+      
+              // 設定線段
+              const polyline = svg
+                .select(".lines")
+                .selectAll("polyline")
+                .data(piechartGenerator(data))
+                .enter()
+                .append("polyline")
+                // 關鍵：要根據外弧的位置去調整線段位置
+                .attr("points", (d) => {
+                  const pos = outerArc.centroid(d);
+                  pos[0] = radius * 0.85 * (midAngle(d) < Math.PI ? 1 : -1);
+                  return [arc.centroid(d), outerArc.centroid(d), pos];
+                })
+                .style("opacity", "0.3")
+                .style("stroke", "black")
+                .style("stroke-width", "2px")
+                .style("fill", "none");
+      
+              // 計算每塊資料的百分占比，先用 d3.sum 加總全部資料，再將資料一一除上總數
+              const total = d3.sum(data, (d) => d.data);
+              data.forEach((i) => {
+                i.percentage = Math.round((i.data / total) * 100);
+              });
+      
+              // 設定文字標籤
+              const label = svg
+                .select(".labels")
+                .selectAll("text")
+                .data(piechartGenerator(data))
+                .join("text")
+                .attr("dy", ".35em")
+                .text((d) => d.data.item + d.data.percentage + "%")
+                // 關鍵：要根據外弧的位置去調整標籤位置
+                .attr("transform", (d) => {
+                  const pos = outerArc.centroid(d);
+                  pos[0] = radius * 0.9 * (midAngle(d) < Math.PI ? 1 : -1);
+                  return "translate(" + pos + ")";
+                })
+                .style("text-anchor", (d) =>
+                  midAngle(d) < Math.PI ? "start" : "end"
+                );
+            };
+      
+            drawAdvancedDonutChart();
           </code>
         </pre>
       </div>

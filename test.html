@@ -48,7 +48,27 @@
         <p class="mt-4 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
-  
+            const simulation = d3.forceSimulation(nodes) 
+                // 設定節點連結的引力 
+                .force('link', d3.forceLink())
+                // 在 y軸方向上施加一個力
+                .force('y', d3.forceY().strength(0.025))
+                // 節點間的電荷力
+                .force('charge', d3.forceManyBody())
+                // 節點間的斥力
+                .force('collision', d3.forceCollide().radius(d => 4))
+                //中心點的引力
+                .force('center', d3.forceCenter(width / 2, height / 2))
+          </code>
+        </pre>
+        <pre>
+          <code class="language-css line-numbers remove-initial-line-feed">
+            &lt;path
+              d=&quot;M50 20 C80 90,40 200,250,100&quot;  // &lt;==就是這個傢伙
+              stroke=&quot;black&quot;
+              fill=&quot;none&quot;
+              stroke-width=&quot;2&quot;
+            /&gt;
           </code>
         </pre>
       </div>
@@ -62,6 +82,20 @@
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
+      const t = d3.transition().duration(750).ease(d3.easeLinear);
+
+      d3.selectAll(".apple").transtition(t).style("fill", "red");
+
+      d3.selectAll(".orange").transtition(t).style("fill", "orange");
+
+      //==
+      const body = d3.select("body");
+      const p = body.append("p");
+      p.text("Hello D3.js");
+      p.style("color", "red");
+
+      d3.select("body").append("p").text("Hello D3.js").style("color", "red");
+
       const rwdSvgWidth = 500,
         rwdSvgHeight = 300,
         margin = 40;

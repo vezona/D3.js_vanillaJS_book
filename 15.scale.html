@@ -268,7 +268,7 @@
                       const ordinalData = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
                       const ordinalScale = d3.scaleOrdinal()
-                                            .domain(myData)
+                                            .domain(ordinalData)
                                             .range(['black', 'red', 'green']);
 
                       ordinalScale('Monday');  // return 'black';
@@ -424,7 +424,7 @@
       const ordinalData = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
       const ordinalScale = d3.scaleOrdinal()
-                            .domain(myData)
+                            .domain(ordinalData)
                             .range(['black', 'red', 'green']);
 
       ordinalScale('Jan');  // return 'black';
