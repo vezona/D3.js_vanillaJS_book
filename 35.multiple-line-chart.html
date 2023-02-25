@@ -35,8 +35,125 @@
         <p class="mt-3 text-center">2022年1-8月各觀測站降雨量</p>
         <div class="multiLineChart"></div>
         <pre>
-          <code class="language-html line-numbers remove-initial-line-feed">
-            
+          <code class="language-js line-numbers remove-initial-line-feed">
+            // html 
+            &lt;div class=&quot;multiLineChart&quot;&gt;&lt;/div&gt;
+
+            // js
+            const multiLineChart = async () => {
+              // SVG
+              const width = parseInt(
+                d3.select('.multiLineChart').style('width')
+                ),
+                    height = 500,
+                    margin = 60
+      
+              const svg = d3.select('.multiLineChart')
+                            .append('svg')
+                            .attr('width', width)
+                            .attr('height', height);
+      
+              //取資料集
+              const res = await d3.json('https://data.coa.gov.tw/Service/
+              OpenData/TransService.aspx?UnitId=5n9c3AlEJ2DH')
+
+              // 只取2022年的資料
+              const data = res.filter(d=>d.observeDate.substr(0,4)==='2022') 
+      
+              const xData = data.map((i) => i.observeDate.substr(5,6));
+              const yData = data.map((i)=>{
+                let rainfall = parseFloat(i.rainfall)
+                return rainfall = rainfall || 0
+              })
+      
+              // 設定要給 X 軸用的 scale 跟 axis
+              const xScale = d3.scaleLinear()
+                              .domain(d3.extent(xData))
+                              .range([margin, width - margin])
+                              .nice()
+      
+              // X軸的刻度 
+              const xAxisGenerator = d3.axisBottom(xScale)
+                              .ticks(8)
+                              .tickFormat(d => d + '月')
+      
+              // 呼叫繪製x軸、調整x軸位置
+              const xAxis = svg
+                  .append("g")
+                  .call(xAxisGenerator)
+                  .attr("transform", `translate(0,${height - margin})`)
+      
+              // 設定要給 Y 軸用的 scale 跟 axis
+              const yScale = d3.scaleLinear()
+                              .domain(d3.extent(yData))
+                              .range([height - margin, margin])
+                              .nice()
+      
+              const yAxisGenerator = d3.axisLeft(yScale)
+      
+              // 呼叫繪製y軸、調整y軸位置
+              const yAxis = svg
+                  .append("g")
+                  .call(yAxisGenerator)
+                  .attr("transform", `translate(${margin},0)`)                  
+              
+              // 把資料按照 name 分組
+              const sumName = d3.group(data, d => d.observatory);
+              const color = d3.scaleOrdinal()
+                              .domain(data.map(d=>d.item))
+                              .range(d3.schemeCategory10);
+      
+              // 建立tooltip
+              const nameTag = d3.select('.multiLineChart')
+                              .style('position', 'relative')
+                              .append('div')
+                              .attr('class', 'nameTag')
+                              .style('position', 'absolute')
+                              .style("display",'none')
+                              .style("background-color", "black")
+                              .style("border-radius", "5px")
+                              .style("padding", "10px")
+                              .style("color", "white")
+      
+              // 開始建立折線圖
+              svg.selectAll('.line')
+                .data(sumName)
+                .join('path')
+                .attr("fill", "none")
+                .attr("stroke", d => color(d))
+                .attr("stroke-width", 1.5)
+                .attr("d", d => {
+                    return d3.line()
+                      .x((d) => xScale(d.observeDate.substr(5,6)))
+                      .y((d) => {
+                        let rainfall = parseFloat(d.rainfall)
+                        rainfall = rainfall || 0
+                        return yScale(rainfall)
+                        })
+                      (d[1])
+                  })
+                .style('cursor', 'pointer')
+                .on('mouseover', handleMouseover)
+                .on('mouseleave', handleMouseleave)
+              
+              // 滑鼠事件
+              function handleMouseover(d){
+                const pt = d3.pointer(event, this)
+                d3.select(this).style('stroke-width', '5')
+      
+                nameTag.style("display",'block')
+                      .html(d.target.__data__[0])
+                      .style('left', (pt[0]+10) + 'px')
+                      .style('top', (pt[1]+ 10) + 'px')
+              }
+      
+              function handleMouseleave(d){
+                d3.select(this).style('stroke-width', '1')
+                nameTag.style("display",'none')
+              }
+            };
+      
+            multiLineChart();
           </code>
         </pre>
       </div>
@@ -47,8 +164,165 @@
         <p class="mt-5 text-center">2010-2022年，每月各觀測站降雨量</p>
         <div class="brushMultiLineChart"></div>
         <pre>
-          <code class="language-html line-numbers remove-initial-line-feed">
+          <code class="language-js line-numbers remove-initial-line-feed">
+            const brushMultiLineChart = async () => {
+              // SVG
+              const width = parseInt(d3.select('.brushMultiLineChart').style('width')),
+                    height = 500,
+                    margin = 60
+      
+              const svg = d3.select('.brushMultiLineChart')
+                            .append('svg')
+                            .attr('width', width)
+                            .attr('height', height);
+      
+              const data = await d3.json('https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=5n9c3AlEJ2DH');
+      
+              // map 資料集
+              const xData = data.map((i) => i.observeDate);
+              const yData = data.map((i)=>{
+                let rainfall = parseFloat(i.rainfall)
+                return rainfall = rainfall || 0 // 沒有的資料換成0
+              })
+
+              // 設定 format 時間的方法
+              const parseTime = (d)=>d3.timeParse("%Y-%m")(d)
+      
+              // 設定要給 X 軸用的 scale 跟 axis
+              const xScale = d3.scaleTime()
+                              .domain(d3.extent(data, d => parseTime(d.observeDate)))
+                              .range([margin, width - margin])
+      
+              // rwd X軸
+              const xAxisGenerator = d3.axisBottom(xScale)
             
+              const xAxis = svg
+                  .append("g")
+                  .call(xAxisGenerator)
+                  .style('font-size', '16px')
+                  .attr("transform", `translate(0,${height - margin})`)
+      
+              // 設定要給 Y 軸用的 scale 跟 axis
+              const yScale = d3.scaleLinear()
+                              .domain(d3.extent(yData))
+                              .range([height - margin, margin])
+                              .nice()
+      
+              const yAxisGenerator = d3.axisLeft(yScale)
+      
+              // 呼叫繪製y軸、調整y軸位置
+              const yAxis = svg
+                  .append("g")
+                  .call(yAxisGenerator)
+                  .style('font-size', '16px')
+                  .attr("transform", `translate(${margin},0)`)                  
+              
+      
+              // 把資料按照 name 分組
+              const sumName = d3.group(data, d => d.observatory);
+              const color = d3.scaleOrdinal()
+                              .domain(data.map(d=>d.item))
+                              .range(d3.schemeCategory10);
+      
+              // 建立一個畫布範圍，超過此畫布的畫面都不會被渲染，這樣才能控制縮放的大小
+              const clip = svg.append("defs")
+                          .append("clipPath")
+                          .attr("id", "clip")
+                          .append("rect")
+                          .attr("x", margin)
+                          .attr("y", margin)
+                          .attr("width", width-margin*2)
+                          .attr("height", height-margin*2)
+      
+              // 加上brush
+              const brush = d3
+                  .brushX()
+                  .extent([[margin, margin], [width-margin, height-margin]])
+                  .on("end", updateChart)
+      
+              // 開始建立折線圖
+              const line = svg.append('g')
+                              .attr("clip-path", "url(#clip)");
+      
+              line.selectAll('.line')
+                .data(sumName)
+                .join('path')
+                .attr('class', 'line')
+                .attr("fill", "none")
+                .attr("stroke", d => color(d))
+                .attr("stroke-width", 1.5)
+                .attr("d", d => {
+                    return d3.line()
+                      .x((d) => xScale(parseTime(d.observeDate)))
+                      .y((d) => {
+                        let rainfall = parseFloat(d.rainfall)
+                        rainfall = rainfall || 0
+                        return yScale(rainfall)
+                        })
+                      (d[1])
+                  })
+              
+              // add brush
+              line.append('g')
+                  .attr('class', 'brush')
+                  .call(brush)
+      
+              // brush end function
+              function updateChart(event, d){
+                // brush 的範圍，會返還一個[x0, x1]的陣列
+                extent = event.selection
+      
+                if(extent){
+                  // xScale.invert 是把返還的x0跟x1變成xscale接受的數值
+                  xScale.domain([xScale.invert(extent[0]), xScale.invert(extent[1]) ])
+                  // 移除brush的灰色區塊
+                  line.select(".brush").call(brush.move, null)
+                }
+      
+                // 按照更新的domain範圍值重新渲染圖表
+                xAxis.transition().duration(1000).call(d3.axisBottom(xScale))
+                line
+                    .selectAll('.line')
+                    .transition()
+                    .duration(1000)
+                    .attr("d", d => {
+                      return d3.line()
+                        .x((d) => xScale(parseTime(d.observeDate)))
+                        .y((d) => {
+                          let rainfall = parseFloat(d.rainfall)
+                          rainfall = rainfall || 0
+                          return yScale(rainfall)
+                          })
+                        (d[1]) // 只取資料的部分帶入
+                    })
+                }
+      
+              //雙擊 svg 縮回原本大小
+              svg.on('dblclick', function(){
+                // 回到原本的大小
+                xScale.domain(d3.extent(data, d => parseTime(d.observeDate)))
+      
+                // 重新呼叫渲染軸線跟折線
+                xAxis.transition().duration(1000).call(d3.axisBottom(xScale))
+                line
+                    .selectAll('.line')
+                    .transition()
+                    .duration(1000)
+                    .attr("d", d => {
+                      return d3.line()
+                        .x((d) => xScale(parseTime(d.observeDate)))
+                        .y((d) => {
+                          let rainfall = parseFloat(d.rainfall)
+                          rainfall = rainfall || 0
+                          return yScale(rainfall)
+                          })
+                        (d[1])
+                    })
+              }) 
+            };
+      
+            brushMultiLineChart();
+      
           </code>
         </pre>
       </div>
@@ -63,10 +337,6 @@
     <script>
       // 多線折線圖
       const multiLineChart = async () => {
-        const res = await d3.json('https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=5n9c3AlEJ2DH')
-        // 只取2022年的資料
-        const data = res.filter(d=>d.observeDate.substr(0,4)==='2022') 
-
         // SVG
         const width = parseInt(d3.select('.multiLineChart').style('width')),
               height = 500,
@@ -77,12 +347,15 @@
                       .attr('width', width)
                       .attr('height', height);
 
+        //取資料集
+        const res = await d3.json('https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=5n9c3AlEJ2DH')
+        // 只取2022年的資料
+        const data = res.filter(d=>d.observeDate.substr(0,4)==='2022') 
 
-        // map 資料集
         const xData = data.map((i) => i.observeDate.substr(5,6));
         const yData = data.map((i)=>{
           let rainfall = parseFloat(i.rainfall)
-          return rainfall = rainfall || 0 // 沒有的資料換成0
+          return rainfall = rainfall || 0
         })
         
         // 把資料按照 name 分組
@@ -100,9 +373,11 @@
                         .tickFormat(d => d + '月')
 
         // 呼叫繪製x軸、調整x軸位置
-        const xAxis = svg.append("g")
-                              .call(xAxisGenerator)
-                              .attr("transform", `translate(0,${height - margin})`)
+        const xAxis = svg
+            .append("g")
+            .call(xAxisGenerator)
+            .style('font-size', '16px')
+            .attr("transform", `translate(0,${height - margin})`)
 
         // 設定要給 Y 軸用的 scale 跟 axis
         const yScale = d3.scaleLinear()
@@ -113,9 +388,11 @@
         const yAxisGenerator = d3.axisLeft(yScale)
 
         // 呼叫繪製y軸、調整y軸位置
-        const yAxis = svg.append("g")
-                              .call(yAxisGenerator)
-                              .attr("transform", `translate(${margin},0)`)                  
+        const yAxis = svg
+            .append("g")
+            .call(yAxisGenerator)
+            .style('font-size', '16px')
+            .attr("transform", `translate(${margin},0)`)                  
         
         const color = d3.scaleOrdinal()
                         .domain(data.map(d=>d.item))
@@ -142,14 +419,13 @@
           .attr("stroke-width", 1.5)
           .attr("d", d => {
               return d3.line()
-                // .curve(d3.curveBasis) // 調整線段弧度
                 .x((d) => xScale(d.observeDate.substr(5,6)))
                 .y((d) => {
                   let rainfall = parseFloat(d.rainfall)
                   rainfall = rainfall || 0
                   return yScale(rainfall)
                   })
-                (d[1]) // 只取資料的部分帶入
+                (d[1])
             })
           .style('cursor', 'pointer')
           .on('mouseover', handleMouseover)
@@ -199,9 +475,6 @@
           return rainfall = rainfall || 0 // 沒有的資料換成0
         })
 
-        // 把資料按照 name 分組
-        const sumName = d3.group(data, d => d.observatory);
-
         // 設定要給 X 軸用的 scale 跟 axis
         const xScale = d3.scaleTime()
                         .domain(d3.extent(data, d => parseTime(d.observeDate)))
@@ -210,9 +483,11 @@
         // rwd X軸
         const xAxisGenerator = d3.axisBottom(xScale)
       
-        const xAxis = svg.append("g")
-                              .call(xAxisGenerator)
-                              .attr("transform", `translate(0,${height - margin})`)
+        const xAxis = svg
+            .append("g")
+            .call(xAxisGenerator)
+            .style('font-size', '16px')
+            .attr("transform", `translate(0,${height - margin})`)
 
         // 設定要給 Y 軸用的 scale 跟 axis
         const yScale = d3.scaleLinear()
@@ -223,10 +498,15 @@
         const yAxisGenerator = d3.axisLeft(yScale)
 
         // 呼叫繪製y軸、調整y軸位置
-        const yAxis = svg.append("g")
-                              .call(yAxisGenerator)
-                              .attr("transform", `translate(${margin},0)`)                  
+        const yAxis = svg
+            .append("g")
+            .call(yAxisGenerator)
+            .style('font-size', '16px')
+            .attr("transform", `translate(${margin},0)`)                  
         
+
+        // 把資料按照 name 分組
+        const sumName = d3.group(data, d => d.observatory);
         const color = d3.scaleOrdinal()
                         .domain(data.map(d=>d.item))
                         .range(d3.schemeCategory10);
@@ -241,15 +521,16 @@
                     .attr("width", width-margin*2)
                     .attr("height", height-margin*2)
 
-
         // 加上brush
-        const brush = d3.brushX()
-                        .extent([[margin, margin], [width-margin, height-margin]])
-                        .on("end", updateChart)
+        const brush = d3
+            .brushX()
+            .extent([[margin, margin], [width-margin, height-margin]])
+            .on("end", updateChart)
 
         // 開始建立折線圖
         const line = svg.append('g')
-                        .attr("clip-path", "url(#clip)")
+                        .attr("clip-path", "url(#clip)");
+
         line.selectAll('.line')
           .data(sumName)
           .join('path')
@@ -265,7 +546,7 @@
                   rainfall = rainfall || 0
                   return yScale(rainfall)
                   })
-                (d[1]) // 只取資料的部分帶入
+                (d[1])
             })
         
         // add brush
@@ -273,7 +554,6 @@
             .attr('class', 'brush')
             .call(brush)
 
-        
         // brush end function
         function updateChart(event, d){
           // brush 的範圍，會返還一個[x0, x1]的陣列
@@ -323,7 +603,7 @@
                     rainfall = rainfall || 0
                     return yScale(rainfall)
                     })
-                  (d[1]) // 只取資料的部分帶入
+                  (d[1])
               })
         }) 
       };
