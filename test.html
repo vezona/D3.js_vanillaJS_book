@@ -48,6 +48,15 @@
         <p class="mt-4 mb-1 fs-6">程式碼</p>
         <pre>
           <code class="language-js line-numbers remove-initial-line-feed">
+            const data = [
+            {date: new Date(2023, 1, 1), value: 0.5},
+            {date: new Date(2023, 2, 1), value: 0.6},
+            {date: new Date(2023, 3, 1), value: 0.7},
+            {date: new Date(2023, 4, 1), value: 0.8}
+          ];
+          const bisectDate = d3.bisector(d=>d.date).right;
+
+
             const simulation = d3.forceSimulation(nodes) 
                 // 設定節點連結的引力 
                 .force('link', d3.forceLink())
