@@ -24,6 +24,9 @@
           width: 80%;
         }
       }
+      a {
+        color: red;
+      }
     </style>
   </head>
   <body>
@@ -43,6 +46,75 @@
 
       <div>
         <h5 class="mt-6"><mark>word</mark></h5>
+        <a href="">Hellow</a>
+        <pre>
+          <code class="language-html line-numbers remove-initial-line-feed">
+            &lt;code class=&quot;language-html line-numbers remove-initial-line-feed&quot;&gt;
+            &lt;template&gt;
+              &lt;div class=&quot;my-5&quot;&gt;
+                &lt;h3 class=&quot;my-3 text-2xl&quot;&gt;{{ title }}&lt;/h3&gt;
+                &lt;svg ref=&quot;svg&quot; :width=&quot;width&quot; :height=&quot;height&quot;&gt;&lt;/svg&gt;
+              &lt;/div&gt;
+            &lt;/template&gt;
+          </code>
+        </pre>
+        <pre>
+          <code class="language-js line-numbers remove-initial-line-feed">
+          function doPost(e) {
+             const ss = SpreadsheetApp.getActiveSpreadsheet();
+             const sheet = ss.getSheets()[0];
+              
+             const data = e.postData.contents;
+             const d = JSON.parse(data)
+             const { name, phone, address} = d
+             sheet.appendRow([name, phone, address]);
+              
+             return ContentService.createTextOutput(JSON.stringify(d)).setMimeType(ContentService.MimeType.JSON)
+          }
+
+            
+            const currentWidth = parseInt(d3.select(svg.value).style("width"));
+
+            colorPicker.value && addColorPicker()
+            
+            &lt;script setup&gt;
+
+            const props = defineProps({
+              data: { // 數據資料},
+              width: { // 圖表寬度},
+              height: { // 圖表高度},
+            });
+
+            const svgRef = ref(null);
+           
+            // 使用computed同步資料變動
+            const viewBox = computed(() => {});
+            const xScale = computed(() => {});
+            const yScale = computed(() => {});
+            const path = computed(() => {});
+
+            // 設定繪製圖表元件的方法
+            const renderXAxis = () => {};
+            const renderYAxis = () => {}
+            const renderPath = () => {};
+
+            // 設定繪製圖表的方法
+            const drawChart = () => {
+              d3.select(svg.value) ..... // 選定元素
+
+              renderXAxis();
+              renderYAxis();
+              renderPath();
+            }
+
+            onMounted(() => {
+              watchEffect(() => drawChart())
+            }
+
+
+            &lt;/script setup&gt;
+          </code>
+        </pre>
 
         <div class="textLabelCenter"></div>
         <p class="mt-4 mb-1 fs-6">程式碼</p>

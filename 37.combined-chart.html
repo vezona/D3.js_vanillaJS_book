@@ -14,88 +14,86 @@
     <link rel="stylesheet" href="./extension/prism.css" />
     <link rel="stylesheet" href="./css/utils.css" />
     <style>
-    html {
-      font-size: 16px;
-    }
+      html {
+        font-size: 16px;
+      }
 
-    #wrapper {
-      position: relative;
-      min-width: 300px;
-      max-width: 980px;
-      min-height: 300px;
-    }
+      #wrapper {
+        position: relative;
+        min-width: 300px;
+        max-width: 980px;
+        min-height: 300px;
+      }
 
-    .chartContainer {
-      min-width: 300px;
-      background: rgb(252, 252, 252);
-    }
+      .chartContainer {
+        min-width: 300px;
+        background: rgb(252, 252, 252);
+      }
 
-
-    .chartTitle {
+      .chartTitle {
         font-size: 1.5rem;
         font-weight: bold;
-        color: #333333;
-    }
+        /* color: #333333; */
+      }
 
-    .infoWrap {
+      .infoWrap {
         display: flex;
         justify-content: space-between;
-    }
+      }
 
-    .bagsInfo {
+      .bagsInfo {
         align-self: center;
         font-size: 16px;
         line-height: 1.6;
-        color: #333333;
-    }
+        /* color: #333333; */
+      }
 
-    .switchBtnWrap {
-      display: flex;
-      margin-bottom: 10px;
-      align-items: center;
-    }
+      .switchBtnWrap {
+        display: flex;
+        margin-bottom: 10px;
+        align-items: center;
+      }
 
-    .switchBtn {
-      box-sizing: border-box;
-      font-size: 1.2rem;
-      color: #666666;
-      cursor: pointer;
-      padding-top: 4px;
-      padding-bottom: 4px;
-    }
-
-    .switchBtn:hover,
-    .active {
-      color: #d02b41;
-      font-weight: bold;
-      border-bottom: 4px solid #ffcc33;
-    }
-
-    .greyLine {
-      margin-right: 10px;
-      margin-left: 10px;
-      color: #cccccc;
-    }
-
-    svg text {
-      font-size: 1rem;
-      color: #777777;
-    }
-
-    .graph-info text {
-      font-size: 0.8rem;
-    }
-
-    .YGreenAxis .tick line {
-      stroke: #e8e8e8;
-    }
-
-    @media (max-width: 991px) {
       .switchBtn {
-        font-size: 1rem
-      };
-    }
+        box-sizing: border-box;
+        font-size: 1.2rem;
+        /* color: #666666; */
+        cursor: pointer;
+        padding-top: 4px;
+        padding-bottom: 4px;
+      }
 
+      .switchBtn:hover,
+      .active {
+        color: #d02b41;
+        font-weight: bold;
+        border-bottom: 4px solid #ffcc33;
+      }
+
+      .greyLine {
+        margin-right: 10px;
+        margin-left: 10px;
+        /* color: #cccccc; */
+      }
+
+      svg text {
+        font-size: 1rem;
+        /* color: #777777; */
+      }
+
+      .graph-info text {
+        font-size: 0.8rem;
+      }
+
+      .YGreenAxis .tick line {
+        /* stroke: #e8e8e8; */
+      }
+
+      @media (max-width: 991px) {
+        .switchBtn {
+          font-size: 1rem;
+        }
+      }
     </style>
   </head>
   <body>
@@ -130,9 +128,9 @@
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
-    // 加上圖表標題資訊
-    const chartInfo = `<div class="chartTitle"包包購買趨勢</div>
-        <div class="infoWrap px-4">
+      // 加上圖表標題資訊
+      const chartInfo = `<div class="chartTitle"包包購買趨勢</div>
+        <div class="px-4 infoWrap">
             <div class="switchBtnWrap">
                 <div class="switchBtn yearEverage active">看年均</div>
                 <div class="greyLine">|</div>
@@ -141,121 +139,119 @@
             <div class="bagsInfo">精品包價格與購買趨勢</div>
         </div>`;
 
-    const chartContainer = document.querySelector(".chartContainer");
-    chartContainer.innerHTML = chartInfo;
+      const chartContainer = document.querySelector(".chartContainer");
+      chartContainer.innerHTML = chartInfo;
 
-    // 繪製D3圖表，Select 選定元素
-    const container = d3.select(".chartContainer");
+      // 繪製D3圖表，Select 選定元素
+      const container = d3.select(".chartContainer");
 
-    // 定義資料
-    let data = [],
-    data2 = [],
-    dataURL = "./data/data.json";
+      // 定義資料
+      let data = [],
+        data2 = [],
+        dataURL = "./data/data.json";
 
-    // 切換年均月均Data
-    const yearEverage = document.querySelector(".yearEverage");
-    const monthEverage = document.querySelector(".monthEverage");
+      // 切換年均月均Data
+      const yearEverage = document.querySelector(".yearEverage");
+      const monthEverage = document.querySelector(".monthEverage");
 
-    yearEverage.addEventListener("click", (e)=> {
+      yearEverage.addEventListener("click", (e) => {
         monthEverage.classList.remove("active");
         e.target.classList.add("active");
         updateData("./data/data.json");
-    });
+      });
 
-    monthEverage.addEventListener("click", function (e) {
+      monthEverage.addEventListener("click", function (e) {
         yearEverage.classList.remove("active");
         this.classList.add("active");
         updateData("./data/data2.json");
-    });
+      });
 
-    // 繪製圖表與軸線
-    const svgWidth = parseInt(d3.select(".chartContainer").style("width")),
+      // 繪製圖表與軸線
+      const svgWidth = parseInt(d3.select(".chartContainer").style("width")),
         svgHeight = svgWidth * 0.6,
         marginLeft = svgWidth < 400 ? 40 : 60,
         marginBottom = 30,
         chartWidth = svgWidth - marginLeft * 2,
         chartHeight = svgHeight - marginBottom;
 
-    const svg = container
+      const svg = container
         .append("svg")
         .attr("width", svgWidth)
         .attr("height", svgHeight)
         .attr("class", "charts");
 
-    // 設定X軸資料
-    const xScale = d3
-            .scaleBand()
-            .range([marginLeft, chartWidth])
-            .padding(0.6);
+      // 設定X軸資料
+      const xScale = d3
+        .scaleBand()
+        .range([marginLeft, chartWidth])
+        .padding(0.6);
 
-    const xAxisGenerator = d3
-            .axisBottom(xScale)
-            .tickSizeOuter(0)
-            .tickSizeInner(0)
-            .tickPadding(10)
-            .tickFormat(d=>d);
+      const xAxisGenerator = d3
+        .axisBottom(xScale)
+        .tickSizeOuter(0)
+        .tickSizeInner(0)
+        .tickPadding(10)
+        .tickFormat((d) => d);
 
-    const xAxis = svg
-            .append("g")
-            .attr("class", "xAxis")
-            .style("transform", `translate(0px,${chartHeight - marginBottom}px)`)
+      const xAxis = svg
+        .append("g")
+        .attr("class", "xAxis")
+        .style("transform", `translate(0px,${chartHeight - marginBottom}px)`);
 
-    // 建立長條圖的Y軸，yAxisBar
-    const yAxisBarScale = d3
-            .scaleLinear()
-            .range([chartHeight, marginBottom * 2]);
+      // 建立長條圖的Y軸，yAxisBar
+      const yAxisBarScale = d3
+        .scaleLinear()
+        .range([chartHeight, marginBottom * 2]);
 
-    const yAxisBarGenerator = d3
+      const yAxisBarGenerator = d3
         .axisLeft(yAxisBarScale)
         .tickSizeInner(0)
         .tickSizeOuter(0)
         .ticks(5)
         .tickPadding(8);
 
-    const yAxisBar = svg
+      const yAxisBar = svg
         .append("g")
         .attr("class", "yAxisBar")
-        .style("transform", `translate(${marginLeft}px, -${marginBottom}px)`)
+        .style("transform", `translate(${marginLeft}px, -${marginBottom}px)`);
 
+      // 建立軸線圖右方標示的Y軸
+      const yAxisRightScale = d3
+        .scalePoint()
+        .range([chartHeight, marginBottom * 2]);
 
-    // 建立軸線圖右方標示的Y軸
-    const yAxisRightScale = d3
-            .scalePoint()
-            .range([chartHeight, marginBottom * 2]);
+      const yAxisRightGenerator = d3
+        .axisRight(yAxisRightScale)
+        .tickSizeOuter(0)
+        .tickSizeInner(-chartWidth) //軸線向內(右)延伸，比照繪圖區高度
+        .tickPadding(8)
+        .ticks(6);
 
-    const yAxisRightGenerator = d3
-            .axisRight(yAxisRightScale)
-            .tickSizeOuter(0)
-            .tickSizeInner(-chartWidth) //軸線向內(右)延伸，比照繪圖區高度
-            .tickPadding(8)
-            .ticks(6);
+      const yAxisRight = svg
+        .append("g")
+        .attr("class", "yAxisRight")
+        .style(
+          "transform",
+          `translate(${svgWidth - marginLeft}px, -${marginBottom}px)`
+        );
 
-    const yAxisRight = svg
-            .append("g")
-            .attr("class", "yAxisRight")
-            .style(
-                "transform",
-                `translate(${svgWidth - marginLeft}px, -${marginBottom}px)`
-            )  
-
-    // 設定折線圖的yScale  
-    const yAxisLineScale = d3
+      // 設定折線圖的yScale
+      const yAxisLineScale = d3
         .scaleLinear()
-        .range([chartHeight, marginBottom * 2]);    
+        .range([chartHeight, marginBottom * 2]);
 
-
-    // 畫圖表
-    const updateData = async(url='./data/data.json') => {
+      // 畫圖表
+      const updateData = async (url = "./data/data.json") => {
         const res = await d3.json(url);
         data = res.list.reverse();
 
         const xData = data.map((i) => parseInt(i.date.slice(4))),
-            yAxisBarData = data.map((i) => i.dealCount),
-            yAxisYellowData = data.map((i) => i.domesticBagPrice),
-            yAxisGreenData = data.map((i) => i.foreignBagPrice);
- 
+          yAxisBarData = data.map((i) => i.dealCount),
+          yAxisYellowData = data.map((i) => i.domesticBagPrice),
+          yAxisGreenData = data.map((i) => i.foreignBagPrice);
+
         //數值取出後，轉換成X軸的scale
-         xScale.domain(xData)
+        xScale.domain(xData);
 
         // 手機板時減少X軸的tick
         let xMobileTicks = [];
@@ -269,77 +265,79 @@
         // 手機板跟電腦版的tick數量改動
         if (svgWidth < 400) {
           xAxisWeb = xAxisGenerator
-            .tickFormat(d=>`${d}月`)
+            .tickFormat((d) => `${d}月`)
             .tickValues(xMobileTicks);
         } else {
-            xAxisWeb = xAxisGenerator.tickFormat(d=>`${d}月`);
+          xAxisWeb = xAxisGenerator.tickFormat((d) => `${d}月`);
         }
 
         // 呼叫繪製X軸線
         xAxis.call(xAxisGenerator);
-            
+
         // 改變X軸顏色與粗細
         xAxis
-            .select(".domain")
-            .attr("stroke", "#e8e8e8")
-            .attr("stroke-width", "1")
-            .attr("opacity", "1");
+          .select(".domain")
+          .attr("stroke", "#e8e8e8")
+          .attr("stroke-width", "1")
+          .attr("opacity", "1");
 
         // 調整X軸標籤位置
         xAxis
-            .selectAll("text")
-            .attr("y", 15)
-            .attr("x", 0)
-            .style("color", "#777777");
+          .selectAll("text")
+          .attr("y", 15)
+          .attr("x", 0)
+          .style("color", "#777777");
 
         // 建立折線圖的y軸線（右）
         // 平均分配y軸長條圖與折線圖的軸數 (六個軸)
         // 先取出y軸們的最大與最小值
-        const maxYData = yAxisBarData.concat(yAxisYellowData).concat(yAxisGreenData);
+        const maxYData = yAxisBarData
+          .concat(yAxisYellowData)
+          .concat(yAxisGreenData);
         const maxYAxisData = parseInt(Math.max.apply(null, maxYData)) + 10;
         const minYAxisData = Math.min.apply(null, maxYData);
 
         // 把最大與最小值相加並除以想要的刻度數減1（刻度間距）
         let yAxisMinMaxSummary = maxYAxisData + minYAxisData,
-            yAxisEvenNumber = yAxisMinMaxSummary / 5,
-            yAxisEvenArray = [];
+          yAxisEvenNumber = yAxisMinMaxSummary / 5,
+          yAxisEvenArray = [];
 
         // 建立刻度陣列
         for (let i = 1; i < 6; i++) {
-            yAxisEvenArray.push(parseInt(i*yAxisEvenNumber));
+          yAxisEvenArray.push(parseInt(i * yAxisEvenNumber));
         }
         // 把刻度陣列設為yAxisRight的 domain
         yAxisRightScale.domain(yAxisEvenArray);
-         
+
         yAxisRight.call(yAxisRightGenerator);
 
         // 加上yAxisRight標籤
         const yAxisRightLabel = yAxisRight
-            .append("text")
-            .attr("class", "yAxisRightLabel")
-            .text("單價/萬元")
-            .attr("x", -(marginLeft * 0.7))
-            .attr("y", marginBottom * 1.5)
-            .style("fill", "#333333")
-            .style("font-size", "1rem");
+          .append("text")
+          .attr("class", "yAxisRightLabel")
+          .text("單價/萬元")
+          .attr("x", -(marginLeft * 0.7))
+          .attr("y", marginBottom * 1.5)
+          .style("fill", "#333333")
+          .style("font-size", "1rem");
 
         // 設定yAxisRight軸線透明
         yAxisRight.select(".domain").attr("opacity", "0");
 
         // 長條圖的y軸購買數量-yAxisBar ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-        yAxisBarScale.domain([0, 10])
+        yAxisBarScale.domain([0, 10]);
 
         yAxisBar.call(yAxisBarGenerator);
 
         // 加上yAxisBar標籤
         const yAxisBarLabel = yAxisBar
-            .append("text")
-            .attr("class", "yAxisBarLable")
-            .text("購買數量")
-            .attr("x", marginLeft)
-            .attr("y", marginBottom * 1.5)
-            .style("fill", "#333333")
-            .style("font-size", "1rem");
+          .append("text")
+          .attr("class", "yAxisBarLable")
+          .text("購買數量")
+          .attr("x", marginLeft)
+          .attr("y", marginBottom * 1.5)
+          .style("fill", "#333333")
+          .style("font-size", "1rem");
 
         // 設定yAxisBar軸透明
         yAxisBar.select(".domain").attr("opacity", "0");
@@ -353,276 +351,289 @@
 
         // 先畫長條圖，折線圖才不會被蓋住
         const barChart = svg
-            .selectAll("rect")
-            .data(data)
-            .join("rect")
-            .transition()
-            .attr("x", (d, i) => xScale(xAccessor(d)))
-            .attr("y", (d, i) => yAxisBarScale(yAxisBarAccessor(d)) - marginBottom)
-            .attr("width", xScale.bandwidth())
-            .attr("height", (d) => yAxisBarScale(0) - yAxisBarScale(yAxisBarAccessor(d)))
-            .attr("fill", "#e0e0e0");
+          .selectAll("rect")
+          .data(data)
+          .join("rect")
+          .transition()
+          .attr("x", (d, i) => xScale(xAccessor(d)))
+          .attr(
+            "y",
+            (d, i) => yAxisBarScale(yAxisBarAccessor(d)) - marginBottom
+          )
+          .attr("width", xScale.bandwidth())
+          .attr(
+            "height",
+            (d) => yAxisBarScale(0) - yAxisBarScale(yAxisBarAccessor(d))
+          )
+          .attr("fill", "#d6aba1");
 
         // 繪製折線圖
-         yAxisLineScale.domain([d3.min(yAxisEvenArray), d3.max(yAxisEvenArray)])
+        yAxisLineScale.domain([d3.min(yAxisEvenArray), d3.max(yAxisEvenArray)]);
 
         // 繪製Y軸國產包折線圖-yAxisYellow
         const lineChartYellow = d3
-            .line()
-            .x((d) => xScale(xAccessor(d)) + marginLeft / 4)
-            .y((d) => yAxisLineScale(yAxisYellowAccessor(d)) - marginBottom)
-            .defined((d) => d.domesticBagPrice > 0)
-            .curve(d3.curveLinear); //決定曲線線條
+          .line()
+          .x((d) => xScale(xAccessor(d)) + marginLeft / 4)
+          .y((d) => yAxisLineScale(yAxisYellowAccessor(d)) - marginBottom)
+          .defined((d) => d.domesticBagPrice > 0)
+          .curve(d3.curveLinear); //決定曲線線條
 
         // 有資料的線
         svg
-            .selectAll('.yellowPath')
-            .data(data)
-            .join('path')
-            .transition()
-            .attr("d", lineChartYellow(data))
-            .attr('class', 'yellowPath')
-            .attr("fill", "none")
-            .attr("stroke", "#FFCC33")
-            .attr("stroke-width", 2);
+          .selectAll(".yellowPath")
+          .data(data)
+          .join("path")
+          .transition()
+          .attr("d", lineChartYellow(data))
+          .attr("class", "yellowPath")
+          .attr("fill", "none")
+          .attr("stroke", "#FFCC33")
+          .attr("stroke-width", 2);
 
         const filteredDataYellow = data.filter(lineChartYellow.defined());
 
         // 覆蓋的dashed
         svg
-            .selectAll('.yellowDashedPath')
-            .data(filteredDataYellow)
-            .join('path')
-            .transition()
-            .attr("d", lineChartYellow(filteredDataYellow))
-            .attr('class', 'yellowDashedPath')
-            .attr("fill", "none")
-            .attr("stroke", "#FFCC33")
-            .attr("stroke-width", 2)
-            .style("stroke-dasharray", "4,4");
+          .selectAll(".yellowDashedPath")
+          .data(filteredDataYellow)
+          .join("path")
+          .transition()
+          .attr("d", lineChartYellow(filteredDataYellow))
+          .attr("class", "yellowDashedPath")
+          .attr("fill", "none")
+          .attr("stroke", "#FFCC33")
+          .attr("stroke-width", 2)
+          .style("stroke-dasharray", "4,4");
 
         // 折線圖圓點點
         const dotYellow = svg
-                .selectAll(".yellowCircle")
-                .data(filteredDataYellow)
-                .join('circle')
+          .selectAll(".yellowCircle")
+          .data(filteredDataYellow)
+          .join("circle");
 
-        dotYellow.transition()
-            .attr("cx", (d) => xScale(xAccessor(d)) + marginLeft / 4)
-            .attr("cy", (d) => yAxisLineScale(yAxisYellowAccessor(d)) - marginBottom)
-            .attr("r", 5)
-            .attr('class', 'yellowCircle')
-            .attr("fill", "#FFCC33")
-            .attr("stroke", "#FFCC33");
+        dotYellow
+          .transition()
+          .attr("cx", (d) => xScale(xAccessor(d)) + marginLeft / 4)
+          .attr(
+            "cy",
+            (d) => yAxisLineScale(yAxisYellowAccessor(d)) - marginBottom
+          )
+          .attr("r", 5)
+          .attr("class", "yellowCircle")
+          .attr("fill", "#FFCC33")
+          .attr("stroke", "#FFCC33");
 
-         // 繪製Y軸進口包折線圖-yAxisGreen
+        // 繪製Y軸進口包折線圖-yAxisGreen
         const lineChartGreen = d3
-            .line()
-            .x((d) => xScale(xAccessor(d)) + marginLeft / 4)
-            .y((d) => yAxisLineScale(yAxisGreenAccessor(d)) - marginBottom)
-            .defined((d) => d.foreignBagPrice > 0)
-            .curve(d3.curveLinear); //決定曲線線條
+          .line()
+          .x((d) => xScale(xAccessor(d)) + marginLeft / 4)
+          .y((d) => yAxisLineScale(yAxisGreenAccessor(d)) - marginBottom)
+          .defined((d) => d.foreignBagPrice > 0)
+          .curve(d3.curveLinear); //決定曲線線條
 
-        svg.selectAll('.greenPath')
-            .data(data)
-            .join('path')
-            .transition()
-            .attr("d", lineChartGreen(data))
-            .attr('class', 'greenPath')
-            .attr("fill", "none")
-            .attr("stroke", "#78c9b7")
-            .attr("stroke-width", 2);
+        svg
+          .selectAll(".greenPath")
+          .data(data)
+          .join("path")
+          .transition()
+          .attr("d", lineChartGreen(data))
+          .attr("class", "greenPath")
+          .attr("fill", "none")
+          .attr("stroke", "#78c9b7")
+          .attr("stroke-width", 2);
 
         const filteredDataGreen = data.filter(lineChartGreen.defined());
 
         // yAxisGreen覆蓋的dashed線段
-        svg.selectAll('.greenDashedPath')
-            .data(filteredDataGreen)
-            .join('path')
-            .transition()
-            .attr("d", lineChartGreen(filteredDataGreen))
-            .attr('class', 'greenDashedPath')
-            .attr("fill", "none")
-            .attr("stroke", "#78c9b7")
-            .attr("stroke-width", 2)
-            .style("stroke-dasharray", "4,4");
+        svg
+          .selectAll(".greenDashedPath")
+          .data(filteredDataGreen)
+          .join("path")
+          .transition()
+          .attr("d", lineChartGreen(filteredDataGreen))
+          .attr("class", "greenDashedPath")
+          .attr("fill", "none")
+          .attr("stroke", "#78c9b7")
+          .attr("stroke-width", 2)
+          .style("stroke-dasharray", "4,4");
 
         // 第二條折線圖圓點
         const dotGreen = svg
-            .selectAll(".dotGreen")
-            .data(filteredDataGreen)
-            .join("circle")
-        
-        dotGreen.transition()
-            .attr("cx", (d) => xScale(xAccessor(d)) + marginLeft / 4)
-            .attr("cy", (d) => yAxisLineScale(yAxisGreenAccessor(d)) - marginBottom)
-            .attr("r", 5)
-            .attr("class", 'dotGreen')
-            .attr("fill", "#78c9b7")
-            .attr("stroke", "#78c9b7")
+          .selectAll(".dotGreen")
+          .data(filteredDataGreen)
+          .join("circle");
+
+        dotGreen
+          .transition()
+          .attr("cx", (d) => xScale(xAccessor(d)) + marginLeft / 4)
+          .attr(
+            "cy",
+            (d) => yAxisLineScale(yAxisGreenAccessor(d)) - marginBottom
+          )
+          .attr("r", 5)
+          .attr("class", "dotGreen")
+          .attr("fill", "#78c9b7")
+          .attr("stroke", "#78c9b7");
 
         // tooltip
         const tooltip = d3
-            .select(".chartContainer")
-            .append("div")
-            .style("position", "absolute")
-            .style("display", 'none')
-            .style("background-color", "white")
-            .style("border", "solid")
-            .style("border-width", "1px")
-            .style("border-color", "grey")
-            .style("padding", "5px");
+          .select(".chartContainer")
+          .append("div")
+          .style("position", "absolute")
+          .style("display", "none")
+          .style("background-color", "white")
+          .style("border", "solid")
+          .style("border-width", "1px")
+          .style("border-color", "grey")
+          .style("padding", "5px");
 
-       // 綠點點滑鼠事件
+        // 綠點點滑鼠事件
         dotGreen
-            .on("mouseover", (e,d)=>{
+          .on("mouseover", (e, d) => {
             const mousePosition = d3.pointer(e);
             // 圓點放大變色
             d3.select(e.target)
-                .attr("cursor", "pointer")
-                .attr("r", 7)
-                .style("fill", "white")
-                .style("stroke-width", 5);
+              .attr("cursor", "pointer")
+              .attr("r", 7)
+              .style("fill", "white")
+              .style("stroke-width", 5);
 
-            // tooltip 
+            // tooltip
             tooltip
-                .html(
-                    `單價<br><span style="color:#d02b41">${d.foreignBagPrice}</span> 萬元`
-                )
-                .style("display", 'block')
-                .style('position', 'absolute')
-                .style("left", `${mousePosition[0]+20}px`)
-                .style("top", `${mousePosition[1]}px`);
-
-            })
-            .on("mouseleave", (e) => {
-                d3.select(e.target)
-                    .attr("r", 5)
-                    .style("fill", "#78c9b7")
-                    .style("stroke-width", 1);
-                tooltip.style("display", 'none');
-            });
-
+              .html(
+                `單價<br><span style="color:#d02b41">${d.foreignBagPrice}</span> 萬元`
+              )
+              .style("display", "block")
+              .style("position", "absolute")
+              .style("left", `${mousePosition[0] + 20}px`)
+              .style("top", `${mousePosition[1]}px`);
+          })
+          .on("mouseleave", (e) => {
+            d3.select(e.target)
+              .attr("r", 5)
+              .style("fill", "#78c9b7")
+              .style("stroke-width", 1);
+            tooltip.style("display", "none");
+          });
 
         // 黃點點滑鼠事件
         dotYellow
-            .on("mouseover", (e, d)=>{
+          .on("mouseover", (e, d) => {
             const mousePosition = d3.pointer(e);
             // 圓點放大變色
             d3.select(e.target)
-                .attr("cursor", "pointer")
-                .attr("r", 7)
-                .style("fill", "white")
-                .style("stroke-width", 5);
+              .attr("cursor", "pointer")
+              .attr("r", 7)
+              .style("fill", "white")
+              .style("stroke-width", 5);
 
-            // tooltip 
+            // tooltip
             tooltip
-                .html(
-                    `單價<br><span style="color:#d02b41">${d.domesticBagPrice}</span> 萬元`
-                )
-                .style("display", 'block')
-                .style('position', 'absolute')
-                .style("left", `${mousePosition[0]+20}px`)
-                .style("top", `${mousePosition[1]}px`);
+              .html(
+                `單價<br><span style="color:#d02b41">${d.domesticBagPrice}</span> 萬元`
+              )
+              .style("display", "block")
+              .style("position", "absolute")
+              .style("left", `${mousePosition[0] + 20}px`)
+              .style("top", `${mousePosition[1]}px`);
+          })
+          .on("mouseleave", (e) => {
+            d3.select(e.target)
+              .attr("r", 5)
+              .style("fill", "#FFCC33")
+              .style("stroke-width", 1);
+            tooltip.style("display", "none");
+          });
+      };
 
-            })
-            .on("mouseleave", (e) => {
-                d3.select(e.target)
-                    .attr("r", 5)
-                    .style("fill", "#FFCC33")
-                    .style("stroke-width", 1);
-                tooltip.style("display", 'none');
-            });
-    } 
-
-    // 畫資料標籤
-    const renderChartLabel = ()=> {
+      // 畫資料標籤
+      const renderChartLabel = () => {
         let svgWidth = parseInt(d3.select(".chartContainer").style("width")),
-            marginX = svgWidth / 10 + 20,
-            marginY = 15;
+          marginX = svgWidth / 10 + 20,
+          marginY = 15;
 
         // 資料標籤
         const graphInfo = d3
-            .select(".chartContainer")
-            .append("svg")
-            .attr("class", "graph-info")
-            .attr('width', svgWidth)
-            .attr("height", "60px")
-            .style("padding-top", "10px");
+          .select(".chartContainer")
+          .append("svg")
+          .attr("class", "graph-info")
+          .attr("width", svgWidth)
+          .attr("height", "60px")
+          .style("padding-top", "10px");
 
         // 黃色折線-國內包包
         graphInfo
-            .append("line")
-            .style("stroke", "#FFCC33")
-            .style("stroke-width", 3)
-            .attr("x1", 70)
-            .attr("y1", marginY)
-            .attr("x2", 100)
-            .attr("y2", marginY)
+          .append("line")
+          .style("stroke", "#FFCC33")
+          .style("stroke-width", 3)
+          .attr("x1", 70)
+          .attr("y1", marginY)
+          .attr("x2", 100)
+          .attr("y2", marginY);
 
         graphInfo
-            .append("circle")
-            .attr("cx", 85)
-            .attr("cy", marginY)
-            .attr("r", 7)
-            .style("stroke", "#FFCC33")
-            .style("fill", "#FFCC33");
+          .append("circle")
+          .attr("cx", 85)
+          .attr("cy", marginY)
+          .attr("r", 7)
+          .style("stroke", "#FFCC33")
+          .style("fill", "#FFCC33");
 
         graphInfo
-            .append("text")
-            .attr("x", 105)
-            .attr("y", 20)
-            .text("國產包")
-            .style("font-size", "1rem")
-            .style("fill", "#777777");
+          .append("text")
+          .attr("x", 105)
+          .attr("y", 20)
+          .text("國產包")
+          .style("font-size", "1rem")
+          .style("fill", "#777777");
 
         // 藍色折線-國外包包
         graphInfo
-            .append("line")
-            .style("stroke", "#78c9b7")
-            .style("stroke-width", 3)
-            .attr("x1", 170)
-            .attr("y1", marginY)
-            .attr("x2", 200)
-            .attr("y2", 15);
+          .append("line")
+          .style("stroke", "#78c9b7")
+          .style("stroke-width", 3)
+          .attr("x1", 170)
+          .attr("y1", marginY)
+          .attr("x2", 200)
+          .attr("y2", 15);
 
         graphInfo
-            .append("circle")
-            .attr("cx", 185)
-            .attr("cy", marginY)
-            .attr("r", 7)
-            .style("stroke", "#78c9b7")
-            .style("fill", "#78c9b7");
+          .append("circle")
+          .attr("cx", 185)
+          .attr("cy", marginY)
+          .attr("r", 7)
+          .style("stroke", "#78c9b7")
+          .style("fill", "#78c9b7");
 
         graphInfo
-            .append("text")
-            .attr("x", 205)
-            .attr("y", 20)
-            .text("進口包")
-            .style("font-size", "1rem")
-            .style("fill", "#777777");
+          .append("text")
+          .attr("x", 205)
+          .attr("y", 20)
+          .text("進口包")
+          .style("font-size", "1rem")
+          .style("fill", "#777777");
 
         // 直條圖
         graphInfo
-            .append("rect")
-            .attr("x", 300)
-            .attr("y", 5)
-            .attr("width", 30)
-            .attr("height", 20)
-            .attr("fill", "#e0e0e0");
+          .append("rect")
+          .attr("x", 300)
+          .attr("y", 5)
+          .attr("width", 30)
+          .attr("height", 20)
+          .attr("fill", "#e0e0e0");
 
         graphInfo
-            .append("text")
-            .attr("x", 335)
-            .attr("y", 20)
-            .text("購買數量")
-            .style("font-size", "1rem")
-            .style("fill", "#777777");
-    }
+          .append("text")
+          .attr("x", 335)
+          .attr("y", 20)
+          .text("購買數量")
+          .style("font-size", "1rem")
+          .style("fill", "#777777");
+      };
 
-    updateData();
-    // 渲染圖表標籤
-    renderChartLabel();
+      updateData();
+      // 渲染圖表標籤
+      renderChartLabel();
     </script>
   </body>
 </html>

@@ -42,6 +42,10 @@
           &lt;div class=&quot;housePriceLineChart&quot;&gt;&lt;/div&gt;
 
           // js 
+          引入day.js函式庫
+          &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/dayjs.min.js&quot;&gt;&lt;/script&gt;
+          &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/locale/zh-tw.min.js&quot;&gt;&lt;/script&gt;
+          
           // 中華年份改西元
           const TWDateToADDate = (date) => {
             // 年份轉換
@@ -495,7 +499,7 @@
           .attr("width", width)
           .attr("height", height);
 
-        // f取資料
+        // 取資料
         const res = await d3.csv("./data/U96年-113年房價統計資訊整合結果.csv");
         const data = res.map((i) => {
           i["時間"] = TWDateToADDate(i["時間"]);
@@ -685,6 +689,7 @@
           // 接著把擷取掉的2022補回來，因為data是帶入原本的資料
           let i = bisect(data, "2022" + fixedX0);
           selectedData = data[i];
+          console.log(i);
 
           // 圓點
           focusDot
@@ -773,13 +778,14 @@
           .defined((d) => d.y > 0);
 
         // 建立折線
-        // svg.append('g')
-        //   .append('path')
-        //   .data(data)
-        //   .attr("fill", "none")
-        //   .attr("stroke", "#f68b47")
-        //   .attr("stroke-width", 3)
-        //   .attr('d', lineChart(data))
+        svg
+          .append("g")
+          .append("path")
+          .data(data)
+          .attr("fill", "none")
+          .attr("stroke", "#f68b47")
+          .attr("stroke-width", 3)
+          .attr("d", lineChart(data));
 
         // 把 d.y 大於零的資料拉出來，另外用這些資料去建立連線
         let filteredData = data.filter((d) => d.y > 0);

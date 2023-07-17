@@ -423,6 +423,8 @@
         <hr />
 
       </div>
+
+      <p class="p">我是一個p</p>
     </div>
 
     <script
@@ -433,6 +435,7 @@
     <script src="./extension/prism.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
+      console.log(d3.selectAll('.p'));
       //select
       // 帶入字串
       d3.select(".select p").style("color", "red");
